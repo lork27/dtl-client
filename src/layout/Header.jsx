@@ -126,7 +126,7 @@ export const Header = () => {
                 </Menu>
               </>
             ) : (
-              <Link to="/signin">
+              <Link to="/login">
                 <Button variant="contained">Login</Button>
               </Link>
             )}

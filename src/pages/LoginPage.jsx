@@ -36,7 +36,7 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export function SignInPage() {
+export function LoginPage() {
   const navigate = useNavigate();
   const { logIn, error } = useAuth();
 
