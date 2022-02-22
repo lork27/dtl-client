@@ -2,7 +2,7 @@
   "name": "dtl-client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5000/dtl-mvp/us-central1/api/",
+  "proxy": "http://localhost:5000/",
   "dependencies": {
     "@emotion/react": "^11.8.1",
     "@emotion/styled": "^11.8.1",

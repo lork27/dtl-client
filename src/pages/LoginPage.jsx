@@ -14,7 +14,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useAuth } from "../auth/Auth";
 import { Alert } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link as RouterDomLink } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -135,8 +135,12 @@ export function LoginPage() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
+                  <Link
+                    component={RouterDomLink}
+                    to="/register"
+                    variant="body2"
+                  >
+                    Don't have an account? Sign Up
                   </Link>
                 </Grid>
               </Grid>

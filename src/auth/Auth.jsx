@@ -32,13 +32,41 @@ export const AuthController = (props) => {
     }
   };
 
+  const registerUser = async ({
+    name,
+    email,
+    password,
+    confirmPassword,
+    onSuccess,
+  }) => {
+    setError(null);
+    const response = await api.post(
+      "/users/new",
+      { name, email, password, confirmPassword },
+      { validateStatus: () => true }
+    );
+    if (response.status === 201) {
+      setUserData(response.data);
+      localStorage.setItem("user", JSON.stringify(response.data));
+      addAuthHeader();
+      if (onSuccess) {
+        onSuccess();
+      }
+    }
+    if (response.status === 400) {
+      setError(response.data.error);
+    }
+  };
+
   const logOut = () => {
     localStorage.removeItem("user");
     removeAuthHeader();
     setUserData(null);
   };
   return (
-    <AuthContext.Provider value={{ userData, logIn, error, logOut }}>
+    <AuthContext.Provider
+      value={{ userData, logIn, error, logOut, registerUser }}
+    >
       {props.children}
     </AuthContext.Provider>
   );

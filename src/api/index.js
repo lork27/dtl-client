@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseUrl: "",
+  baseURL: "http://localhost:5000/dtl-mvp/us-central1/api/",
 });
 
 export const addAuthHeader = () => {
