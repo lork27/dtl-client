@@ -48,9 +48,16 @@ export function LoginPage() {
             email: data.get('email'),
             password: data.get('password'),
         })
-        logIn(data.get('email'), data.get('password'), () => {
-            navigate('/')
+        logIn({
+            email: data.get('email'),
+            password: data.get('password'),
+            onSuccess: () => {
+                navigate('/')
+            },
         })
+        // logIn(data.get('email'), data.get('password'), () => {
+        //     navigate('/')
+        // })
     }
 
     return (

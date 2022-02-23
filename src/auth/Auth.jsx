@@ -3,7 +3,20 @@ import { api, addAuthHeader, removeAuthHeader } from '../api'
 
 addAuthHeader()
 
-const AuthContext = createContext({})
+const AuthContext = createContext({
+    userData: null,
+    logIn: ({ email, password, onSuccess }) => {
+        return {}
+    },
+    logOut: () => ({}),
+    registerUser: ({
+        username,
+        email,
+        password,
+        confirmationPassword,
+        onSuccess,
+    }) => ({}),
+})
 
 export const AuthController = (props) => {
     const [userData, setUserData] = useState(
@@ -12,7 +25,7 @@ export const AuthController = (props) => {
     const [error, setError] = useState(null)
 
     //Log In function
-    const logIn = async (email, password, onSuccess) => {
+    const logIn = async ({ email, password, onSuccess }) => {
         setError(null)
         const response = await api.post(
             '/users/login',
