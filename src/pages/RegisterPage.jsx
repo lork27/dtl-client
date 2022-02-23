@@ -44,17 +44,16 @@ export function RegisterPage() {
         event.preventDefault()
         const data = new FormData(event.currentTarget)
         console.log({
-            name: data.get('userName'),
+            username: data.get('userName'),
             email: data.get('email'),
             password: data.get('password'),
-            passwordConfirm: data.get('confirmPassword'),
+            confirmationPassword: data.get('confirmPassword'),
         })
-
         registerUser({
-            name: data.get('userName'),
+            username: data.get('userName'),
             email: data.get('email'),
             password: data.get('password'),
-            passwordConfirm: data.get('confirmPassword'),
+            confirmationPassword: data.get('confirmPassword'),
             onSuccess: () => {
                 navigate('/')
             },

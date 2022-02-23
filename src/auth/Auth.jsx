@@ -21,6 +21,7 @@ export const AuthController = (props) => {
         )
         if (response.status === 200) {
             setUserData(response.data)
+            console.log(userData)
             localStorage.setItem('user', JSON.stringify(response.data))
             addAuthHeader()
             if (onSuccess) {
@@ -35,22 +36,23 @@ export const AuthController = (props) => {
 
     // Register user function
     const registerUser = async ({
-        name,
+        username,
         email,
         password,
-        passwordConfirm,
+        confirmationPassword,
         onSuccess,
     }) => {
         setError(null)
         const response = await api.post(
             '/users/new',
-            { name, email, password, passwordConfirm },
+            { username, email, password, confirmationPassword },
             { validateStatus: () => true }
         )
-        console.log(name, email, password, passwordConfirm)
+        console.log(username, email, password, confirmationPassword)
 
         if (response.status === 201) {
             setUserData(response.data)
+            console.log(userData)
             localStorage.setItem('user', JSON.stringify(response.data))
             addAuthHeader()
             if (onSuccess) {
