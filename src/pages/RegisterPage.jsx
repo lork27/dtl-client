@@ -142,7 +142,7 @@ export function RegisterPage() {
                                     fullWidth
                                     name="confirmPassword"
                                     label="confirm Password"
-                                    type="Confirm Password"
+                                    type="password"
                                     id="confirmPassword"
                                     autoComplete="Confirm Password"
                                 />
