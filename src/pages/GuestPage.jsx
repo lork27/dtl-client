@@ -81,7 +81,10 @@ export const GuestPage = () => {
                                     Become a Student
                                 </Button>
                             </Link>
-                            <Link component={RouterDomLink} to="/register">
+                            <Link
+                                component={RouterDomLink}
+                                to="/register-tutor"
+                            >
                                 <Button variant="contained">
                                     Become a Tutor
                                 </Button>

@@ -61,14 +61,14 @@ export const Header = () => {
                         variant="h6"
                         noWrap
                         component="div"
-                        sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+                        sx={{ mr: 2, display: { xs: 'flex' } }}
                     >
                         <IconButton component={Link} to="/">
                             <HomeIcon fontSize="large" />
                         </IconButton>
                     </Typography>
-
-                    <Box
+                    {/* Old responsive hamburger style */}
+                    {/* <Box
                         sx={{
                             flexGrow: 1,
                             display: { xs: 'flex', md: 'none' },
@@ -102,8 +102,8 @@ export const Header = () => {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         ></Menu>
-                    </Box>
-                    <Typography
+                    </Box> */}
+                    {/* <Typography
                         variant="h6"
                         noWrap
                         component="div"
@@ -113,14 +113,13 @@ export const Header = () => {
                         }}
                     >
                         DTL?
-                    </Typography>
+                    </Typography> */}
                     <Box
                         sx={{
                             flexGrow: 1,
-                            display: { xs: 'none', md: 'flex' },
+                            display: { xs: 'flex' },
                         }}
                     ></Box>
-
                     <Box sx={{ flexGrow: 0 }}>
                         {userData ? (
                             <>

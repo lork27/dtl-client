@@ -1,20 +1,35 @@
-import * as React from 'react'
-import Avatar from '@mui/material/Avatar'
-import Button from '@mui/material/Button'
-import CssBaseline from '@mui/material/CssBaseline'
-import TextField from '@mui/material/TextField'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Checkbox from '@mui/material/Checkbox'
-import Link from '@mui/material/Link'
-import Grid from '@mui/material/Grid'
-import Box from '@mui/material/Box'
+import FormControl from '@mui/material/FormControl'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import { Alert } from '@mui/material'
-import Typography from '@mui/material/Typography'
+import Avatar from '@mui/material/Avatar'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
+import CssBaseline from '@mui/material/CssBaseline'
+import Grid from '@mui/material/Grid'
+import InputLabel from '@mui/material/InputLabel'
+import Link from '@mui/material/Link'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { useNavigate, Link as RouterDomLink } from 'react-router-dom'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+import * as React from 'react'
+import { Link as RouterDomLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/Auth'
+import { useSubjects } from '../hooks/use-fetch-subjects'
+
+//TODO, populate this with Luis's endpoint for subjects
+const subjects = [
+    { id: 1, subjectName: 'Salsa', img: null },
+    { id: 2, subjectName: 'Crochet', img: null },
+    { id: 3, subjectName: 'Programming', img: null },
+    { id: 4, subjectName: 'Placeholder', img: null },
+    { id: 5, subjectName: 'otro interes', img: null },
+    { id: 6, subjectName: 'windows11', img: null },
+    { id: 7, subjectName: 'lmao', img: null },
+    { id: 8, subjectName: 'XD', img: null },
+]
 
 function Copyright(props) {
     return (
@@ -36,9 +51,10 @@ function Copyright(props) {
 
 const theme = createTheme()
 
-export function RegisterPage() {
+export function RegisterTutor() {
     const navigate = useNavigate()
     const { registerUser, error } = useAuth()
+    const subjects = useSubjects()
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -48,17 +64,21 @@ export function RegisterPage() {
             email: data.get('email'),
             password: data.get('password'),
             confirmationPassword: data.get('confirmPassword'),
+            subjectId: data.get('subject-selector'),
         })
-        registerUser({
-            username: data.get('userName'),
-            email: data.get('email'),
-            password: data.get('password'),
-            confirmationPassword: data.get('confirmPassword'),
-            onSuccess: () => {
-                navigate('/')
-            },
-        })
-        console.log(error)
+        //TODO: change this to call register tutor endpoint with the
+        //Tutor's interest and all of that
+        // registerUser({
+        //     username: data.get('userName'),
+        //     email: data.get('email'),
+        //     password: data.get('password'),
+        //     confirmationPassword: data.get('confirmPassword'),
+        //     subjectId: data.get('subject-selector'),
+        //     onSuccess: () => {
+        //         navigate('/')
+        //     },
+        // })
+        // console.log(error)
         // register(
         //   data.get("username"),
         //   data.get("email"),
@@ -85,7 +105,7 @@ export function RegisterPage() {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Student Sign up
+                        Tutor Sign up
                     </Typography>
                     <Box
                         component="form"
@@ -147,7 +167,33 @@ export function RegisterPage() {
                                     autoComplete="Confirm Password"
                                 />
                             </Grid>
-                            <Grid item xs={12}></Grid>
+                            <Grid item xs={12}>
+                                <FormControl fullWidth>
+                                    <InputLabel id="subject-selector">
+                                        Subjects
+                                    </InputLabel>
+                                    <Select
+                                        sx={{ width: '100%' }}
+                                        name="subject-selector"
+                                        labelId="subject-selector-label"
+                                        id="subject-selector"
+                                        label="subject-selector"
+                                        defaultValue=""
+                                    >
+                                        {subjects.map((subject) => {
+                                            return (
+                                                <MenuItem
+                                                    key={subject.id}
+                                                    value={subject.id}
+                                                >
+                                                    {subject.subjectName}
+                                                </MenuItem>
+                                            )
+                                        })}
+                                        {/* <MenuItem value={10}>Ten</MenuItem> */}
+                                    </Select>
+                                </FormControl>
+                            </Grid>
                         </Grid>
                         {error && <Alert severity="error">{error}</Alert>}
                         <Button
@@ -156,17 +202,17 @@ export function RegisterPage() {
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Sign Up as Student
+                            Sign Up as Tutor
                         </Button>
 
                         <Grid container justifyContent="center">
                             <Grid item xs={12} sx={{ textAlign: 'center' }}>
                                 <Link
                                     component={RouterDomLink}
-                                    to="/register-tutor"
+                                    to="/register"
                                     variant="body2"
                                 >
-                                    You want to be a Tutor?
+                                    You want to be a Student?
                                 </Link>
                             </Grid>
                             <Grid item xs={12} sx={{ textAlign: 'center' }}>
