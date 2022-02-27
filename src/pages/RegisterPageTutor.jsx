@@ -1,26 +1,32 @@
-import * as React from 'react'
-import Avatar from '@mui/material/Avatar'
-import Button from '@mui/material/Button'
-import CssBaseline from '@mui/material/CssBaseline'
-import TextField from '@mui/material/TextField'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Checkbox from '@mui/material/Checkbox'
-import Link from '@mui/material/Link'
-import Grid from '@mui/material/Grid'
-import Box from '@mui/material/Box'
+import FormControl from '@mui/material/FormControl'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import { Alert } from '@mui/material'
-import Typography from '@mui/material/Typography'
+import Avatar from '@mui/material/Avatar'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
+import CssBaseline from '@mui/material/CssBaseline'
+import Grid from '@mui/material/Grid'
+import InputLabel from '@mui/material/InputLabel'
+import Link from '@mui/material/Link'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { useNavigate, Link as RouterDomLink } from 'react-router-dom'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+import * as React from 'react'
+import { Link as RouterDomLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/Auth'
+import { useSubjects } from '../hooks/use-fetch-subjects'
+import { DropDown } from '../components/DropDown'
 
 const theme = createTheme()
 
-export function RegisterPage() {
+export function RegisterTutor() {
     const navigate = useNavigate()
     const { registerUser, error } = useAuth()
+    const subjects = useSubjects()
+    const disableForm = subjects.length < 1
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -30,17 +36,21 @@ export function RegisterPage() {
             email: data.get('email'),
             password: data.get('password'),
             confirmationPassword: data.get('confirmPassword'),
+            subjectId: data.get('subject-selector'),
         })
-        registerUser({
-            username: data.get('userName'),
-            email: data.get('email'),
-            password: data.get('password'),
-            confirmationPassword: data.get('confirmPassword'),
-            onSuccess: () => {
-                navigate('/')
-            },
-        })
-        console.log(error)
+        //TODO: change this to call register tutor endpoint with the
+        //Tutor's interest and all of that
+        // registerUser({
+        //     username: data.get('userName'),
+        //     email: data.get('email'),
+        //     password: data.get('password'),
+        //     confirmationPassword: data.get('confirmPassword'),
+        //     subjectId: data.get('subject-selector'),
+        //     onSuccess: () => {
+        //         navigate('/')
+        //     },
+        // })
+        // console.log(error)
         // register(
         //   data.get("username"),
         //   data.get("email"),
@@ -67,7 +77,7 @@ export function RegisterPage() {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Student Sign up
+                        Tutor Sign up
                     </Typography>
                     <Box
                         component="form"
@@ -129,7 +139,18 @@ export function RegisterPage() {
                                     autoComplete="Confirm Password"
                                 />
                             </Grid>
-                            <Grid item xs={12}></Grid>
+                            <Grid item xs={12}>
+                                <DropDown
+                                    label="Subjects"
+                                    id="subject"
+                                    items={subjects.map((subject) => {
+                                        return {
+                                            ...subject,
+                                            name: subject.subjectName,
+                                        }
+                                    })}
+                                />
+                            </Grid>
                         </Grid>
                         {error && <Alert severity="error">{error}</Alert>}
                         <Button
@@ -137,18 +158,19 @@ export function RegisterPage() {
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
+                            disabled={disableForm}
                         >
-                            Sign Up as Student
+                            Sign Up as Tutor
                         </Button>
 
                         <Grid container justifyContent="center">
                             <Grid item xs={12} sx={{ textAlign: 'center' }}>
                                 <Link
                                     component={RouterDomLink}
-                                    to="/register-tutor"
+                                    to="/register"
                                     variant="body2"
                                 >
-                                    You want to be a Tutor?
+                                    You want to be a Student?
                                 </Link>
                             </Grid>
                             <Grid item xs={12} sx={{ textAlign: 'center' }}>
@@ -163,7 +185,6 @@ export function RegisterPage() {
                         </Grid>
                     </Box>
                 </Box>
-                {/* <Copyright sx={{ mt: 5 }} /> */}
             </Container>
         </ThemeProvider>
     )
