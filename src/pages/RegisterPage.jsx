@@ -16,24 +16,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { useNavigate, Link as RouterDomLink } from 'react-router-dom'
 import { useAuth } from '../auth/Auth'
 
-function Copyright(props) {
-    return (
-        <Typography
-            variant="body2"
-            color="text.secondary"
-            align="center"
-            {...props}
-        >
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    )
-}
-
 const theme = createTheme()
 
 export function RegisterPage() {
@@ -181,7 +163,7 @@ export function RegisterPage() {
                         </Grid>
                     </Box>
                 </Box>
-                <Copyright sx={{ mt: 5 }} />
+                {/* <Copyright sx={{ mt: 5 }} /> */}
             </Container>
         </ThemeProvider>
     )

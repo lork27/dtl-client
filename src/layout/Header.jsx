@@ -16,15 +16,6 @@ import { Link } from 'react-router-dom'
 import SvgIcon from '@mui/material/SvgIcon'
 const settings = ['Profile', 'Account', 'Dashboard']
 
-//function to add the abilty for MUI icons to be clickable links
-//
-// const handleIconClicks = (url) => {
-//     console.log(url)
-//     return <Link to="/"></Link>
-// }
-//actual solution found there
-//https://github.com/mui/material-ui/issues/2937
-
 function HomeIcon(props) {
     return (
         <SvgIcon {...props}>
@@ -35,18 +26,10 @@ function HomeIcon(props) {
 
 export const Header = () => {
     const { userData, logOut } = useAuth()
-    const [anchorElNav, setAnchorElNav] = React.useState(null)
     const [anchorElUser, setAnchorElUser] = React.useState(null)
 
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget)
-    }
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget)
-    }
-
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null)
     }
 
     const handleCloseUserMenu = () => {
@@ -67,53 +50,6 @@ export const Header = () => {
                             <HomeIcon fontSize="large" />
                         </IconButton>
                     </Typography>
-                    {/* Old responsive hamburger style */}
-                    {/* <Box
-                        sx={{
-                            flexGrow: 1,
-                            display: { xs: 'flex', md: 'none' },
-                        }}
-                    >
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleOpenNavMenu}
-                            color="inherit"
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                            open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
-                            sx={{
-                                display: { xs: 'block', md: 'none' },
-                            }}
-                        ></Menu>
-                    </Box> */}
-                    {/* <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{
-                            flexGrow: 1,
-                            display: { xs: 'flex', md: 'none' },
-                        }}
-                    >
-                        DTL?
-                    </Typography> */}
                     <Box
                         sx={{
                             flexGrow: 1,
@@ -150,19 +86,18 @@ export const Header = () => {
                                     open={Boolean(anchorElUser)}
                                     onClose={handleCloseUserMenu}
                                 >
-                                    {settings.map((setting) => (
-                                        <MenuItem
-                                            key={setting}
-                                            onClick={handleCloseUserMenu}
-                                        >
-                                            <Typography textAlign="center">
-                                                {setting}
-                                            </Typography>
-                                        </MenuItem>
-                                    ))}
+                                    <MenuItem
+                                        component={Link}
+                                        to="user/profile"
+                                    >
+                                        <Typography textAlign="center">
+                                            Profile
+                                        </Typography>
+                                    </MenuItem>
+
                                     <MenuItem onClick={logOut}>
                                         <Typography textAlign="center">
-                                            logout
+                                            Logout
                                         </Typography>
                                     </MenuItem>
                                 </Menu>

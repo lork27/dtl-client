@@ -18,36 +18,7 @@ import * as React from 'react'
 import { Link as RouterDomLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/Auth'
 import { useSubjects } from '../hooks/use-fetch-subjects'
-
-//TODO, populate this with Luis's endpoint for subjects
-const subjects = [
-    { id: 1, subjectName: 'Salsa', img: null },
-    { id: 2, subjectName: 'Crochet', img: null },
-    { id: 3, subjectName: 'Programming', img: null },
-    { id: 4, subjectName: 'Placeholder', img: null },
-    { id: 5, subjectName: 'otro interes', img: null },
-    { id: 6, subjectName: 'windows11', img: null },
-    { id: 7, subjectName: 'lmao', img: null },
-    { id: 8, subjectName: 'XD', img: null },
-]
-
-function Copyright(props) {
-    return (
-        <Typography
-            variant="body2"
-            color="text.secondary"
-            align="center"
-            {...props}
-        >
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    )
-}
+import { DropDown } from '../components/DropDown'
 
 const theme = createTheme()
 
@@ -55,6 +26,7 @@ export function RegisterTutor() {
     const navigate = useNavigate()
     const { registerUser, error } = useAuth()
     const subjects = useSubjects()
+    const disableForm = subjects.length < 1
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -168,31 +140,16 @@ export function RegisterTutor() {
                                 />
                             </Grid>
                             <Grid item xs={12}>
-                                <FormControl fullWidth>
-                                    <InputLabel id="subject-selector">
-                                        Subjects
-                                    </InputLabel>
-                                    <Select
-                                        sx={{ width: '100%' }}
-                                        name="subject-selector"
-                                        labelId="subject-selector-label"
-                                        id="subject-selector"
-                                        label="subject-selector"
-                                        defaultValue=""
-                                    >
-                                        {subjects.map((subject) => {
-                                            return (
-                                                <MenuItem
-                                                    key={subject.id}
-                                                    value={subject.id}
-                                                >
-                                                    {subject.subjectName}
-                                                </MenuItem>
-                                            )
-                                        })}
-                                        {/* <MenuItem value={10}>Ten</MenuItem> */}
-                                    </Select>
-                                </FormControl>
+                                <DropDown
+                                    label="Subjects"
+                                    id="subject"
+                                    items={subjects.map((subject) => {
+                                        return {
+                                            ...subject,
+                                            name: subject.subjectName,
+                                        }
+                                    })}
+                                />
                             </Grid>
                         </Grid>
                         {error && <Alert severity="error">{error}</Alert>}
@@ -201,6 +158,7 @@ export function RegisterTutor() {
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
+                            disabled={disableForm}
                         >
                             Sign Up as Tutor
                         </Button>
@@ -227,7 +185,6 @@ export function RegisterTutor() {
                         </Grid>
                     </Box>
                 </Box>
-                <Copyright sx={{ mt: 5 }} />
             </Container>
         </ThemeProvider>
     )
