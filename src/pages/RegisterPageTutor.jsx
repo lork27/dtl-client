@@ -24,7 +24,7 @@ const theme = createTheme()
 
 export function RegisterTutor() {
     const navigate = useNavigate()
-    const { registerUser, error } = useAuth()
+    const { registerTutor, error } = useAuth()
     const subjects = useSubjects()
     const disableForm = subjects.length < 1
 
@@ -36,30 +36,18 @@ export function RegisterTutor() {
             email: data.get('email'),
             password: data.get('password'),
             confirmationPassword: data.get('confirmPassword'),
-            subjectId: data.get('subject-selector'),
+            subject: data.get('subject-selector'),
         })
-        //TODO: change this to call register tutor endpoint with the
-        //Tutor's interest and all of that
-        // registerUser({
-        //     username: data.get('userName'),
-        //     email: data.get('email'),
-        //     password: data.get('password'),
-        //     confirmationPassword: data.get('confirmPassword'),
-        //     subjectId: data.get('subject-selector'),
-        //     onSuccess: () => {
-        //         navigate('/')
-        //     },
-        // })
-        // console.log(error)
-        // register(
-        //   data.get("username"),
-        //   data.get("email"),
-        //   data.get("password"),
-        //   data.get("confirmPassword"),
-        //   () => {
-        //     navigate("/");
-        //   }
-        // );
+        registerTutor({
+            username: data.get('userName'),
+            email: data.get('email'),
+            password: data.get('password'),
+            confirmationPassword: data.get('confirmPassword'),
+            subject: data.get('subject-selector'),
+            onSuccess: () => {
+                navigate('/')
+            },
+        })
     }
     return (
         <ThemeProvider theme={theme}>

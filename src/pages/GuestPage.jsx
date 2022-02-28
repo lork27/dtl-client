@@ -1,36 +1,31 @@
-import { useAuth } from '../auth/Auth'
-import * as React from 'react'
-import AppBar from '@mui/material/AppBar'
+import Avatar from '@mui/material/Avatar'
+import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import CameraIcon from '@mui/icons-material/PhotoCamera'
 import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
+import Container from '@mui/material/Container'
 import CssBaseline from '@mui/material/CssBaseline'
 import Grid from '@mui/material/Grid'
-import Stack from '@mui/material/Stack'
-import Box from '@mui/material/Box'
-import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
-import Container from '@mui/material/Container'
 import Link from '@mui/material/Link'
+import Stack from '@mui/material/Stack'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import Typography from '@mui/material/Typography'
+import * as React from 'react'
 import { Link as RouterDomLink } from 'react-router-dom'
-import { DropDown } from '../components/DropDown'
-import Avatar from '@mui/material/Avatar'
+import { useAuth } from '../auth/Auth'
 
-import { useSubjects } from '../hooks/use-fetch-subjects'
+// import { useSubjects } from '../hooks/use-fetch-subjects'
 //This is the page that will show when no user is logged in
 //It will look kinda like this...
 //https://cdn.discordapp.com/attachments/943515943760457738/943520909011091496/IMG_20220216_105449.jpg
-
-const tutorsCards = [1, 2, 3]
 
 const tutorsInfo = [
     {
         username: 'Paco Alcantara',
         bio: "Hi, I'm a software engineer with over 10 years of experience...",
+        tutorId: 1,
         interestID: [2],
         avatar: null,
         location: 'Bayamon, Puerto Rico',
@@ -39,6 +34,7 @@ const tutorsInfo = [
     {
         username: 'Roberto Mauricio',
         bio: "I've teached Guitar to over a 100 people, I've played on 3 bands etc etc",
+        tutorId: 2,
         interestID: [1],
         avatar: null,
         location: 'San Juan, Puerto Rico',
@@ -48,6 +44,7 @@ const tutorsInfo = [
     {
         username: 'Manolo Del Mar',
         bio: 'Soy maestro de arte graduado del Instituto de Arte de Chicago, he tenido más de 12...',
+        tutorId: 3,
         interestID: [3],
         avatar: null,
         location: 'San Juan, Puerto Rico',
@@ -57,7 +54,8 @@ const tutorsInfo = [
 
 const theme = createTheme()
 export const GuestPage = () => {
-    const subjects = useSubjects()
+    // when drop down implemented, uncomment this
+    // const subjects = useSubjects()
     const { userData } = useAuth()
     return (
         <ThemeProvider theme={theme}>
