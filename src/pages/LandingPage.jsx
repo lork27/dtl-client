@@ -13,6 +13,11 @@ export const LandingPage = () => {
             <p>
                 Welcome <b>{userData.username}</b>
             </p>
+            {userData.tutorInfo ? (
+                <p> You are a Tutor </p>
+            ) : (
+                <p>You are not a Tutor</p>
+            )}
         </div>
     )
 }

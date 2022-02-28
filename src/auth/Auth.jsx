@@ -16,6 +16,14 @@ const AuthContext = createContext({
         confirmationPassword,
         onSuccess,
     }) => ({}),
+    registerTutor: ({
+        username,
+        email,
+        password,
+        confirmationPassword,
+        subject,
+        onSuccess,
+    }) => ({}),
 })
 
 export const AuthController = (props) => {
@@ -77,6 +85,37 @@ export const AuthController = (props) => {
         }
     }
 
+    // Register Tutor function
+    const registerTutor = async ({
+        username,
+        email,
+        password,
+        confirmationPassword,
+        subject,
+        onSuccess,
+    }) => {
+        setError(null)
+        const response = await api.post(
+            '/tutors/new',
+            { username, email, password, confirmationPassword, subject },
+            { validateStatus: () => true }
+        )
+        console.log(username, email, password, confirmationPassword, subject)
+
+        if (response.status === 201) {
+            setUserData(response.data)
+            console.log(userData)
+            localStorage.setItem('user', JSON.stringify(response.data))
+            addAuthHeader()
+            if (onSuccess) {
+                onSuccess()
+            }
+        }
+        if (response.status === 400) {
+            setError(response.data.error)
+        }
+    }
+
     const logOut = () => {
         localStorage.removeItem('user')
         removeAuthHeader()
@@ -84,7 +123,14 @@ export const AuthController = (props) => {
     }
     return (
         <AuthContext.Provider
-            value={{ userData, logIn, error, logOut, registerUser }}
+            value={{
+                userData,
+                logIn,
+                error,
+                logOut,
+                registerUser,
+                registerTutor,
+            }}
         >
             {props.children}
         </AuthContext.Provider>
