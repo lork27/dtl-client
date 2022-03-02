@@ -33,7 +33,10 @@ export const LandingPage = () => {
         acc[cur.id] = cur
         return acc
     }, {})
-    console.log(userData)
+    const [shownSubject, setShownSubject] = React.useState(null)
+
+    // console.log(subjectsList)
+    // console.log(subjectsObj)
     return (
         <div>
             <h1>
@@ -52,10 +55,17 @@ export const LandingPage = () => {
             <Grid container>
                 <Grid item xs={2}>
                     <List>
+                        <ListItemButton onClick={() => setShownSubject(null)}>
+                            <ListItemText>Show all</ListItemText>
+                        </ListItemButton>
                         {subjectsList.map((subject) => {
                             return (
-                                <ListItem disablePadding>
-                                    <ListItemButton>
+                                <ListItem disablePadding key={subject.id}>
+                                    <ListItemButton
+                                        onClick={() => {
+                                            setShownSubject(subject.id)
+                                        }}
+                                    >
                                         <ListItemText
                                             primary={subject.subjectName}
                                         />
@@ -66,88 +76,108 @@ export const LandingPage = () => {
                     </List>
                 </Grid>
 
-                <Grid xs={10}>
+                <Grid item xs={10}>
                     {/* End hero unit */}
                     <Grid container spacing={2}>
-                        {tutors.map((tutor) => {
-                            return (
-                                <Grid item key={tutor.id} xs={12} sm={6} md={4}>
-                                    <Card
-                                        sx={{
-                                            height: '100%',
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                        }}
+                        {tutors
+                            .filter((tutor) => {
+                                console.log(tutor)
+                                if (!shownSubject) {
+                                    return true
+                                }
+                                return (
+                                    tutor.tutorInfo?.subjects?.[0] ==
+                                    shownSubject
+                                )
+                            })
+                            .map((tutor) => {
+                                return (
+                                    <Grid
+                                        item
+                                        key={tutor.id}
+                                        xs={12}
+                                        sm={6}
+                                        md={4}
                                     >
-                                        <CardMedia
-                                            component="img"
-                                            image={
-                                                subjectsObj[
-                                                    tutor.tutorInfo.subjects
-                                                ].img
-                                            }
-                                            alt="subject-img"
-                                        />
-                                        <CardContent sx={{ flexGrow: 1 }}>
-                                            <Grid container>
-                                                <Avatar
-                                                    alt="Remy Sharp"
-                                                    sx={{ marginRight: 8 }}
-                                                    src={tutor.avatar}
-                                                />
-                                                <Typography
-                                                    gutterBottom
-                                                    variant="h5"
-                                                    component="h2"
-                                                >
-                                                    {tutor.username}
+                                        <Card
+                                            sx={{
+                                                height: '100%',
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                            }}
+                                        >
+                                            <CardMedia
+                                                component="img"
+                                                image={
+                                                    subjectsObj[
+                                                        tutor.tutorInfo.subjects
+                                                    ]?.img
+                                                }
+                                                alt="subject-img"
+                                            />
+                                            <CardContent sx={{ flexGrow: 1 }}>
+                                                <Grid container>
+                                                    <Avatar
+                                                        alt="Remy Sharp"
+                                                        sx={{ marginRight: 8 }}
+                                                        src={tutor.avatar}
+                                                    />
+                                                    <Typography
+                                                        gutterBottom
+                                                        variant="h5"
+                                                        component="h2"
+                                                    >
+                                                        {tutor.username}
+                                                    </Typography>
+                                                </Grid>
+                                                <Typography mt={3}>
+                                                    {tutor.bio
+                                                        ? tutor.bio
+                                                        : `Hey my name is ${
+                                                              tutor.username
+                                                          } and I teach ${
+                                                              subjectsObj[
+                                                                  tutor
+                                                                      .tutorInfo
+                                                                      .subjects
+                                                              ]?.subjectName
+                                                          }`}
                                                 </Typography>
-                                            </Grid>
-                                            <Typography mt={3}>
-                                                {tutor.bio
-                                                    ? tutor.bio
-                                                    : `Hey my name is ${
-                                                          tutor.username
-                                                      } and I teach ${
-                                                          subjectsObj[
-                                                              tutor.tutorInfo
-                                                                  .subjects
-                                                          ].subjectName
-                                                      }`}
-                                            </Typography>
-                                            <Typography
-                                                color="text.secondary"
-                                                mt={5}
-                                            >
-                                                {tutor.location
-                                                    ? tutor.location
-                                                    : 'no location'}
-                                            </Typography>
-                                        </CardContent>
-                                        <CardActions>
-                                            <Button
-                                                size="small"
-                                                onClick={() =>
-                                                    alert(
-                                                        'this should take you to this tutor profile'
-                                                    )
-                                                }
-                                            >
-                                                View more
-                                            </Button>
-                                            <Button
-                                                size="small"
-                                                onClick={() =>
-                                                    alert('Not yet implemented')
-                                                }
-                                            >
-                                                Request match
-                                            </Button>
-                                        </CardActions>
-                                    </Card>
-                                </Grid>
-                            )
-                        })}
+                                                <Typography
+                                                    color="text.secondary"
+                                                    mt={5}
+                                                >
+                                                    {tutor.location
+                                                        ? tutor.location
+                                                        : 'no location provided'}
+                                                </Typography>
+                                            </CardContent>
+                                            <CardActions>
+                                                <Button
+                                                    size="small"
+                                                    onClick={() =>
+                                                        alert(
+                                                            'this should take you to this tutor profile'
+                                                        )
+                                                    }
+                                                >
+                                                    View more
+                                                </Button>
+                                                <Button
+                                                    size="small"
+                                                    onClick={() =>
+                                                        alert(
+                                                            'Not yet implemented'
+                                                        )
+                                                    }
+                                                >
+                                                    Request match
+                                                </Button>
+                                            </CardActions>
+                                        </Card>
+                                    </Grid>
+                                )
+                            })}
                     </Grid>
                 </Grid>
             </Grid>

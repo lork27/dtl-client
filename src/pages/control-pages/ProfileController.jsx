@@ -1,9 +1,9 @@
 import { useAuth } from '../../auth/Auth'
 import { GuestPage } from '../GuestPage'
-import { UserProfile } from '../UserProfile'
+import { Profile } from '../Profile'
 
 export const ProfileController = () => {
     const { userData } = useAuth()
     console.log(userData)
-    return <div> {userData ? <UserProfile /> : <GuestPage />} </div>
+    return <div> {userData ? <Profile /> : <GuestPage />} </div>
 }
