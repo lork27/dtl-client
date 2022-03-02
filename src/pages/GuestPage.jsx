@@ -21,22 +21,70 @@ import { useAuth } from '../auth/Auth'
 //It will look kinda like this...
 //https://cdn.discordapp.com/attachments/943515943760457738/943520909011091496/IMG_20220216_105449.jpg
 
+// const tutors = {
+//     'luis.IG6NY2XVIuUbUGJxAXFSXQrNArF2': {
+//         updatedAt: {
+//             _seconds: 1646078062,
+//             _nanoseconds: 461000000,
+//         },
+//         bio: null,
+//         createdAt: {
+//             _seconds: 1646076490,
+//             _nanoseconds: 400000000,
+//         },
+//         username: 'luis',
+//         tutorInfo: {
+//             urls: [
+//                 'https://github.com/luisobregon21',
+//                 'https://www.linkedin.com/in/luis-o-45951b126/',
+//             ],
+//         },
+//         location: null,
+//         id: 'IG6NY2XVIuUbUGJxAXFSXQrNArF2',
+//         avatar: 'https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/10065674723.JPG?alt=media',
+//         email: 'tutor@gmail.com',
+//     },
+//     "shey.cNl3bMEpXMTcCvBbxaey4UfdtS73": {
+//         "updatedAt": {
+//             "_seconds": 1646091885,
+//             "_nanoseconds": 257000000
+//         },
+//         "createdAt": {
+//             "_seconds": 1646091885,
+//             "_nanoseconds": 257000000
+//         },
+//         "username": "shey",
+//         "email": "email@prueba.com",
+//         "location": null,
+//         "id": "cNl3bMEpXMTcCvBbxaey4UfdtS73",
+//         "avatar": "https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/no-profile.png?alt=media",
+//         "tutorInfo": {
+//             "subjects": [
+//                 "4"
+//             ],
+//             "urls": [],
+//             "imgs": [
+//                 "https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/no-picture.jpg?alt=media"
+//             ]
+//         },
+//         "bio": null
+//     }
+// }
+
 const tutorsInfo = [
     {
         username: 'Paco Alcantara',
         bio: "Hi, I'm a software engineer with over 10 years of experience...",
-        tutorId: 1,
+        id: 1,
         interestID: [2],
-        avatar: null,
         location: 'Bayamon, Puerto Rico',
         avatar: 'https://mymodernmet.com/wp/wp-content/uploads/2019/09/100k-ai-faces-6.jpg',
     },
     {
         username: 'Roberto Mauricio',
         bio: "I've teached Guitar to over a 100 people, I've played on 3 bands etc etc",
-        tutorId: 2,
+        id: 2,
         interestID: [1],
-        avatar: null,
         location: 'San Juan, Puerto Rico',
         avatar: 'https://mymodernmet.com/wp/wp-content/uploads/2019/09/100k-ai-faces-6.jpg',
     },
@@ -44,9 +92,8 @@ const tutorsInfo = [
     {
         username: 'Manolo Del Mar',
         bio: 'Soy maestro de arte graduado del Instituto de Arte de Chicago, he tenido más de 12...',
-        tutorId: 3,
+        id: 3,
         interestID: [3],
-        avatar: null,
         location: 'San Juan, Puerto Rico',
         avatar: 'https://mymodernmet.com/wp/wp-content/uploads/2019/09/100k-ai-faces-6.jpg',
     },
