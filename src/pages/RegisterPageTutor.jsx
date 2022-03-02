@@ -1,4 +1,3 @@
-import FormControl from '@mui/material/FormControl'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import { Alert } from '@mui/material'
 import Avatar from '@mui/material/Avatar'
@@ -7,18 +6,15 @@ import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import CssBaseline from '@mui/material/CssBaseline'
 import Grid from '@mui/material/Grid'
-import InputLabel from '@mui/material/InputLabel'
 import Link from '@mui/material/Link'
-import MenuItem from '@mui/material/MenuItem'
-import Select from '@mui/material/Select'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import * as React from 'react'
 import { Link as RouterDomLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/Auth'
-import { useSubjects } from '../hooks/use-fetch-subjects'
 import { DropDown } from '../components/DropDown'
+import { useSubjects } from '../hooks/use-fetch-subjects'
 
 const theme = createTheme()
 
@@ -43,7 +39,7 @@ export function RegisterTutor() {
             email: data.get('email'),
             password: data.get('password'),
             confirmationPassword: data.get('confirmPassword'),
-            subject: data.get('subject-selector'),
+            subject: parseInt(data.get('subject-selector')),
             onSuccess: () => {
                 navigate('/')
             },
