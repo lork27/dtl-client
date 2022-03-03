@@ -14,7 +14,6 @@ import MenuItem from '@mui/material/MenuItem'
 import { useAuth } from '../auth/Auth'
 import { Link } from 'react-router-dom'
 import SvgIcon from '@mui/material/SvgIcon'
-const settings = ['Profile', 'Account', 'Dashboard']
 
 function HomeIcon(props) {
     return (
@@ -65,8 +64,8 @@ export const Header = () => {
                                         sx={{ p: 0 }}
                                     >
                                         <Avatar
-                                            alt="Remy Sharp"
-                                            src="/static/images/avatar/2.jpg"
+                                            alt="User Avatar"
+                                            src={userData.avatar}
                                         />
                                     </IconButton>
                                 </Tooltip>

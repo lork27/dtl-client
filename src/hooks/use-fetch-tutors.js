@@ -17,7 +17,7 @@ export const useAllTutors = () => {
         api.get('/tutors/allTutors').then((res) => {
             setTutors(Object.values(res.data))
         })
-        console.log(tutors)
+        // console.log(tutors)
     }, [])
 
     return tutors

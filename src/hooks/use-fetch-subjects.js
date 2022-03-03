@@ -17,7 +17,7 @@ export const useSubjects = () => {
         api.get('/subjects/allSubjects').then((res) => {
             setSubjects(Object.values(res.data))
         })
-        console.log(subjects)
+        // console.log(subjects)
     }, [])
 
     return subjects
