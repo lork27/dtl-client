@@ -15,7 +15,7 @@ import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 
 export const StudentProfile = () => {
-    const { userData, updateUserInfo, error } = useAuth()
+    const { userData, updateUserInfo, error, uploadImage } = useAuth()
     const [value, setValue] = useState('Controlled')
     const theme = useTheme()
     const subjectsList = useSubjects()
@@ -28,6 +28,8 @@ export const StudentProfile = () => {
         setValue(event.target.value)
     }
     const [bioEdit, setBioEdit] = useState(true)
+    const [avatarEdit, setAvatarEdit] = useState(true)
+    const [img, setImg] = useState()
     const matches = [
         {
             tutorId: 2727,
@@ -61,15 +63,21 @@ export const StudentProfile = () => {
     ]
 
     const handleSubmit = (event) => {
+        //TODO I need to make it so the user can actually DELETE their bio, not just update it
+        //right now if the user send and empty bio the old one get written
         event.preventDefault()
         const data = new FormData(event.currentTarget)
         const token = userData.token
-        console.log({
-            bio: data.get('bio'),
-            location: data.get('location'),
-            token: token,
+        const bio = data.get('bio').length > 0 ? data.get('bio') : userData.bio
+        const location =
+            data.get('location').length > 0
+                ? data.get('location')
+                : userData.location
+        updateUserInfo({
+            bio,
+            location,
+            token,
         })
-
         if (!bioEdit) {
             setBioEdit(true)
         }
@@ -77,6 +85,8 @@ export const StudentProfile = () => {
     // console.log(bioEdit)
     return (
         <Grid container>
+            {console.log('inside return of profile')}
+            {console.log(userData.token)}
             <Grid item xs={12} sm={12} md={6}>
                 <Card sx={{ display: 'flex' }}>
                     <CardMedia
@@ -84,6 +94,14 @@ export const StudentProfile = () => {
                         sx={{ height: 300 }}
                         image={userData.avatar}
                         alt="useravatar"
+                    />
+                    <input
+                        type="file"
+                        multiple
+                        accept="image/*"
+                        onChange={(e) => {
+                            uploadImage(e.target.files[0], userData.token)
+                        }}
                     />
 
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -132,14 +150,22 @@ export const StudentProfile = () => {
                                     >
                                         <TextField
                                             id="outlined-multiline-static"
-                                            label="Enter your new bio"
+                                            label={
+                                                userData.bio
+                                                    ? userData.bio
+                                                    : 'Enter your new bio'
+                                            }
                                             multiline
                                             name="bio"
                                             rows={4}
                                         />
                                         <TextField
                                             id="outlined-basic"
-                                            label="Enter your location"
+                                            label={
+                                                userData.location
+                                                    ? userData.location
+                                                    : 'Enter your location'
+                                            }
                                             variant="outlined"
                                             name="location"
                                         />
@@ -216,6 +242,8 @@ export const StudentProfile = () => {
                     })}
                 </Grid>
             </Grid>
+
+            {/* {error && <Alert severity="error">{error}</Alert>} */}
         </Grid>
     )
 }

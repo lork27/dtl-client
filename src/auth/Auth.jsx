@@ -24,7 +24,8 @@ const AuthContext = createContext({
         subject,
         onSuccess,
     }) => ({}),
-    updateUserInfo: {},
+    updateUserInfo: ({ location, bio, token }) => ({}),
+    uploadImage: (image, token) => ({}),
 })
 
 export const AuthController = (props) => {
@@ -130,12 +131,27 @@ export const AuthController = (props) => {
             token
         )
         if (response.status === 200) {
+            // console.log(response.data)
             setUserData(response.data)
+            addAuthHeader()
             localStorage.setItem('user', JSON.stringify(response.data))
         }
         if (response.status === 500) {
+            console.log('error found')
             setError(response.data.error)
             console.error(error)
+        }
+    }
+
+    const uploadImage = async (file, token) => {
+        // console.log(file)
+        // console.log(token)
+        const response = await api.put('/users/image', file, token)
+        if (response.status === 200) {
+            userData.avatar = response.image
+        }
+        if (response.status === 500) {
+            setError(response.data.error)
         }
     }
     return (
@@ -148,6 +164,7 @@ export const AuthController = (props) => {
                 registerUser,
                 registerTutor,
                 updateUserInfo,
+                uploadImage,
             }}
         >
             {props.children}

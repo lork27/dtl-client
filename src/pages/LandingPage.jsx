@@ -44,8 +44,6 @@ export const LandingPage = () => {
             </h1>
             <p>
                 Welcome <b>{userData.username}</b>
-                {/* {JSON.stringify(subjectsObj)} */}
-                {/* {JSON.stringify(tutors)} */}
             </p>
             {userData.tutorInfo ? (
                 <p> You are a Tutor </p>
@@ -81,7 +79,6 @@ export const LandingPage = () => {
                     <Grid container spacing={2}>
                         {tutors
                             .filter((tutor) => {
-                                console.log(tutor)
                                 if (!shownSubject) {
                                     return true
                                 }
