@@ -24,6 +24,7 @@ const AuthContext = createContext({
         subject,
         onSuccess,
     }) => ({}),
+    updateUserInfo: {},
 })
 
 export const AuthController = (props) => {
@@ -69,7 +70,7 @@ export const AuthController = (props) => {
             { username, email, password, confirmationPassword },
             { validateStatus: () => true }
         )
-        console.log(username, email, password, confirmationPassword)
+        // console.log(username, email, password, confirmationPassword)
 
         if (response.status === 201) {
             setUserData(response.data)
@@ -100,7 +101,7 @@ export const AuthController = (props) => {
             { username, email, password, confirmationPassword, subject },
             { validateStatus: () => true }
         )
-        console.log(username, email, password, confirmationPassword, subject)
+        // console.log(username, email, password, confirmationPassword, subject)
 
         if (response.status === 201) {
             setUserData(response.data)
@@ -121,6 +122,22 @@ export const AuthController = (props) => {
         removeAuthHeader()
         setUserData(null)
     }
+
+    const updateUserInfo = async ({ location, bio, token }) => {
+        const response = await api.put(
+            '/users/edit-profile',
+            { location, bio },
+            token
+        )
+        if (response.status === 200) {
+            setUserData(response.data)
+            localStorage.setItem('user', JSON.stringify(response.data))
+        }
+        if (response.status === 500) {
+            setError(response.data.error)
+            console.error(error)
+        }
+    }
     return (
         <AuthContext.Provider
             value={{
@@ -130,6 +147,7 @@ export const AuthController = (props) => {
                 logOut,
                 registerUser,
                 registerTutor,
+                updateUserInfo,
             }}
         >
             {props.children}
