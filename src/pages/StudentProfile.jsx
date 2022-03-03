@@ -64,12 +64,12 @@ export const StudentProfile = () => {
         event.preventDefault()
         const data = new FormData(event.currentTarget)
         const token = userData.token
-
         console.log({
             bio: data.get('bio'),
             location: data.get('location'),
             token: token,
         })
+
         if (!bioEdit) {
             setBioEdit(true)
         }
