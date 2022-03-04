@@ -33,7 +33,6 @@ export const AuthController = (props) => {
         JSON.parse(localStorage.getItem('user'))
     )
     const [error, setError] = useState(null)
-
     //Log In function
     const logIn = async ({ email, password, onSuccess }) => {
         setError(null)
@@ -125,6 +124,10 @@ export const AuthController = (props) => {
     }
 
     const updateUserInfo = async ({ location, bio, token }) => {
+        if (userData.bio === bio && userData.location === location) {
+            console.log('info not updated')
+            return
+        }
         const response = await api.put(
             '/users/edit-profile',
             { location, bio },
@@ -146,9 +149,15 @@ export const AuthController = (props) => {
     const uploadImage = async (file, token) => {
         // console.log(file)
         // console.log(token)
-        const response = await api.put('/users/image', file, token)
+        const formData = new FormData()
+        formData.append('image', file, file.name)
+        const response = await api.put('/users/image', formData, token)
         if (response.status === 200) {
-            userData.avatar = response.image
+            // console.log(userData.avatar)
+            // userData.avatar = response.data.image
+            userData.avatar = response.data.image
+            setUserData({ ...userData })
+            // console.log(response.data.image)
         }
         if (response.status === 500) {
             setError(response.data.error)

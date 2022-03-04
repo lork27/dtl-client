@@ -7,6 +7,7 @@ import { LoginPage } from './pages/LoginPage'
 import { RegisterPage } from './pages/RegisterPage'
 import { RegisterTutor } from './pages/RegisterPageTutor'
 import { ProfileController } from './pages/control-pages/ProfileController'
+import { OtherUserProfile } from './pages/OtherUserProfile'
 
 function App() {
     return (
@@ -19,6 +20,7 @@ function App() {
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/register-tutor" element={<RegisterTutor />} />
                 <Route path="/user/profile" element={<ProfileController />} />
+                <Route path="/:id/profile" element={<OtherUserProfile />} />
 
                 {/* <Route path="/guest" element={<GuestPage />} /> */}
             </Routes>
