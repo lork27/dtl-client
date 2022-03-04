@@ -13,9 +13,10 @@ import Avatar from '@mui/material/Avatar'
 import { Alert } from '@mui/material'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
+import EditIcon from '@mui/icons-material/Edit'
 
 export const StudentProfile = () => {
-    const { userData, updateUserInfo, error } = useAuth()
+    const { userData, updateUserInfo, error, uploadImage } = useAuth()
     const [value, setValue] = useState('Controlled')
     const theme = useTheme()
     const subjectsList = useSubjects()
@@ -61,14 +62,20 @@ export const StudentProfile = () => {
     ]
 
     const handleSubmit = (event) => {
+        //TODO I need to make it so the user can actually DELETE their bio, not just update it
+        //right now if the user send and empty bio the old one get written
         event.preventDefault()
         const data = new FormData(event.currentTarget)
         const token = userData.token
-
-        console.log({
-            bio: data.get('bio'),
-            location: data.get('location'),
-            token: token,
+        const bio = data.get('bio').length > 0 ? data.get('bio') : userData.bio
+        const location =
+            data.get('location').length > 0
+                ? data.get('location')
+                : userData.location
+        updateUserInfo({
+            bio,
+            location,
+            token,
         })
         if (!bioEdit) {
             setBioEdit(true)
@@ -76,24 +83,55 @@ export const StudentProfile = () => {
     }
     // console.log(bioEdit)
     return (
-        <Grid container>
-            <Grid item xs={12} sm={12} md={6}>
-                <Card sx={{ display: 'flex' }}>
-                    <CardMedia
-                        component="img"
-                        sx={{ height: 300 }}
-                        image={userData.avatar}
-                        alt="useravatar"
-                    />
+        <Grid
+            container
+            sx={{
+                mt: 2,
+                mx: 8,
+                display: 'flex',
+                // flexDirection: 'column',
+            }}
+        >
+            {/* {console.log('inside return of profile')}
+            {console.log(userData.token)} */}
+            <Grid mr={3}>
+                <Card>
+                    <Grid>
+                        <CardContent sx={{ width: 300 }}>
+                            <Avatar
+                                alt="dtl-user-avatar"
+                                src={userData.avatar}
+                                sx={{ width: 250, height: 250 }}
+                            />
+                            <IconButton
+                                onClick={() => {
+                                    document
+                                        .getElementById('imageInput')
+                                        .click()
+                                }}
+                                className="button"
+                            >
+                                <EditIcon color="primary" />
+                            </IconButton>
+                            <input
+                                type="file"
+                                multiple
+                                id="imageInput"
+                                accept="image/*"
+                                hidden="hidden"
+                                onChange={(e) => {
+                                    uploadImage(
+                                        e.target.files[0],
+                                        userData.token
+                                    )
+                                }}
+                            />
+                            <Typography component="div" variant="h5">
+                                Name: {userData.username}
+                            </Typography>
 
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                        <CardContent sx={{ flex: '1 0 auto' }}>
                             {bioEdit ? (
                                 <>
-                                    <Typography component="div" variant="h5">
-                                        Name: {userData.username}
-                                    </Typography>
-
                                     <Typography
                                         variant="subtitle1"
                                         color="text.secondary"
@@ -111,7 +149,7 @@ export const StudentProfile = () => {
                                         Description:{' '}
                                         {userData.bio
                                             ? userData.bio
-                                            : `Placeholder bio, you should update it! Lorem ipsum sit amet this is a longer description test to check out how it looks like with more text`}
+                                            : `Placeholder bio, you should update it!`}
                                     </Typography>
                                     <Typography color="text.secondary" mt={2}>
                                         Location: {userData.location}
@@ -132,14 +170,22 @@ export const StudentProfile = () => {
                                     >
                                         <TextField
                                             id="outlined-multiline-static"
-                                            label="Enter your new bio"
+                                            label={
+                                                userData.bio
+                                                    ? userData.bio
+                                                    : 'Enter your new bio'
+                                            }
                                             multiline
                                             name="bio"
                                             rows={4}
                                         />
                                         <TextField
                                             id="outlined-basic"
-                                            label="Enter your location"
+                                            label={
+                                                userData.location
+                                                    ? userData.location
+                                                    : 'Enter your location'
+                                            }
                                             variant="outlined"
                                             name="location"
                                         />
@@ -161,61 +207,65 @@ export const StudentProfile = () => {
                                 {bioEdit ? 'edit my info' : ''}
                             </Button>
                         </CardContent>
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                pl: 1,
-                                pb: 1,
-                            }}
-                        ></Box>
-                    </Box>
+                    </Grid>
                 </Card>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={12} md={8}>
                 <Grid container>
-                    <Typography variant="h4">Latest matches</Typography>
-                    {matches.map((match) => {
-                        return (
-                            <Card key={match.tutorId} sx={{ display: 'flex' }}>
-                                <Avatar
-                                    image={match.avatar}
-                                    alt="match-avatar"
-                                />
-
-                                <Box
-                                    sx={{
-                                        display: 'flex',
-                                        flexDirection: 'column',
+                    <Grid item xs={8}>
+                        <Typography>Latest matches</Typography>
+                        {matches.map((match) => {
+                            return (
+                                <Card
+                                    key={match.tutorId}
+                                    sx={{ display: 'flex', mb: 1 }}
+                                    onClick={() => {
+                                        alert('link to tutor profile by id')
                                     }}
                                 >
-                                    <CardContent sx={{ flex: '1 0 auto' }}>
-                                        <Typography
-                                            component="div"
-                                            variant="h6"
-                                            color="text.secondary"
-                                        >
-                                            {match.username}
-                                        </Typography>
+                                    <Avatar
+                                        image={match.avatar}
+                                        alt="match-avatar"
+                                        variant="square"
+                                        sx={{ width: 100, height: 100 }}
+                                    />
 
-                                        <Typography
-                                            variant="subtitle1"
-                                            color="text.secondary"
-                                            component="div"
-                                        >
-                                            Subject:{' '}
-                                            {
-                                                subjectsObj[match.subjectId]
-                                                    ?.subjectName
-                                            }
-                                        </Typography>
-                                    </CardContent>
-                                </Box>
-                            </Card>
-                        )
-                    })}
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                        }}
+                                    >
+                                        <CardContent sx={{ flex: '1 0 auto' }}>
+                                            <Typography
+                                                component="div"
+                                                variant="h6"
+                                                color="text.secondary"
+                                            >
+                                                {match.username}
+                                            </Typography>
+
+                                            <Typography
+                                                variant="subtitle1"
+                                                color="text.secondary"
+                                                component="div"
+                                            >
+                                                Subject:{' '}
+                                                {
+                                                    subjectsObj[match.subjectId]
+                                                        ?.subjectName
+                                                }
+                                            </Typography>
+                                        </CardContent>
+                                    </Box>
+                                </Card>
+                            )
+                        })}
+                    </Grid>
                 </Grid>
             </Grid>
+
+            {/* {error && <Alert severity="error">{error}</Alert>} */}
         </Grid>
     )
 }

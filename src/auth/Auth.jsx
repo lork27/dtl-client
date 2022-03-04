@@ -24,7 +24,8 @@ const AuthContext = createContext({
         subject,
         onSuccess,
     }) => ({}),
-    updateUserInfo: {},
+    updateUserInfo: ({ location, bio, token }) => ({}),
+    uploadImage: (image, token) => ({}),
 })
 
 export const AuthController = (props) => {
@@ -32,7 +33,6 @@ export const AuthController = (props) => {
         JSON.parse(localStorage.getItem('user'))
     )
     const [error, setError] = useState(null)
-
     //Log In function
     const logIn = async ({ email, password, onSuccess }) => {
         setError(null)
@@ -124,18 +124,43 @@ export const AuthController = (props) => {
     }
 
     const updateUserInfo = async ({ location, bio, token }) => {
+        if (userData.bio === bio && userData.location === location) {
+            console.log('info not updated')
+            return
+        }
         const response = await api.put(
             '/users/edit-profile',
             { location, bio },
             token
         )
         if (response.status === 200) {
+            // console.log(response.data)
             setUserData(response.data)
+            addAuthHeader()
             localStorage.setItem('user', JSON.stringify(response.data))
         }
         if (response.status === 500) {
+            console.log('error found')
             setError(response.data.error)
             console.error(error)
+        }
+    }
+
+    const uploadImage = async (file, token) => {
+        // console.log(file)
+        // console.log(token)
+        const formData = new FormData()
+        formData.append('image', file, file.name)
+        const response = await api.put('/users/image', formData, token)
+        if (response.status === 200) {
+            // console.log(userData.avatar)
+            // userData.avatar = response.data.image
+            userData.avatar = response.data.image
+            setUserData({ ...userData })
+            // console.log(response.data.image)
+        }
+        if (response.status === 500) {
+            setError(response.data.error)
         }
     }
     return (
@@ -148,6 +173,7 @@ export const AuthController = (props) => {
                 registerUser,
                 registerTutor,
                 updateUserInfo,
+                uploadImage,
             }}
         >
             {props.children}
