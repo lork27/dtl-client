@@ -33,7 +33,15 @@ const ExpandMore = styled((props) => {
     }),
 }))
 
-export function TutorCard({ avatar, name, bio, location, subjectImage, id }) {
+export function TutorCard({
+    avatar,
+    name,
+    bio,
+    location,
+    subjectImage,
+    id,
+    subjectName,
+}) {
     const [expanded, setExpanded] = React.useState(false)
 
     const handleExpandClick = () => {
@@ -55,7 +63,9 @@ export function TutorCard({ avatar, name, bio, location, subjectImage, id }) {
             <CardMedia component="img" height="194" image={subjectImage} />
             <CardContent sx={{ minHeight: 110 }}>
                 <Typography variant="body2" color="text.secondary">
-                    {truncate(bio)}
+                    {bio
+                        ? truncate(bio)
+                        : `Hey I'm ${name} and I teach ${subjectName}`}
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
