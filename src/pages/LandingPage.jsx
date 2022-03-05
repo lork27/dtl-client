@@ -101,6 +101,11 @@ export const LandingPage = () => {
                                             }
                                             bio={tutor.bio}
                                             id={tutor.id}
+                                            subjectName={
+                                                subjectsObj[
+                                                    tutor.tutorInfo.subjects
+                                                ]?.subjectName
+                                            }
                                         />
                                     </Grid>
                                 )
