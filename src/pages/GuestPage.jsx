@@ -99,65 +99,60 @@ const tutorsInfo = [
     },
 ]
 
-const theme = createTheme()
 export const GuestPage = () => {
     // when drop down implemented, uncomment this
     // const subjects = useSubjects()
     const { userData } = useAuth()
     return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <main>
-                {/* Hero unit */}
-                <Box
-                    sx={{
-                        bgcolor: 'background.paper',
-                        pt: 8,
-                        pb: 6,
-                    }}
-                >
-                    <Container maxWidth="sm">
-                        <Typography
-                            component="h1"
-                            variant="h2"
-                            align="center"
-                            color="text.primary"
-                            gutterBottom
+        <main>
+            {/* Hero unit */}
+            <Box
+                sx={{
+                    bgcolor: 'background.paper',
+                    pt: 8,
+                    pb: 6,
+                }}
+            >
+                <Container maxWidth="sm">
+                    <Typography
+                        component="h1"
+                        variant="h2"
+                        align="center"
+                        color="text.primary"
+                        gutterBottom
+                    >
+                        DTL?
+                    </Typography>
+                    <Typography
+                        variant="h5"
+                        align="center"
+                        color="text.secondary"
+                        paragraph
+                    >
+                        The social network that connects people that want to
+                        teach and learn
+                    </Typography>
+                    <Stack
+                        sx={{ pt: 4 }}
+                        direction="row"
+                        spacing={2}
+                        justifyContent="center"
+                    >
+                        <Link component={RouterDomLink} to="/auth/register">
+                            <Button variant="contained">
+                                Become a Student
+                            </Button>
+                        </Link>
+                        <Link
+                            component={RouterDomLink}
+                            to="/auth/register-tutor"
                         >
-                            DTL?
-                        </Typography>
-                        <Typography
-                            variant="h5"
-                            align="center"
-                            color="text.secondary"
-                            paragraph
-                        >
-                            The social network that connects people that want to
-                            teach and learn
-                        </Typography>
-                        <Stack
-                            sx={{ pt: 4 }}
-                            direction="row"
-                            spacing={2}
-                            justifyContent="center"
-                        >
-                            <Link component={RouterDomLink} to="/register">
-                                <Button variant="contained">
-                                    Become a Student
-                                </Button>
-                            </Link>
-                            <Link
-                                component={RouterDomLink}
-                                to="/register-tutor"
-                            >
-                                <Button variant="contained">
-                                    Become a Tutor
-                                </Button>
-                            </Link>
-                        </Stack>
-                    </Container>
-                    {/* TODO Center this DropDown with the subjects */}
-                    {/* <Grid item xs={10} sm={5} md={5} elevation={1}>
+                            <Button variant="contained">Become a Tutor</Button>
+                        </Link>
+                    </Stack>
+                </Container>
+                {/* TODO Center this DropDown with the subjects */}
+                {/* <Grid item xs={10} sm={5} md={5} elevation={1}>
                         <Box
                             sx={{
                                 my: 8,
@@ -179,58 +174,55 @@ export const GuestPage = () => {
                             />
                         </Box>
                     </Grid> */}
-                </Box>
+            </Box>
 
-                <Container sx={{ py: 8 }} maxWidth="md">
-                    {/* End hero unit */}
-                    <Grid container spacing={2}>
-                        {tutorsInfo.map((tutor) => {
-                            return (
-                                <Grid item key={tutor.id} xs={12} sm={6} md={4}>
-                                    <Card
-                                        sx={{
-                                            height: '100%',
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                        }}
-                                    >
-                                        <CardMedia
-                                            component="img"
-                                            image="https://source.unsplash.com/random"
-                                            alt="random"
+            <Container sx={{ py: 8 }} maxWidth="md">
+                {/* End hero unit */}
+                <Grid container spacing={2}>
+                    {tutorsInfo.map((tutor) => {
+                        return (
+                            <Grid item key={tutor.id} xs={12} sm={6} md={4}>
+                                <Card
+                                    sx={{
+                                        height: '100%',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                    }}
+                                >
+                                    <CardMedia
+                                        component="img"
+                                        image="https://source.unsplash.com/random"
+                                        alt="random"
+                                    />
+                                    <CardContent sx={{ flexGrow: 1 }}>
+                                        <Avatar
+                                            alt="Remy Sharp"
+                                            src={tutor.avatar}
                                         />
-                                        <CardContent sx={{ flexGrow: 1 }}>
-                                            <Avatar
-                                                alt="Remy Sharp"
-                                                src={tutor.avatar}
-                                            />
-                                            <Typography
-                                                gutterBottom
-                                                variant="h5"
-                                                component="h2"
-                                            >
-                                                {tutor.username}
-                                            </Typography>
-                                            <Typography>{tutor.bio}</Typography>
-                                            <Typography
-                                                color="text.secondary"
-                                                mt={2}
-                                            >
-                                                {tutor.location}
-                                            </Typography>
-                                        </CardContent>
-                                        <CardActions>
-                                            <Button size="small">
-                                                View more
-                                            </Button>
-                                        </CardActions>
-                                    </Card>
-                                </Grid>
-                            )
-                        })}
-                    </Grid>
-                </Container>
-            </main>
-        </ThemeProvider>
+                                        <Typography
+                                            gutterBottom
+                                            variant="h5"
+                                            component="h2"
+                                        >
+                                            {tutor.username}
+                                        </Typography>
+                                        <Typography>{tutor.bio}</Typography>
+                                        <Typography
+                                            color="text.secondary"
+                                            mt={2}
+                                        >
+                                            {tutor.location}
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions>
+                                        <Button size="small">View more</Button>
+                                    </CardActions>
+                                </Card>
+                            </Grid>
+                        )
+                    })}
+                </Grid>
+            </Container>
+        </main>
     )
 }
