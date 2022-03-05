@@ -16,13 +16,27 @@ function App() {
             <Routes>
                 <Route path="*" element={<NotFoundPage />} />
                 <Route path="/" element={<HomePage />} />
-                <Route path="/login" element={<LoginPage />} />
+                {/* <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
-                <Route path="/register-tutor" element={<RegisterTutor />} />
+                <Route path="/register-tutor" element={<RegisterTutor />} /> */}
                 <Route path="/user/profile" element={<ProfileController />} />
                 <Route path="/:id/profile" element={<OtherUserProfile />} />
 
                 {/* <Route path="/guest" element={<GuestPage />} /> */}
+            </Routes>
+            <Footer />
+        </div>
+    )
+}
+
+export function LoginRoutes() {
+    return (
+        <div className="App">
+            <Routes>
+                <Route path="*" element={<LoginPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/register-tutor" element={<RegisterTutor />} />
             </Routes>
             <Footer />
         </div>

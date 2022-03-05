@@ -66,7 +66,6 @@ export const StudentProfile = () => {
         //right now if the user send and empty bio the old one get written
         event.preventDefault()
         const data = new FormData(event.currentTarget)
-        const token = userData.token
         const bio = data.get('bio').length > 0 ? data.get('bio') : userData.bio
         const location =
             data.get('location').length > 0
@@ -75,7 +74,6 @@ export const StudentProfile = () => {
         updateUserInfo({
             bio,
             location,
-            token,
         })
         if (!bioEdit) {
             setBioEdit(true)
@@ -120,10 +118,7 @@ export const StudentProfile = () => {
                                 accept="image/*"
                                 hidden="hidden"
                                 onChange={(e) => {
-                                    uploadImage(
-                                        e.target.files[0],
-                                        userData.token
-                                    )
+                                    uploadImage(e.target.files[0])
                                 }}
                             />
                             <Typography component="div" variant="h5">

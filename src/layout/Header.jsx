@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem'
 import { useAuth } from '../auth/Auth'
 import { Link } from 'react-router-dom'
 import SvgIcon from '@mui/material/SvgIcon'
+import logo from '../assets/DTL_Logo.png'
 
 function HomeIcon(props) {
     return (
@@ -36,7 +37,13 @@ export const Header = () => {
     }
 
     return (
-        <AppBar position="static">
+        <AppBar
+            position="static"
+            sx={{
+                backgroundColor: userData?.tutorInfo ? '#741A31' : '#102841',
+            }}
+            elevation={0}
+        >
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Typography
@@ -46,7 +53,7 @@ export const Header = () => {
                         sx={{ mr: 2, display: { xs: 'flex' } }}
                     >
                         <IconButton component={Link} to="/">
-                            <HomeIcon fontSize="large" />
+                            <img src={logo} style={{ width: '50px' }} />
                         </IconButton>
                     </Typography>
                     <Box
@@ -102,7 +109,7 @@ export const Header = () => {
                                 </Menu>
                             </>
                         ) : (
-                            <Link to="/login">
+                            <Link to="/auth/login">
                                 <Button variant="contained">Login</Button>
                             </Link>
                         )}

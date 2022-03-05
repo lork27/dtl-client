@@ -24,8 +24,8 @@ const AuthContext = createContext({
         subject,
         onSuccess,
     }) => ({}),
-    updateUserInfo: ({ location, bio, token }) => ({}),
-    uploadImage: (image, token) => ({}),
+    updateUserInfo: ({ location, bio }) => ({}),
+    uploadImage: (image) => ({}),
 })
 
 export const AuthController = (props) => {
@@ -123,16 +123,12 @@ export const AuthController = (props) => {
         setUserData(null)
     }
 
-    const updateUserInfo = async ({ location, bio, token }) => {
+    const updateUserInfo = async ({ location, bio }) => {
         if (userData.bio === bio && userData.location === location) {
             console.log('info not updated')
             return
         }
-        const response = await api.put(
-            '/users/edit-profile',
-            { location, bio },
-            token
-        )
+        const response = await api.put('/users/edit-profile', { location, bio })
         if (response.status === 200) {
             // console.log(response.data)
             setUserData(response.data)
@@ -146,12 +142,12 @@ export const AuthController = (props) => {
         }
     }
 
-    const uploadImage = async (file, token) => {
+    const uploadImage = async (file) => {
         // console.log(file)
         // console.log(token)
         const formData = new FormData()
         formData.append('image', file, file.name)
-        const response = await api.put('/users/image', formData, token)
+        const response = await api.put('/users/image', formData)
         if (response.status === 200) {
             // console.log(userData.avatar)
             // userData.avatar = response.data.image
