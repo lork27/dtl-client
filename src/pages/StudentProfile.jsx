@@ -29,37 +29,6 @@ export const StudentProfile = () => {
         setValue(event.target.value)
     }
     const [bioEdit, setBioEdit] = useState(true)
-    const matches = [
-        {
-            tutorId: 2727,
-
-            username: 'Pedro',
-
-            avatar: 'https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/no-profile.png?alt=media',
-
-            subjectId: 4,
-        },
-
-        {
-            tutorId: 2020,
-
-            username: 'manolo',
-
-            avatar: 'https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/no-profile.png?alt=media',
-
-            subjectId: 5,
-        },
-
-        {
-            tutorId: 2334,
-
-            username: 'Juanita',
-
-            avatar: 'https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/no-profile.png?alt=media',
-
-            subjectId: 2,
-        },
-    ]
 
     const handleSubmit = (event) => {
         //TODO I need to make it so the user can actually DELETE their bio, not just update it
@@ -209,7 +178,7 @@ export const StudentProfile = () => {
                 <Grid container>
                     <Grid item xs={8}>
                         <Typography>Latest matches</Typography>
-                        {matches.map((match) => {
+                        {userData.matches.map((match) => {
                             return (
                                 <Card
                                     key={match.tutorId}
