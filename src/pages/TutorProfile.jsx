@@ -14,11 +14,20 @@ import { Alert } from '@mui/material'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import EditIcon from '@mui/icons-material/Edit'
+import { Link } from 'react-router-dom'
+import CheckIcon from '@mui/icons-material/Check'
+import DoDisturbIcon from '@mui/icons-material/DoDisturb'
 
 export const TutorProfile = () => {
-    const { userData, updateUserInfo, error, uploadImage } = useAuth()
+    const {
+        userData,
+        updateUserInfo,
+        error,
+        uploadImage,
+        acceptMatchRequest,
+        denyMatchRequest,
+    } = useAuth()
     const [value, setValue] = useState('Controlled')
-    const theme = useTheme()
     const subjectsList = useSubjects()
     const subjectsObj = subjectsList.reduce((acc, cur) => {
         acc[cur.id] = cur
@@ -29,44 +38,43 @@ export const TutorProfile = () => {
         setValue(event.target.value)
     }
     const [bioEdit, setBioEdit] = useState(true)
-    const matches = [
-        {
-            tutorId: 2727,
+    // const matches = [
+    //     {
+    //         tutorId: 2727,
 
-            username: 'Pedro',
+    //         username: 'Pedro',
 
-            avatar: 'https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/no-profile.png?alt=media',
+    //         avatar: 'https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/no-profile.png?alt=media',
 
-            subjectId: 4,
-        },
+    //         subjectId: 4,
+    //     },
 
-        {
-            tutorId: 2020,
+    //     {
+    //         tutorId: 2020,
 
-            username: 'manolo',
+    //         username: 'manolo',
 
-            avatar: 'https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/no-profile.png?alt=media',
+    //         avatar: 'https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/no-profile.png?alt=media',
 
-            subjectId: 5,
-        },
+    //         subjectId: 5,
+    //     },
 
-        {
-            tutorId: 2334,
+    //     {
+    //         tutorId: 2334,
 
-            username: 'Juanita',
+    //         username: 'Juanita',
 
-            avatar: 'https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/no-profile.png?alt=media',
+    //         avatar: 'https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/no-profile.png?alt=media',
 
-            subjectId: 2,
-        },
-    ]
+    //         subjectId: 2,
+    //     },
+    // ]
 
     const handleSubmit = (event) => {
         //TODO I need to make it so the user can actually DELETE their bio, not just update it
         //right now if the user send and empty bio the old one get written
         event.preventDefault()
         const data = new FormData(event.currentTarget)
-        const token = userData.token
         const bio = data.get('bio').length > 0 ? data.get('bio') : userData.bio
         const location =
             data.get('location').length > 0
@@ -75,7 +83,6 @@ export const TutorProfile = () => {
         updateUserInfo({
             bio,
             location,
-            token,
         })
         if (!bioEdit) {
             setBioEdit(true)
@@ -226,105 +233,106 @@ export const TutorProfile = () => {
             <Grid item xs={12} md={8}>
                 <Grid container>
                     <Grid item xs={4} ml={4}>
-                        <Typography>Latest Students</Typography>
-                        {matches.map((match) => {
-                            return (
-                                <Card
-                                    key={match.tutorId}
-                                    sx={{ display: 'flex', mb: 1 }}
-                                    onClick={() => {
-                                        alert('link to tutor profile by id')
-                                    }}
-                                >
-                                    <Avatar
-                                        image={match.avatar}
-                                        alt="match-avatar"
-                                        variant="square"
-                                        sx={{ width: 100, height: 100 }}
-                                    />
+                        <Typography>Accepted Students</Typography>
+                        {userData.tutorInfo.accepted.length === 0
+                            ? 'You have no students'
+                            : userData.tutorInfo.accepted.map((student) => {
+                                  return (
+                                      <Card
+                                          key={student.userId}
+                                          sx={{ display: 'flex', mb: 1 }}
+                                      >
+                                          <Avatar
+                                              src={student?.avatar}
+                                              alt="match-avatar"
+                                              variant="square"
+                                              component={Link}
+                                              to={`/${student.userId}/profile`}
+                                              sx={{ width: 100, height: 100 }}
+                                          />
 
-                                    <Box
-                                        sx={{
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                        }}
-                                    >
-                                        <CardContent sx={{ flex: '1 0 auto' }}>
-                                            <Typography
-                                                component="div"
-                                                variant="h6"
-                                                color="text.secondary"
-                                            >
-                                                {match.username}
-                                            </Typography>
-
-                                            <Typography
-                                                variant="subtitle1"
-                                                color="text.secondary"
-                                                component="div"
-                                            >
-                                                Subject:{' '}
-                                                {
-                                                    subjectsObj[match.subjectId]
-                                                        ?.subjectName
-                                                }
-                                            </Typography>
-                                        </CardContent>
-                                    </Box>
-                                </Card>
-                            )
-                        })}
+                                          <Box
+                                              sx={{
+                                                  display: 'flex',
+                                                  flexDirection: 'column',
+                                              }}
+                                          >
+                                              <CardContent
+                                                  sx={{ flex: '1 0 auto' }}
+                                              >
+                                                  <Typography
+                                                      component="div"
+                                                      variant="h6"
+                                                      color="text.secondary"
+                                                  >
+                                                      {student.username}
+                                                  </Typography>
+                                              </CardContent>
+                                          </Box>
+                                      </Card>
+                                  )
+                              })}
                     </Grid>
+                </Grid>
 
+                <Grid container>
                     <Grid item xs={4} ml={4}>
-                        <Typography>Latest Students</Typography>
-                        {matches.map((match) => {
-                            return (
-                                <Card
-                                    key={match.tutorId}
-                                    sx={{ display: 'flex', mb: 1 }}
-                                    onClick={() => {
-                                        alert('link to tutor profile by id')
-                                    }}
-                                >
-                                    <Avatar
-                                        image={match.avatar}
-                                        alt="match-avatar"
-                                        variant="square"
-                                        sx={{ width: 100, height: 100 }}
-                                    />
+                        <Typography>Requests</Typography>
+                        {userData.tutorInfo.requests.length === 0
+                            ? 'No new requests to show'
+                            : userData.tutorInfo.requests.map((request) => {
+                                  return (
+                                      <Card
+                                          key={request.userId}
+                                          sx={{ display: 'flex', mb: 1 }}
+                                      >
+                                          <Avatar
+                                              src={request?.avatar}
+                                              alt="match-avatar"
+                                              variant="square"
+                                              component={Link}
+                                              to={`/${request.userId}/profile`}
+                                              sx={{ width: 100, height: 100 }}
+                                          />
 
-                                    <Box
-                                        sx={{
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                        }}
-                                    >
-                                        <CardContent sx={{ flex: '1 0 auto' }}>
-                                            <Typography
-                                                component="div"
-                                                variant="h6"
-                                                color="text.secondary"
-                                            >
-                                                {match.username}
-                                            </Typography>
+                                          <Box
+                                              sx={{
+                                                  display: 'flex',
+                                                  flexDirection: 'column',
+                                              }}
+                                          >
+                                              <CardContent
+                                                  sx={{ flex: '1 0 auto' }}
+                                              >
+                                                  <Typography
+                                                      component="div"
+                                                      variant="h6"
+                                                      color="text.secondary"
+                                                  >
+                                                      {request.username}
+                                                  </Typography>
+                                                  <CheckIcon
+                                                      onClick={() => {
+                                                          acceptMatchRequest({
+                                                              studentId:
+                                                                  request.userId,
+                                                          })
+                                                      }}
+                                                  ></CheckIcon>
 
-                                            <Typography
-                                                variant="subtitle1"
-                                                color="text.secondary"
-                                                component="div"
-                                            >
-                                                Subject:{' '}
-                                                {
-                                                    subjectsObj[match.subjectId]
-                                                        ?.subjectName
-                                                }
-                                            </Typography>
-                                        </CardContent>
-                                    </Box>
-                                </Card>
-                            )
-                        })}
+                                                  <DoDisturbIcon
+                                                      onClick={() => {
+                                                          denyMatchRequest({
+                                                              studentId:
+                                                                  request.userId,
+                                                          })
+                                                      }}
+                                                  ></DoDisturbIcon>
+                                              </CardContent>
+                                          </Box>
+                                      </Card>
+                                  )
+                              })}
                     </Grid>
                 </Grid>
             </Grid>

@@ -18,6 +18,7 @@ import ReadMoreIcon from '@mui/icons-material/ReadMore'
 import GroupAddIcon from '@mui/icons-material/GroupAdd'
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../auth/Auth'
 
 const truncate = (input, max = 150) =>
     input.length > max ? `${input.substring(0, max)}...` : input
@@ -41,8 +42,10 @@ export function TutorCard({
     subjectImage,
     id,
     subjectName,
+    userId,
 }) {
     const [expanded, setExpanded] = React.useState(false)
+    const { sendMatchRequest } = useAuth()
 
     const handleExpandClick = () => {
         setExpanded(!expanded)
@@ -69,7 +72,15 @@ export function TutorCard({
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
+                <IconButton
+                    aria-label="request-match"
+                    onClick={() => {
+                        sendMatchRequest({ tutorId: id })
+                        // alert(
+                        //     `tutor ID I want to match ${id}... Current user id: ${userId}`
+                        // )
+                    }}
+                >
                     <FavoriteIcon />
                 </IconButton>
                 <IconButton

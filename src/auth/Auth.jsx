@@ -2,7 +2,10 @@ import { createContext, useContext, useState } from 'react'
 import { api, addAuthHeader, removeAuthHeader } from '../api'
 
 addAuthHeader()
-
+const setLocalData = (userData) => {
+    const localData = JSON.parse(localStorage.getItem('user'))
+    localStorage.setItem('user', JSON.stringify({ ...localData, ...userData }))
+}
 const AuthContext = createContext({
     userData: null,
     logIn: ({ email, password, onSuccess }) => {
@@ -26,6 +29,9 @@ const AuthContext = createContext({
     }) => ({}),
     updateUserInfo: ({ location, bio }) => ({}),
     uploadImage: (image) => ({}),
+    sendMatchRequest: ({ tutorId }) => ({}),
+    acceptMatchRequest: ({ studentId }) => ({}),
+    denyMatchRequest: ({ studentId }) => ({}),
 })
 
 export const AuthController = (props) => {
@@ -44,7 +50,7 @@ export const AuthController = (props) => {
         if (response.status === 200) {
             setUserData(response.data)
             console.log(userData)
-            localStorage.setItem('user', JSON.stringify(response.data))
+            setLocalData(response.data)
             addAuthHeader()
             if (onSuccess) {
                 onSuccess()
@@ -75,7 +81,7 @@ export const AuthController = (props) => {
         if (response.status === 201) {
             setUserData(response.data)
             console.log(userData)
-            localStorage.setItem('user', JSON.stringify(response.data))
+            setLocalData(response.data)
             addAuthHeader()
             if (onSuccess) {
                 onSuccess()
@@ -106,7 +112,7 @@ export const AuthController = (props) => {
         if (response.status === 201) {
             setUserData(response.data)
             console.log(userData)
-            localStorage.setItem('user', JSON.stringify(response.data))
+            setLocalData(response.data)
             addAuthHeader()
             if (onSuccess) {
                 onSuccess()
@@ -132,8 +138,7 @@ export const AuthController = (props) => {
         if (response.status === 200) {
             // console.log(response.data)
             setUserData(response.data)
-            addAuthHeader()
-            localStorage.setItem('user', JSON.stringify(response.data))
+            setLocalData(response.data)
         }
         if (response.status === 500) {
             console.log('error found')
@@ -153,11 +158,47 @@ export const AuthController = (props) => {
             // userData.avatar = response.data.image
             userData.avatar = response.data.image
             setUserData({ ...userData })
+            setLocalData(userData)
             // console.log(response.data.image)
         }
         if (response.status === 500) {
             setError(response.data.error)
         }
+    }
+    const sendMatchRequest = async ({ tutorId }) => {
+        if (tutorId === userData.id) {
+            console.log('Cannot match with yourself')
+            return
+        }
+        console.log(`Trying to match user ${userData.id} with tutor ${tutorId}`)
+        const response = await api.put('/users/request', { tutorId })
+        if (response.status === 200) {
+            alert('request sent')
+        }
+    }
+
+    const acceptMatchRequest = async ({ studentId }) => {
+        // console.log(`trying to accept ${studentId} as a student`)
+        const response = await api.put('/tutors/acceptRequest', { studentId })
+        if (response.status === 200) {
+            console.log('Student accepted')
+            userData.tutorInfo.accepted = response.data.accepted
+            userData.tutorInfo.requests = response.data.requests
+            setUserData({ ...userData })
+            setLocalData(userData)
+        }
+        // console.error(response.error)
+    }
+    const denyMatchRequest = async ({ studentId }) => {
+        console.log(`trying to accept ${studentId} as a student`)
+        const response = await api.put('/tutors/denyRequest', { studentId })
+        if (response.status === 200) {
+            console.log('Student deny')
+            userData.tutorInfo.requests = response.data.requests
+            setUserData({ ...userData })
+            setLocalData(userData)
+        }
+        // console.error(response.error)
     }
     return (
         <AuthContext.Provider
@@ -170,6 +211,9 @@ export const AuthController = (props) => {
                 registerTutor,
                 updateUserInfo,
                 uploadImage,
+                sendMatchRequest,
+                acceptMatchRequest,
+                denyMatchRequest,
             }}
         >
             {props.children}

@@ -106,6 +106,7 @@ export const LandingPage = () => {
                                                     tutor.tutorInfo.subjects
                                                 ]?.subjectName
                                             }
+                                            userId={userData.id}
                                         />
                                     </Grid>
                                 )
