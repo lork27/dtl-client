@@ -71,6 +71,11 @@ export const Header = () => {
                                     size="large"
                                     aria-label="show 17 new notifications"
                                     color="inherit"
+                                    onClick={() => {
+                                        document
+                                            .getElementById('linkprofile')
+                                            .click()
+                                    }}
                                 >
                                     <Badge
                                         badgeContent={
@@ -80,11 +85,6 @@ export const Header = () => {
                                                 : 0
                                         }
                                         color="success"
-                                        onClick={() => {
-                                            document
-                                                .getElementById('linkprofile')
-                                                .click()
-                                        }}
                                     >
                                         <Link
                                             to="/user/profile"
