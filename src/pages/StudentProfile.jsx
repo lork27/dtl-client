@@ -15,6 +15,8 @@ import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import EditIcon from '@mui/icons-material/Edit'
 
+import { Link } from 'react-router-dom'
+
 export const StudentProfile = () => {
     const { userData, updateUserInfo, error, uploadImage } = useAuth()
     const [value, setValue] = useState('Controlled')
@@ -176,55 +178,46 @@ export const StudentProfile = () => {
             </Grid>
             <Grid item xs={12} md={8}>
                 <Grid container>
-                    <Grid item xs={8}>
-                        <Typography>Latest matches</Typography>
-                        {userData.matches.map((match) => {
-                            return (
-                                <Card
-                                    key={match.tutorId}
-                                    sx={{ display: 'flex', mb: 1 }}
-                                    onClick={() => {
-                                        alert('link to tutor profile by id')
-                                    }}
-                                >
-                                    <Avatar
-                                        image={match.avatar}
-                                        alt="match-avatar"
-                                        variant="square"
-                                        sx={{ width: 100, height: 100 }}
-                                    />
+                    <Grid item xs={3} ml={4}>
+                        <Typography>Your tutors</Typography>
+                        {userData.matches.length === 0
+                            ? 'You have no tutors'
+                            : userData.matches.map((match) => {
+                                  return (
+                                      <Card
+                                          key={match.userId}
+                                          sx={{ display: 'flex', mb: 1 }}
+                                      >
+                                          <Avatar
+                                              src={match?.avatar}
+                                              alt="match-avatar"
+                                              variant="square"
+                                              component={Link}
+                                              to={`/${match.tutorId}/profile`}
+                                              sx={{ width: 100, height: 100 }}
+                                          />
 
-                                    <Box
-                                        sx={{
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                        }}
-                                    >
-                                        <CardContent sx={{ flex: '1 0 auto' }}>
-                                            <Typography
-                                                component="div"
-                                                variant="h6"
-                                                color="text.secondary"
-                                            >
-                                                {match.username}
-                                            </Typography>
-
-                                            <Typography
-                                                variant="subtitle1"
-                                                color="text.secondary"
-                                                component="div"
-                                            >
-                                                Subject:{' '}
-                                                {
-                                                    subjectsObj[match.subjectId]
-                                                        ?.subjectName
-                                                }
-                                            </Typography>
-                                        </CardContent>
-                                    </Box>
-                                </Card>
-                            )
-                        })}
+                                          <Box
+                                              sx={{
+                                                  display: 'flex',
+                                                  flexDirection: 'column',
+                                              }}
+                                          >
+                                              <CardContent
+                                                  sx={{ flex: '1 0 auto' }}
+                                              >
+                                                  <Typography
+                                                      component="div"
+                                                      variant="h6"
+                                                      color="text.secondary"
+                                                  >
+                                                      {match.username}
+                                                  </Typography>
+                                              </CardContent>
+                                          </Box>
+                                      </Card>
+                                  )
+                              })}
                     </Grid>
                 </Grid>
             </Grid>

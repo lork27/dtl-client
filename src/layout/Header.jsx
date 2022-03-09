@@ -5,7 +5,6 @@ import Toolbar from '@mui/material/Toolbar'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Menu from '@mui/material/Menu'
-import MenuIcon from '@mui/icons-material/Menu'
 import Container from '@mui/material/Container'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
@@ -15,6 +14,8 @@ import { useAuth } from '../auth/Auth'
 import { Link } from 'react-router-dom'
 import SvgIcon from '@mui/material/SvgIcon'
 import logo from '../assets/DTL_Logo.png'
+import Badge from '@mui/material/Badge'
+import NotificationsIcon from '@mui/icons-material/Notifications'
 
 function HomeIcon(props) {
     return (
@@ -65,6 +66,32 @@ export const Header = () => {
                     <Box sx={{ flexGrow: 0 }}>
                         {userData ? (
                             <>
+                                <IconButton
+                                    size="large"
+                                    aria-label="show 17 new notifications"
+                                    color="inherit"
+                                    onClick={() => {
+                                        document
+                                            .getElementById('linkprofile')
+                                            .click()
+                                    }}
+                                >
+                                    <Badge
+                                        badgeContent={
+                                            userData.tutorInfo
+                                                ? userData.tutorInfo?.requests
+                                                      .length
+                                                : 0
+                                        }
+                                        color="success"
+                                    >
+                                        <Link
+                                            to="/user/profile"
+                                            id="linkprofile"
+                                        ></Link>
+                                        <NotificationsIcon />
+                                    </Badge>
+                                </IconButton>
                                 <Tooltip title="Open settings">
                                     <IconButton
                                         onClick={handleOpenUserMenu}

@@ -1,28 +1,13 @@
-import { Subject, SubjectOutlined } from '@mui/icons-material'
-import Avatar from '@mui/material/Avatar'
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Card from '@mui/material/Card'
-import CardActions from '@mui/material/CardActions'
-import CardContent from '@mui/material/CardContent'
-import CardMedia from '@mui/material/CardMedia'
-import Container from '@mui/material/Container'
-import CssBaseline from '@mui/material/CssBaseline'
 import Grid from '@mui/material/Grid'
-import Link from '@mui/material/Link'
-import Stack from '@mui/material/Stack'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import Typography from '@mui/material/Typography'
-import * as React from 'react'
-import { Link as RouterDomLink } from 'react-router-dom'
-import { useAuth } from '../auth/Auth'
-import { useSubjects } from '../hooks/use-fetch-subjects'
-import { useAllTutors } from './../hooks/use-fetch-tutors'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
+import * as React from 'react'
+import { useAuth } from '../auth/Auth'
 import { TutorCard } from '../components/TutorCard'
+import { useSubjects } from '../hooks/use-fetch-subjects'
+import { useAllTutors } from './../hooks/use-fetch-tutors'
 
 //This page will be the user landingpage it needs to looks something like this...
 //https://cdn.discordapp.com/attachments/943515943760457738/943526139106820166/IMG_20220216_111546.jpg
@@ -41,7 +26,7 @@ export const LandingPage = () => {
     return (
         <div>
             <Grid container>
-                <Grid item xs={2}>
+                <Grid item xs={3} sm={3} md={2} ld={1}>
                     <List>
                         <ListItemButton onClick={() => setShownSubject(null)}>
                             <ListItemText>Show all</ListItemText>
@@ -68,9 +53,9 @@ export const LandingPage = () => {
                     </List>
                 </Grid>
 
-                <Grid item xs={10} padding={2}>
+                <Grid item xs={8} sm={9} md={10} ld={11} padding={1}>
                     {/* End hero unit */}
-                    <Grid container spacing={2} alignItems="stretch">
+                    <Grid container spacing={3} alignItems="stretch">
                         {tutors
                             .filter((tutor) => {
                                 if (!shownSubject) {
@@ -89,6 +74,7 @@ export const LandingPage = () => {
                                         xs={12}
                                         sm={6}
                                         md={4}
+                                        xl={3}
                                     >
                                         <TutorCard
                                             avatar={tutor.avatar}

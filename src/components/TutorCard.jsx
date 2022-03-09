@@ -75,7 +75,9 @@ export function TutorCard({
                 <IconButton
                     aria-label="request-match"
                     onClick={() => {
-                        sendMatchRequest({ tutorId: id })
+                        id
+                            ? sendMatchRequest({ tutorId: id })
+                            : document.getElementById('profileLink').click()
                         // alert(
                         //     `tutor ID I want to match ${id}... Current user id: ${userId}`
                         // )
@@ -86,7 +88,8 @@ export function TutorCard({
                 <IconButton
                     aria-label="share"
                     component={Link}
-                    to={`/${id}/profile`}
+                    to={id ? `/${id}/profile` : `/auth/register`}
+                    id="profileLink"
                 >
                     <ContentPasteSearchIcon />
                 </IconButton>
