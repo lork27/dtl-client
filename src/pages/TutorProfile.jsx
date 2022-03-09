@@ -14,9 +14,12 @@ import { Alert } from '@mui/material'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import EditIcon from '@mui/icons-material/Edit'
-import { Link } from 'react-router-dom'
+import { Link as RouterDomLink } from 'react-router-dom'
 import CheckIcon from '@mui/icons-material/Check'
 import DoDisturbIcon from '@mui/icons-material/DoDisturb'
+import Link from '@mui/material/Link'
+import Container from '@mui/material/Container'
+import { width } from '@mui/system'
 
 export const TutorProfile = () => {
     const {
@@ -26,6 +29,8 @@ export const TutorProfile = () => {
         uploadImage,
         acceptMatchRequest,
         denyMatchRequest,
+        updateTutorUrls,
+        uploadPortfolioImage,
     } = useAuth()
     const [value, setValue] = useState('Controlled')
     const subjectsList = useSubjects()
@@ -38,38 +43,6 @@ export const TutorProfile = () => {
         setValue(event.target.value)
     }
     const [bioEdit, setBioEdit] = useState(true)
-    // const matches = [
-    //     {
-    //         tutorId: 2727,
-
-    //         username: 'Pedro',
-
-    //         avatar: 'https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/no-profile.png?alt=media',
-
-    //         subjectId: 4,
-    //     },
-
-    //     {
-    //         tutorId: 2020,
-
-    //         username: 'manolo',
-
-    //         avatar: 'https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/no-profile.png?alt=media',
-
-    //         subjectId: 5,
-    //     },
-
-    //     {
-    //         tutorId: 2334,
-
-    //         username: 'Juanita',
-
-    //         avatar: 'https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/no-profile.png?alt=media',
-
-    //         subjectId: 2,
-    //     },
-    // ]
-
     const handleSubmit = (event) => {
         //TODO I need to make it so the user can actually DELETE their bio, not just update it
         //right now if the user send and empty bio the old one get written
@@ -80,10 +53,20 @@ export const TutorProfile = () => {
             data.get('location').length > 0
                 ? data.get('location')
                 : userData.location
+        const url1 =
+            data.get('url1').length > 0
+                ? data.get('url1')
+                : userData.tutorInfo.urls[0]
+        const url2 =
+            data.get('url2').length > 0
+                ? data.get('url2')
+                : userData.tutorInfo.urls[1]
         updateUserInfo({
             bio,
             location,
         })
+        updateTutorUrls({ urls: [url1, url2] })
+
         if (!bioEdit) {
             setBioEdit(true)
         }
@@ -95,20 +78,19 @@ export const TutorProfile = () => {
             sx={{
                 mt: 2,
                 mx: 8,
-                display: 'flex',
+                // display: 'flex',
                 // flexDirection: 'column',
             }}
         >
-            {/* {console.log('inside return of profile')}
-            {console.log(userData.token)} */}
-            <Grid mr={3}>
+            {/* this grid contains tutor card */}
+            <Grid md={3} lg={3} xl={2}>
                 <Card>
                     <Grid>
-                        <CardContent sx={{ width: 300 }}>
+                        <CardContent sx={{ width: '100%' }}>
                             <Avatar
                                 alt="dtl-user-avatar"
                                 src={userData.avatar}
-                                sx={{ width: 250, height: 250 }}
+                                sx={{ width: 200, height: 200 }}
                             />
                             <IconButton
                                 onClick={() => {
@@ -171,6 +153,36 @@ export const TutorProfile = () => {
                                             ? userData.bio
                                             : `Placeholder bio, you should update it!`}
                                     </Typography>
+
+                                    <Typography color="text.secondary" mt={2}>
+                                        URL:{' '}
+                                        {userData.tutorInfo.urls[0] ? (
+                                            <Link
+                                                href={
+                                                    userData.tutorInfo.urls[0]
+                                                }
+                                            >
+                                                {userData.tutorInfo.urls[0]}
+                                            </Link>
+                                        ) : (
+                                            ''
+                                        )}
+                                    </Typography>
+
+                                    <Typography color="text.secondary" mt={2}>
+                                        URL:{' '}
+                                        {userData.tutorInfo.urls[1] ? (
+                                            <Link
+                                                href={
+                                                    userData.tutorInfo.urls[1]
+                                                }
+                                            >
+                                                {userData.tutorInfo.urls[1]}
+                                            </Link>
+                                        ) : (
+                                            ''
+                                        )}
+                                    </Typography>
                                     <Typography color="text.secondary" mt={2}>
                                         Location: {userData.location}
                                     </Typography>
@@ -199,6 +211,29 @@ export const TutorProfile = () => {
                                             name="bio"
                                             rows={4}
                                         />
+
+                                        <TextField
+                                            id="outlined-basic"
+                                            label={
+                                                userData.tutorInfo.urls[0]
+                                                    ? userData.tutorInfo.urls[0]
+                                                    : 'Portfolio URL'
+                                            }
+                                            variant="outlined"
+                                            name="url1"
+                                        />
+
+                                        <TextField
+                                            id="outlined-basic"
+                                            label={
+                                                userData.tutorInfo.urls[1]
+                                                    ? userData.tutorInfo.urls[1]
+                                                    : 'Portfolio URL'
+                                            }
+                                            variant="outlined"
+                                            name="url2"
+                                        />
+
                                         <TextField
                                             id="outlined-basic"
                                             label={
@@ -230,7 +265,9 @@ export const TutorProfile = () => {
                     </Grid>
                 </Card>
             </Grid>
-            <Grid item xs={12} md={8}>
+
+            {/* this grid contains users pillars */}
+            <Grid item xs={12} md={6} lg={6} xl={8} sx={{ marginLeft: 4 }}>
                 <Grid container>
                     <Grid item xs={3}>
                         <Typography>Accepted Students</Typography>
@@ -246,7 +283,7 @@ export const TutorProfile = () => {
                                               src={student?.avatar}
                                               alt="match-avatar"
                                               variant="square"
-                                              component={Link}
+                                              component={RouterDomLink}
                                               to={`/${student.userId}/profile`}
                                               sx={{ width: 100, height: 100 }}
                                           />
@@ -258,7 +295,7 @@ export const TutorProfile = () => {
                                               }}
                                           >
                                               <CardContent
-                                                  sx={{ flex: '1 0 auto' }}
+                                              //   sx={{ flex: '1 0 auto' }}
                                               >
                                                   <Typography
                                                       component="div"
@@ -274,7 +311,7 @@ export const TutorProfile = () => {
                               })}
                     </Grid>
 
-                    <Grid item xs={3} ml={2}>
+                    <Grid item xs={3} ml={1}>
                         <Typography>Requests</Typography>
                         {userData.tutorInfo.requests.length === 0
                             ? 'No new requests to show'
@@ -288,7 +325,7 @@ export const TutorProfile = () => {
                                               src={request?.avatar}
                                               alt="match-avatar"
                                               variant="square"
-                                              component={Link}
+                                              component={RouterDomLink}
                                               to={`/${request.userId}/profile`}
                                               sx={{ width: 100, height: 100 }}
                                           />
@@ -333,7 +370,7 @@ export const TutorProfile = () => {
                               })}
                     </Grid>
 
-                    <Grid item xs={3} ml={4}>
+                    <Grid item xs={3} ml={1}>
                         <Typography>Your tutors</Typography>
                         {userData.matches.length === 0
                             ? 'You have no tutors'
@@ -347,7 +384,7 @@ export const TutorProfile = () => {
                                               src={match?.avatar}
                                               alt="match-avatar"
                                               variant="square"
-                                              component={Link}
+                                              component={RouterDomLink}
                                               to={`/${match.tutorId}/profile`}
                                               sx={{ width: 100, height: 100 }}
                                           />
@@ -375,6 +412,60 @@ export const TutorProfile = () => {
                               })}
                     </Grid>
                 </Grid>
+            </Grid>
+
+            {/* this grid contains tutor images */}
+            <Grid item xs={12} md={12} lg={4} mt={2}>
+                <Grid id="gallery">
+                    {userData.tutorInfo?.imgs?.length > 0 ? (
+                        <Grid container>
+                            {userData?.tutorInfo?.imgs.map((img, i) => {
+                                return (
+                                    <Grid
+                                        item
+                                        xs={
+                                            userData.tutorInfo?.imgs > 1
+                                                ? 4
+                                                : 12
+                                        }
+                                    >
+                                        <img
+                                            key={i}
+                                            src={img}
+                                            style={
+                                                userData.tutorInfo?.imgs > 1
+                                                    ? { width: '100%' }
+                                                    : { width: '100%' }
+                                            }
+                                        />
+                                    </Grid>
+                                )
+                            })}
+                        </Grid>
+                    ) : (
+                        <p>This user has no portfolio images</p>
+                    )}
+                </Grid>
+
+                <IconButton
+                    onClick={() => {
+                        document.getElementById('portfolioImage').click()
+                    }}
+                    className="button"
+                >
+                    <EditIcon color="primary" />
+                </IconButton>
+
+                <input
+                    type="file"
+                    multiple
+                    id="portfolioImage"
+                    accept="image/*"
+                    hidden="hidden"
+                    onChange={(e) => {
+                        uploadPortfolioImage(e.target.files[0])
+                    }}
+                />
             </Grid>
 
             {/* {error && <Alert severity="error">{error}</Alert>} */}

@@ -73,7 +73,7 @@ export const OtherUserProfile = () => {
                     )}
                 </Grid>
                 <Grid id="gallery" item xs={12} md={8}>
-                    {userInfo.tutorInfo?.imgs.length > 0 ? (
+                    {userInfo.tutorInfo?.imgs?.length > 0 ? (
                         <Grid container>
                             {userInfo?.tutorInfo?.imgs.map((img, i) => {
                                 return (
@@ -95,7 +95,7 @@ export const OtherUserProfile = () => {
                             })}
                         </Grid>
                     ) : (
-                        <p>nada</p>
+                        <p>This user has no portfolio images</p>
                     )}
                 </Grid>
             </Grid>

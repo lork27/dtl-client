@@ -32,6 +32,8 @@ const AuthContext = createContext({
     sendMatchRequest: ({ tutorId }) => ({}),
     acceptMatchRequest: ({ studentId }) => ({}),
     denyMatchRequest: ({ studentId }) => ({}),
+    updateTutorUrls: ({ urls }) => ({}),
+    uploadPortfolioImage: (image) => ({}),
 })
 
 export const AuthController = (props) => {
@@ -200,6 +202,49 @@ export const AuthController = (props) => {
         }
         // console.error(response.error)
     }
+
+    const updateTutorUrls = async ({ urls }) => {
+        console.log(urls)
+        if (
+            userData.tutorInfo.urls[0] === urls[0] &&
+            userData.tutorInfo.urls[1] === urls[1]
+        ) {
+            console.log('urls not updated')
+            return
+        }
+        const response = await api.put('/tutors/edit-profile', { urls })
+        if (response.status === 200) {
+            console.log('URLs updated!')
+            userData.tutorInfo.urls = response.data.urls
+            setUserData({ ...userData })
+            setLocalData(userData)
+        } else {
+            alert("Couldn't upload URLs")
+        }
+    }
+
+    const uploadPortfolioImage = async (file) => {
+        if (userData.tutorInfo.imgs.length > 5) {
+            alert(
+                'Cannot upload more than 6 pictures, a way to remove old portfolio pictures is coming soon!'
+            )
+            return
+        }
+        const formData = new FormData()
+        formData.append('image', file, file.name)
+        const response = await api.put('/tutors/image', formData)
+        if (response.status === 200) {
+            // console.log(userData.avatar)
+            // userData.avatar = response.data.image
+            userData.tutorInfo.imgs = response.data.imgs
+            setUserData({ ...userData })
+            setLocalData(userData)
+            // console.log(response.data.image)
+        }
+        if (response.status === 500) {
+            setError(response.data.error)
+        }
+    }
     return (
         <AuthContext.Provider
             value={{
@@ -214,6 +259,8 @@ export const AuthController = (props) => {
                 sendMatchRequest,
                 acceptMatchRequest,
                 denyMatchRequest,
+                updateTutorUrls,
+                uploadPortfolioImage,
             }}
         >
             {props.children}
