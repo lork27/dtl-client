@@ -232,11 +232,11 @@ export const TutorProfile = () => {
             </Grid>
             <Grid item xs={12} md={8}>
                 <Grid container>
-                    <Grid item xs={4} ml={4}>
+                    <Grid item xs={3}>
                         <Typography>Accepted Students</Typography>
-                        {userData.tutorInfo.accepted.length === 0
+                        {userData.tutorInfo?.accepted.length === 0
                             ? 'You have no students'
-                            : userData.tutorInfo.accepted.map((student) => {
+                            : userData.tutorInfo?.accepted.map((student) => {
                                   return (
                                       <Card
                                           key={student.userId}
@@ -273,10 +273,8 @@ export const TutorProfile = () => {
                                   )
                               })}
                     </Grid>
-                </Grid>
 
-                <Grid container>
-                    <Grid item xs={4} ml={4}>
+                    <Grid item xs={3} ml={2}>
                         <Typography>Requests</Typography>
                         {userData.tutorInfo.requests.length === 0
                             ? 'No new requests to show'
@@ -328,6 +326,48 @@ export const TutorProfile = () => {
                                                           })
                                                       }}
                                                   ></DoDisturbIcon>
+                                              </CardContent>
+                                          </Box>
+                                      </Card>
+                                  )
+                              })}
+                    </Grid>
+
+                    <Grid item xs={3} ml={4}>
+                        <Typography>Your tutors</Typography>
+                        {userData.matches.length === 0
+                            ? 'You have no tutors'
+                            : userData.matches.map((match) => {
+                                  return (
+                                      <Card
+                                          key={match.userId}
+                                          sx={{ display: 'flex', mb: 1 }}
+                                      >
+                                          <Avatar
+                                              src={match?.avatar}
+                                              alt="match-avatar"
+                                              variant="square"
+                                              component={Link}
+                                              to={`/${match.tutorId}/profile`}
+                                              sx={{ width: 100, height: 100 }}
+                                          />
+
+                                          <Box
+                                              sx={{
+                                                  display: 'flex',
+                                                  flexDirection: 'column',
+                                              }}
+                                          >
+                                              <CardContent
+                                                  sx={{ flex: '1 0 auto' }}
+                                              >
+                                                  <Typography
+                                                      component="div"
+                                                      variant="h6"
+                                                      color="text.secondary"
+                                                  >
+                                                      {match.username}
+                                                  </Typography>
                                               </CardContent>
                                           </Box>
                                       </Card>

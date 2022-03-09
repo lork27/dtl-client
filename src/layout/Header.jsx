@@ -15,6 +15,8 @@ import { useAuth } from '../auth/Auth'
 import { Link } from 'react-router-dom'
 import SvgIcon from '@mui/material/SvgIcon'
 import logo from '../assets/DTL_Logo.png'
+import Badge from '@mui/material/Badge'
+import NotificationsIcon from '@mui/icons-material/Notifications'
 
 function HomeIcon(props) {
     return (
@@ -65,6 +67,32 @@ export const Header = () => {
                     <Box sx={{ flexGrow: 0 }}>
                         {userData ? (
                             <>
+                                <IconButton
+                                    size="large"
+                                    aria-label="show 17 new notifications"
+                                    color="inherit"
+                                >
+                                    <Badge
+                                        badgeContent={
+                                            userData.tutorInfo
+                                                ? userData.tutorInfo?.requests
+                                                      .length
+                                                : 0
+                                        }
+                                        color="success"
+                                        onClick={() => {
+                                            document
+                                                .getElementById('linkprofile')
+                                                .click()
+                                        }}
+                                    >
+                                        <Link
+                                            to="/user/profile"
+                                            id="linkprofile"
+                                        ></Link>
+                                        <NotificationsIcon />
+                                    </Badge>
+                                </IconButton>
                                 <Tooltip title="Open settings">
                                     <IconButton
                                         onClick={handleOpenUserMenu}

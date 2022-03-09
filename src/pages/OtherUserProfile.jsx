@@ -11,6 +11,9 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import { SmallInfoBox } from '../components/SmallInfoBox'
 import Typography from '@mui/material/Typography'
+import LocationOnIcon from '@mui/icons-material/LocationOn'
+import InfoIcon from '@mui/icons-material/Info'
+import LinkIcon from '@mui/icons-material/Link'
 
 export const OtherUserProfile = () => {
     const { userData } = useAuth()
@@ -31,15 +34,15 @@ export const OtherUserProfile = () => {
         getUserInfo(id)
     }, [])
     return (
-        <Container sx={{ padding: 12 }}>
+        <Container sx={{ padding: 10 }}>
             <Grid container>
-                <Grid id="userInfo" item xs={6}>
+                <Grid id="userInfo" item xs={12} md={4}>
                     <Avatar
                         alt="profile-avatar"
                         src={userInfo?.avatar}
                         sx={{ width: 200, height: 200 }}
                     />
-                    <Typography variant="h5" padding={4}>
+                    <Typography variant="h5" padding={3}>
                         {userInfo?.username}
                     </Typography>
 
@@ -49,33 +52,27 @@ export const OtherUserProfile = () => {
                     />
 
                     <SmallInfoBox
-                        icon={<AlternateEmailIcon />}
+                        icon={<LocationOnIcon />}
                         value={userInfo?.location}
                     />
 
-                    <SmallInfoBox
-                        icon={<AlternateEmailIcon />}
-                        value={userInfo?.bio}
-                    />
+                    <SmallInfoBox icon={<InfoIcon />} value={userInfo?.bio} />
 
                     {console.log(userInfo.tutorInfo?.urls.length)}
                     {userInfo.tutorInfo?.urls.length === 0 ? (
-                        <SmallInfoBox
-                            icon={<AlternateEmailIcon />}
-                            value="No links"
-                        />
+                        <SmallInfoBox icon={<LinkIcon />} value="No links" />
                     ) : (
                         userInfo.tutorInfo?.urls.map((url) => {
                             return (
                                 <SmallInfoBox
-                                    icon={<AlternateEmailIcon />}
+                                    icon={<LinkIcon />}
                                     value={<a href={url}>{url}</a>}
                                 />
                             )
                         })
                     )}
                 </Grid>
-                <Grid id="gallery" item xs={6}>
+                <Grid id="gallery" item xs={12} md={8}>
                     {userInfo.tutorInfo?.imgs.length > 0 ? (
                         <Grid container>
                             {userInfo?.tutorInfo?.imgs.map((img, i) => {
