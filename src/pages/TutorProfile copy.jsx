@@ -78,7 +78,7 @@ export const TutorProfile = () => {
             sx={{
                 mt: 2,
                 mx: 8,
-                display: 'flex',
+                // display: 'flex',
                 // flexDirection: 'column',
             }}
         >
@@ -269,9 +269,8 @@ export const TutorProfile = () => {
             {/* this grid contains users pillars */}
             <Grid item xs={12} md={6} lg={6} xl={8} sx={{ marginLeft: 4 }}>
                 <Grid container>
-                    {/* grid with accepted students */}
                     <Grid item xs={3}>
-                        <Typography variant="h6">Accepted Students</Typography>
+                        <Typography>Accepted Students</Typography>
                         {userData.tutorInfo?.accepted.length === 0
                             ? 'You have no students'
                             : userData.tutorInfo?.accepted.map((student) => {
@@ -312,9 +311,8 @@ export const TutorProfile = () => {
                               })}
                     </Grid>
 
-                    {/* grid with requests */}
                     <Grid item xs={3} ml={1}>
-                        <Typography variant="h6">Requests</Typography>
+                        <Typography>Requests</Typography>
                         {userData.tutorInfo.requests.length === 0
                             ? 'No new requests to show'
                             : userData.tutorInfo.requests.map((request) => {
@@ -371,9 +369,9 @@ export const TutorProfile = () => {
                                   )
                               })}
                     </Grid>
-                    {/* grid with your tutors */}
+
                     <Grid item xs={3} ml={1}>
-                        <Typography variant="h6">Your tutors</Typography>
+                        <Typography>Your tutors</Typography>
                         {userData.matches.length === 0
                             ? 'You have no tutors'
                             : userData.matches.map((match) => {
@@ -434,15 +432,14 @@ export const TutorProfile = () => {
                                         <img
                                             key={i}
                                             src={img}
-                                            style={{ width: '100%' }}
-                                            // style={
-                                            //     userData.tutorInfo?.imgs
-                                            //         .length !== 1
-                                            //         ? {
-                                            //               height: '115px',
-                                            //           }
-                                            //         : { width: '100%' }
-                                            // }
+                                            style={
+                                                userData.tutorInfo?.imgs
+                                                    .length > 1
+                                                    ? {
+                                                          height: '115px',
+                                                      }
+                                                    : { width: '100%' }
+                                            }
                                             // style={
                                             //     userData.tutorInfo?.imgs > 1
                                             //         ? { width: '100%' }

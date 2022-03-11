@@ -125,10 +125,13 @@ export const AuthController = (props) => {
         }
     }
 
-    const logOut = () => {
+    const logOut = ({ onSuccess }) => {
         localStorage.removeItem('user')
         removeAuthHeader()
         setUserData(null)
+        if (onSuccess) {
+            onSuccess()
+        }
     }
 
     const updateUserInfo = async ({ location, bio }) => {

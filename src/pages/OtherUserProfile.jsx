@@ -33,6 +33,9 @@ export const OtherUserProfile = () => {
     useEffect(() => {
         getUserInfo(id)
     }, [])
+    console.log('imgs length')
+    console.log(userData.tutorInfo.imgs.length)
+    console.log('after length')
     return (
         <Container sx={{ padding: 10 }}>
             <Grid container>
@@ -73,6 +76,7 @@ export const OtherUserProfile = () => {
                     )}
                 </Grid>
                 <Grid id="gallery" item xs={12} md={8}>
+                    <Typography>Portfolio images</Typography>
                     {userInfo.tutorInfo?.imgs?.length > 0 ? (
                         <Grid container>
                             {userInfo?.tutorInfo?.imgs.map((img, i) => {
@@ -80,7 +84,7 @@ export const OtherUserProfile = () => {
                                     <Grid
                                         item
                                         xs={
-                                            userInfo.tutorInfo?.imgs > 1
+                                            userInfo.tutorInfo?.imgs.length > 1
                                                 ? 4
                                                 : 12
                                         }
@@ -88,6 +92,12 @@ export const OtherUserProfile = () => {
                                         <img
                                             key={i}
                                             src={img}
+                                            // style={
+                                            //     userData.tutorInfo?.imgs
+                                            //         .length > 1
+                                            //         ? { width: '100%' }
+                                            //         : { width: '50%' }
+                                            // }
                                             style={{ width: '100%' }}
                                         />
                                     </Grid>

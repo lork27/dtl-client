@@ -75,7 +75,7 @@ export function RegisterTutor() {
                                 required
                                 fullWidth
                                 id="userName"
-                                label="user Name"
+                                label="username"
                                 autoFocus
                             />
                         </Grid>

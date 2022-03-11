@@ -11,7 +11,7 @@ import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import { useAuth } from '../auth/Auth'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import SvgIcon from '@mui/material/SvgIcon'
 import logo from '../assets/DTL_Logo.png'
 import Badge from '@mui/material/Badge'
@@ -26,6 +26,7 @@ function HomeIcon(props) {
 }
 
 export const Header = () => {
+    const navigate = useNavigate()
     const { userData, logOut } = useAuth()
     const [anchorElUser, setAnchorElUser] = React.useState(null)
 
@@ -128,7 +129,15 @@ export const Header = () => {
                                         </Typography>
                                     </MenuItem>
 
-                                    <MenuItem onClick={logOut}>
+                                    <MenuItem
+                                        onClick={() => {
+                                            logOut({
+                                                onSuccess: () => {
+                                                    navigate('/')
+                                                },
+                                            })
+                                        }}
+                                    >
                                         <Typography textAlign="center">
                                             Logout
                                         </Typography>
