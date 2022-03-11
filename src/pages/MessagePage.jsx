@@ -7,10 +7,26 @@ import React from 'react'
 export function MessagePage() {
     // const [chat, setChat] = useState("")
     // const [text, setText] = useState("")
+    //   const [msgs, setMsgs] = useState([]);
 
     // const selectUser = (user) => {
     // function to select which user I will be messaging
-    // setChat(user)
+    
+        // setChat(user);
+    
+        // const user2 = user.uid;
+        // const id = user1 > user2 ? `${user1 + user2}` : `${user2 + user1}`;
+    
+        // const msgsRef = collection(db, "messages", id, "chat");
+        // const q = query(msgsRef, orderBy("createdAt", "asc"));
+   // This is to show the messages 
+        // onSnapshot(q, (querySnapshot) => {
+        //   let msgs = [];
+        //   querySnapshot.forEach((doc) => {
+        //     msgs.push(doc.data());
+        //   });
+        //   setMsgs(msgs);
+        // });
     // }
 
     // function to send the message
@@ -69,6 +85,14 @@ export function MessagePage() {
                 <div className="messages_user"> */}
             {/* <h3>{chat.name}</h3> */}
             {/* </div> 
+            // gets the messages
+            <div className="messages">
+              {msgs.length
+                ? msgs.map((msg, i) => (
+                    <Message key={i} msg={msg} user1={user1} />
+                  ))
+                : null}
+            </div>
             <MessageForm 
             handleSubmit={handleSubmit}
               text={text}
