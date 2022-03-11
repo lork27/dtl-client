@@ -16,6 +16,7 @@ import SvgIcon from '@mui/material/SvgIcon'
 import logo from '../assets/DTL_Logo.png'
 import Badge from '@mui/material/Badge'
 import NotificationsIcon from '@mui/icons-material/Notifications'
+import ChatBubbleIcon from '@mui/icons-material/ChatBubble'
 
 function HomeIcon(props) {
     return (
@@ -64,6 +65,7 @@ export const Header = () => {
                         }}
                     ></Box>
                     <Box sx={{ flexGrow: 0 }}>
+                        {/* This is for notifications*/}
                         {userData ? (
                             <>
                                 <IconButton
@@ -90,6 +92,38 @@ export const Header = () => {
                                             id="linkprofile"
                                         ></Link>
                                         <NotificationsIcon />
+                                    </Badge>
+                                </IconButton>
+                                {/* This is for Messages*/}
+                                <IconButton
+                                    size="large"
+                                    aria-label="show 17 new notifications"
+                                    color="inherit"
+                                    // for now it takes back to the landing page, but it will take you to message page
+                                    component={Link}
+                                    to="/user/messages"
+                                >
+                                    {/* // onClick={() => {
+                                    //     document
+                                    //         .getElementById('linkprofile')
+                                    //         .click()
+                                    // }}
+                                // > */}
+                                    <Badge
+                                        // messages will be here
+                                        badgeContent={
+                                            userData.tutorInfo
+                                                ? userData.tutorInfo?.requests
+                                                      .length
+                                                : 0
+                                        }
+                                        color="success"
+                                    >
+                                        <Link
+                                            to="/user/profile"
+                                            id="linkmessages"
+                                        ></Link>
+                                        <ChatBubbleIcon />
                                     </Badge>
                                 </IconButton>
                                 <Tooltip title="Open settings">
