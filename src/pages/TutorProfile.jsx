@@ -19,7 +19,7 @@ import CheckIcon from '@mui/icons-material/Check'
 import DoDisturbIcon from '@mui/icons-material/DoDisturb'
 import Link from '@mui/material/Link'
 import Container from '@mui/material/Container'
-import { width } from '@mui/system'
+import { StyledRating } from '../components/StyledRating'
 
 export const TutorProfile = () => {
     const {
@@ -31,6 +31,8 @@ export const TutorProfile = () => {
         denyMatchRequest,
         updateTutorUrls,
         uploadPortfolioImage,
+        reviewStudent,
+        reviewTutor,
     } = useAuth()
     const [value, setValue] = useState('Controlled')
     const subjectsList = useSubjects()
@@ -43,6 +45,8 @@ export const TutorProfile = () => {
         setValue(event.target.value)
     }
     const [bioEdit, setBioEdit] = useState(true)
+    const [userScore, setUserScore] = useState(null)
+    // const [bioEdit, setBioEdit] = useState(true)
     const handleSubmit = (event) => {
         //TODO I need to make it so the user can actually DELETE their bio, not just update it
         //right now if the user send and empty bio the old one get written
@@ -71,7 +75,9 @@ export const TutorProfile = () => {
             setBioEdit(true)
         }
     }
+
     // console.log(bioEdit)
+    console.log(userData.tutorInfo.accepted)
     return (
         <Grid
             container
@@ -274,42 +280,85 @@ export const TutorProfile = () => {
                         <Typography variant="h6">Accepted Students</Typography>
                         {userData.tutorInfo?.accepted.length === 0
                             ? 'You have no students'
-                            : userData.tutorInfo?.accepted.map((student) => {
-                                  return (
-                                      <Card
-                                          key={student.userId}
-                                          sx={{ display: 'flex', mb: 1 }}
-                                      >
-                                          <Avatar
-                                              src={student?.avatar}
-                                              alt="match-avatar"
-                                              variant="square"
-                                              component={RouterDomLink}
-                                              to={`/${student.userId}/profile`}
-                                              sx={{ width: 100, height: 100 }}
-                                          />
-
-                                          <Box
-                                              sx={{
-                                                  display: 'flex',
-                                                  flexDirection: 'column',
-                                              }}
+                            : userData.tutorInfo?.accepted.map(
+                                  (student, index) => {
+                                      console.log(index)
+                                      return (
+                                          <Card
+                                              key={index}
+                                              sx={{ display: 'flex', mb: 1 }}
                                           >
-                                              <CardContent
-                                              //   sx={{ flex: '1 0 auto' }}
+                                              <Avatar
+                                                  src={student?.avatar}
+                                                  alt="match-avatar"
+                                                  variant="square"
+                                                  component={RouterDomLink}
+                                                  to={`/${student.userId}/profile`}
+                                                  sx={{
+                                                      width: 100,
+                                                      height: 100,
+                                                  }}
+                                              />
+
+                                              <Box
+                                                  sx={{
+                                                      display: 'flex',
+                                                      flexDirection: 'column',
+                                                  }}
                                               >
-                                                  <Typography
-                                                      component="div"
-                                                      variant="h6"
-                                                      color="text.secondary"
+                                                  <CardContent
+                                                  //   sx={{ flex: '1 0 auto' }}
                                                   >
-                                                      {student.username}
-                                                  </Typography>
-                                              </CardContent>
-                                          </Box>
-                                      </Card>
-                                  )
-                              })}
+                                                      <Typography
+                                                          component="div"
+                                                          variant="h6"
+                                                          color="text.secondary"
+                                                      >
+                                                          {student.username}
+                                                      </Typography>
+                                                      {student.scoreGiven ? (
+                                                          <StyledRating
+                                                              name="studen-reviewed"
+                                                              value={
+                                                                  student.scoreGiven
+                                                              }
+                                                              disabled
+                                                          />
+                                                      ) : (
+                                                          <StyledRating
+                                                              name="rate-student"
+                                                              id="rate-student"
+                                                              value={
+                                                                  student.scoreGiven
+                                                              }
+                                                              onChange={(
+                                                                  event
+                                                              ) => {
+                                                                  //   console.log(
+                                                                  //       event.target
+                                                                  //           .value
+                                                                  //   )
+                                                                  reviewStudent(
+                                                                      {
+                                                                          studentId:
+                                                                              student.userId,
+                                                                          review: parseInt(
+                                                                              event
+                                                                                  .target
+                                                                                  .value
+                                                                          ),
+                                                                          index,
+                                                                      }
+                                                                  )
+                                                              }}
+                                                          />
+                                                      )}
+                                                  </CardContent>
+                                              </Box>
+                                          </Card>
+                                      )
+                                  }
+                              )}
                     </Grid>
 
                     {/* grid with requests */}
@@ -376,10 +425,10 @@ export const TutorProfile = () => {
                         <Typography variant="h6">Your tutors</Typography>
                         {userData.matches.length === 0
                             ? 'You have no tutors'
-                            : userData.matches.map((match) => {
+                            : userData.matches.map((match, index) => {
                                   return (
                                       <Card
-                                          key={match.userId}
+                                          key={index}
                                           sx={{ display: 'flex', mb: 1 }}
                                       >
                                           <Avatar
@@ -407,6 +456,40 @@ export const TutorProfile = () => {
                                                   >
                                                       {match.username}
                                                   </Typography>
+
+                                                  {match.scoreGiven ? (
+                                                      <StyledRating
+                                                          name="match-reviewed"
+                                                          value={
+                                                              match.scoreGiven
+                                                          }
+                                                          disabled
+                                                      />
+                                                  ) : (
+                                                      <StyledRating
+                                                          name="rate-match"
+                                                          id="rate-match"
+                                                          value={
+                                                              match.scoreGiven
+                                                          }
+                                                          onChange={(event) => {
+                                                              //   console.log(
+                                                              //       event.target
+                                                              //           .value
+                                                              //   )
+                                                              reviewTutor({
+                                                                  tutorId:
+                                                                      match.tutorId,
+                                                                  review: parseInt(
+                                                                      event
+                                                                          .target
+                                                                          .value
+                                                                  ),
+                                                                  index,
+                                                              })
+                                                          }}
+                                                      />
+                                                  )}
                                               </CardContent>
                                           </Box>
                                       </Card>
@@ -418,6 +501,7 @@ export const TutorProfile = () => {
 
             {/* this grid contains tutor images */}
             <Grid item xs={12} md={12} lg={4} mt={2}>
+                <Typography>You portfolio pictures</Typography>
                 <Grid id="gallery">
                     {userData.tutorInfo?.imgs?.length > 0 ? (
                         <Grid container>

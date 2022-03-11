@@ -34,6 +34,8 @@ const AuthContext = createContext({
     denyMatchRequest: ({ studentId }) => ({}),
     updateTutorUrls: ({ urls }) => ({}),
     uploadPortfolioImage: (image) => ({}),
+    reviewStudent: ({ studentId, review, index }) => ({}),
+    reviewTutor: ({ tutorId, review, index }) => ({}),
 })
 
 export const AuthController = (props) => {
@@ -248,6 +250,41 @@ export const AuthController = (props) => {
             setError(response.data.error)
         }
     }
+    const reviewStudent = async ({ studentId, review, index }) => {
+        console.log({ studentId, review })
+        const response = await api.put('/tutors/reviewStudent', {
+            studentId,
+            review,
+        })
+        if (response.status === 200) {
+            userData.tutorInfo.accepted[index].reviewed = true
+            userData.tutorInfo.accepted[index].scoreGiven = review
+            setUserData({ ...userData })
+            setLocalData(userData)
+        }
+        if (response.status === 400) {
+            alert('you already reviewed this student!')
+            console.log('you already reviewed this student!')
+        }
+    }
+
+    const reviewTutor = async ({ tutorId, review, index }) => {
+        console.log({ tutorId, review })
+        const response = await api.put('/tutors/reviewTutor', {
+            tutorId,
+            review,
+        })
+        if (response.status === 200) {
+            userData.matches[index].reviewed = true
+            userData.matches[index].scoreGiven = review
+            setUserData({ ...userData })
+            setLocalData(userData)
+        }
+        if (response.status === 400) {
+            alert('you already reviewed this student!')
+            console.log('you already reviewed this student!')
+        }
+    }
     return (
         <AuthContext.Provider
             value={{
@@ -264,6 +301,8 @@ export const AuthController = (props) => {
                 denyMatchRequest,
                 updateTutorUrls,
                 uploadPortfolioImage,
+                reviewStudent,
+                reviewTutor,
             }}
         >
             {props.children}

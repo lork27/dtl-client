@@ -15,10 +15,12 @@ import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import EditIcon from '@mui/icons-material/Edit'
 
-import { Link } from 'react-router-dom'
+import { Link as RouterDomLink } from 'react-router-dom'
+import { StyledRating } from '../components/StyledRating'
 
 export const StudentProfile = () => {
-    const { userData, updateUserInfo, error, uploadImage } = useAuth()
+    const { userData, updateUserInfo, error, uploadImage, reviewTutor } =
+        useAuth()
     const [value, setValue] = useState('Controlled')
     const theme = useTheme()
     const subjectsList = useSubjects()
@@ -95,6 +97,11 @@ export const StudentProfile = () => {
                             <Typography component="div" variant="h5">
                                 Name: {userData.username}
                             </Typography>
+                            <StyledRating
+                                name="read-only"
+                                value={userData.score ? userData.score : null}
+                                readOnly
+                            />
 
                             {bioEdit ? (
                                 <>
@@ -178,21 +185,21 @@ export const StudentProfile = () => {
             </Grid>
             <Grid item xs={12} md={8}>
                 <Grid container>
-                    <Grid item xs={3} ml={4}>
-                        <Typography>Your tutors</Typography>
+                    <Grid item xs={3} ml={1}>
+                        <Typography variant="h6">Your tutors</Typography>
                         {userData.matches.length === 0
                             ? 'You have no tutors'
-                            : userData.matches.map((match) => {
+                            : userData.matches.map((match, index) => {
                                   return (
                                       <Card
-                                          key={match.userId}
+                                          key={index}
                                           sx={{ display: 'flex', mb: 1 }}
                                       >
                                           <Avatar
                                               src={match?.avatar}
                                               alt="match-avatar"
                                               variant="square"
-                                              component={Link}
+                                              component={RouterDomLink}
                                               to={`/${match.tutorId}/profile`}
                                               sx={{ width: 100, height: 100 }}
                                           />
@@ -213,6 +220,40 @@ export const StudentProfile = () => {
                                                   >
                                                       {match.username}
                                                   </Typography>
+
+                                                  {match.scoreGiven ? (
+                                                      <StyledRating
+                                                          name="match-reviewed"
+                                                          value={
+                                                              match.scoreGiven
+                                                          }
+                                                          disabled
+                                                      />
+                                                  ) : (
+                                                      <StyledRating
+                                                          name="rate-match"
+                                                          id="rate-match"
+                                                          value={
+                                                              match.scoreGiven
+                                                          }
+                                                          onChange={(event) => {
+                                                              //   console.log(
+                                                              //       event.target
+                                                              //           .value
+                                                              //   )
+                                                              reviewTutor({
+                                                                  tutorId:
+                                                                      match.tutorId,
+                                                                  review: parseInt(
+                                                                      event
+                                                                          .target
+                                                                          .value
+                                                                  ),
+                                                                  index,
+                                                              })
+                                                          }}
+                                                      />
+                                                  )}
                                               </CardContent>
                                           </Box>
                                       </Card>
