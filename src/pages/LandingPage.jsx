@@ -93,6 +93,7 @@ export const LandingPage = () => {
                                                 ]?.subjectName
                                             }
                                             userId={userData.id}
+                                            score={tutor.tutorInfo.score}
                                         />
                                     </Grid>
                                 )

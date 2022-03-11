@@ -1,22 +1,15 @@
-import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import Card from '@mui/material/Card'
-import CardActions from '@mui/material/CardActions'
-import CardContent from '@mui/material/CardContent'
-import CardMedia from '@mui/material/CardMedia'
 import Container from '@mui/material/Container'
-import CssBaseline from '@mui/material/CssBaseline'
 import Grid from '@mui/material/Grid'
 import Link from '@mui/material/Link'
 import Stack from '@mui/material/Stack'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import * as React from 'react'
 import { Link as RouterDomLink } from 'react-router-dom'
+import logo from '../assets/DTL_Logo.png'
 import { useAuth } from '../auth/Auth'
 import { TutorCard } from '../components/TutorCard'
-import logo from '../assets/DTL_Logo.png'
 
 const tutorsInfo = [
     {
@@ -27,6 +20,7 @@ const tutorsInfo = [
         subjectImage: 'https://pbs.twimg.com/media/FJEQjL-XIAIqJSd.jpg',
         location: 'Bayamon, Puerto Rico',
         avatar: 'https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/137792353.jpg?alt=media',
+        score: 4,
     },
     {
         username: 'Maria Aponte',
@@ -37,6 +31,7 @@ const tutorsInfo = [
             'https://images.pexels.com/photos/1047540/pexels-photo-1047540.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
         location: 'Arecibo, Puerto Rico',
         avatar: 'https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/78010173127.jpg?alt=media',
+        score: 5,
     },
 
     {
@@ -48,6 +43,7 @@ const tutorsInfo = [
         subjectImage:
             'https://images.pexels.com/photos/3471423/pexels-photo-3471423.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
         avatar: 'https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/69993751660.jpg?alt=media',
+        score: 3,
     },
 ]
 
@@ -135,6 +131,7 @@ export const GuestPage = () => {
                                     id={null}
                                     subjectName={tutor.subjectName}
                                     userId={null}
+                                    score={tutor.score}
                                 />
                             </Grid>
                         )

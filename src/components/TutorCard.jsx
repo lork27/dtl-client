@@ -1,24 +1,19 @@
-import * as React from 'react'
-import { styled } from '@mui/material/styles'
+import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import Avatar from '@mui/material/Avatar'
 import Card from '@mui/material/Card'
+import CardActions from '@mui/material/CardActions'
+import CardContent from '@mui/material/CardContent'
 import CardHeader from '@mui/material/CardHeader'
 import CardMedia from '@mui/material/CardMedia'
-import CardContent from '@mui/material/CardContent'
-import CardActions from '@mui/material/CardActions'
-import Collapse from '@mui/material/Collapse'
-import Avatar from '@mui/material/Avatar'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-import { red } from '@mui/material/colors'
-import FavoriteIcon from '@mui/icons-material/Favorite'
-import ShareIcon from '@mui/icons-material/Share'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
-import ReadMoreIcon from '@mui/icons-material/ReadMore'
-import GroupAddIcon from '@mui/icons-material/GroupAdd'
-import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch'
+import * as React from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../auth/Auth'
+import { styled } from '@mui/material/styles'
+import { StyledRating } from './StyledRating'
 
 const truncate = (input, max = 150) =>
     input.length > max ? `${input.substring(0, max)}...` : input
@@ -43,6 +38,7 @@ export function TutorCard({
     id,
     subjectName,
     userId,
+    score,
 }) {
     const [expanded, setExpanded] = React.useState(false)
     const { sendMatchRequest } = useAuth()
@@ -93,6 +89,7 @@ export function TutorCard({
                 >
                     <ContentPasteSearchIcon />
                 </IconButton>
+                <StyledRating name="read-only" value={score} readOnly />
             </CardActions>
         </Card>
     )

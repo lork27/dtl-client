@@ -1,19 +1,17 @@
-import { useParams } from 'react-router-dom'
-import { useAuth } from '../auth/Auth'
-import { api } from '../api'
-import { useEffect, useState } from 'react'
-import Avatar from '@mui/material/Avatar'
-import ImageList from '@mui/material/ImageList'
-import ImageListItem from '@mui/material/ImageListItem'
-import Container from '@mui/material/Container'
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail'
-import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import { SmallInfoBox } from '../components/SmallInfoBox'
-import Typography from '@mui/material/Typography'
-import LocationOnIcon from '@mui/icons-material/LocationOn'
 import InfoIcon from '@mui/icons-material/Info'
 import LinkIcon from '@mui/icons-material/Link'
+import LocationOnIcon from '@mui/icons-material/LocationOn'
+import Avatar from '@mui/material/Avatar'
+import Container from '@mui/material/Container'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { api } from '../api'
+import { useAuth } from '../auth/Auth'
+import { SmallInfoBox } from '../components/SmallInfoBox'
+import { StyledRating } from '../components/StyledRating'
 
 export const OtherUserProfile = () => {
     const { userData } = useAuth()
@@ -27,15 +25,17 @@ export const OtherUserProfile = () => {
             }
         } catch {
             console.log('not such user wihtin DTL database')
+            return <h3>'not such user wihtin DTL database'</h3>
         }
     }
 
     useEffect(() => {
         getUserInfo(id)
     }, [])
-    console.log('imgs length')
-    console.log(userData.tutorInfo.imgs.length)
-    console.log('after length')
+    // console.log('imgs length')
+    // console.log(userData.tutorInfo.imgs.length)
+    // console.log('after length')
+    console.log(userInfo.score)
     return (
         <Container sx={{ padding: 10 }}>
             <Grid container>
@@ -48,6 +48,26 @@ export const OtherUserProfile = () => {
                     <Typography variant="h5" padding={3}>
                         {userInfo?.username}
                     </Typography>
+                    <Typography mb={1}>
+                        Reviews as a Student:
+                        <StyledRating
+                            name="read-only"
+                            value={parseInt(userInfo.score)}
+                            readOnly
+                        />
+                    </Typography>
+                    {userInfo.tutorInfo ? (
+                        <Typography mb={4}>
+                            Reviews as a Tutor:
+                            <StyledRating
+                                name="read-only"
+                                value={parseInt(userInfo.tutorInfo.score)}
+                                readOnly
+                            />
+                        </Typography>
+                    ) : (
+                        ''
+                    )}
 
                     <SmallInfoBox
                         icon={<AlternateEmailIcon />}
