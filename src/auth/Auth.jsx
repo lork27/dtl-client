@@ -129,17 +129,16 @@ export const AuthController = (props) => {
         }
     }
 
-    const logOut = async ({ onSuccess }) => {
+    const logOut = ({ onSuccess }) => {
         //TODO !!!!!IMPORTANT
         //I need to send put method to the backend to tell it that the user is now offline
-        const response = await api.put('users/logout')
-        if (response.status === 200) {
-            localStorage.removeItem('user')
-            removeAuthHeader()
-            setUserData(null)
-            if (onSuccess) {
-                onSuccess()
-            }
+        api.put('users/logout')
+
+        localStorage.removeItem('user')
+        removeAuthHeader()
+        setUserData(null)
+        if (onSuccess) {
+            onSuccess()
         }
     }
 
