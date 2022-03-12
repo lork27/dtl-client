@@ -16,6 +16,7 @@ import { useAuth } from '../auth/Auth'
 import { Alert } from '@mui/material'
 import { useNavigate, Link as RouterDomLink } from 'react-router-dom'
 import { useSubjects } from '../hooks/use-fetch-subjects'
+// import { CustomPassword } from '../components/PassWordField'
 
 const theme = createTheme()
 
@@ -29,7 +30,9 @@ export function LoginPage() {
         return acc
     }, {})
 
-    const i = (Math.random() * (9 - 0 + 1)) << 0
+    const i = () => {
+        return (Math.random() * (10 - 0 + 1)) << 0
+    }
     console.log(i)
 
     const handleSubmit = (event) => {
@@ -60,7 +63,11 @@ export function LoginPage() {
                 sm={4}
                 md={7}
                 sx={{
-                    backgroundImage: `url(${subjectsObj[i]?.img})`,
+                    backgroundImage: `url(${
+                        subjectsObj[i()]?.img
+                            ? subjectsObj[i()]?.img
+                            : subjectsObj[1]?.img
+                    })`,
                     backgroundRepeat: 'no-repeat',
                     backgroundColor: (t) =>
                         t.palette.mode === 'light'
@@ -120,6 +127,7 @@ export function LoginPage() {
                             id="password"
                             autoComplete="current-password"
                         />
+                        {/* <CustomPassword /> */}
                         {error && <Alert severity="error">{error}</Alert>}
                         <FormControlLabel
                             control={

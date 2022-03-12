@@ -77,7 +77,7 @@ export const TutorProfile = () => {
     }
 
     // console.log(bioEdit)
-    console.log(userData.tutorInfo.accepted)
+    // console.log(userData.tutorInfo.accepted)
     return (
         <Grid
             container
@@ -89,7 +89,7 @@ export const TutorProfile = () => {
             }}
         >
             {/* this grid contains tutor card */}
-            <Grid md={3} lg={3} xl={2}>
+            <Grid item md={3} lg={3} xl={2}>
                 <Card>
                     <Grid>
                         <CardContent sx={{ width: '100%' }}>
@@ -282,7 +282,7 @@ export const TutorProfile = () => {
                             ? 'You have no students'
                             : userData.tutorInfo?.accepted.map(
                                   (student, index) => {
-                                      console.log(index)
+                                      //   console.log(index)
                                       return (
                                           <Card
                                               key={index}
@@ -509,6 +509,7 @@ export const TutorProfile = () => {
                                 return (
                                     <Grid
                                         item
+                                        key={i}
                                         xs={
                                             userData.tutorInfo?.imgs.length > 1
                                                 ? 4

@@ -85,9 +85,10 @@ export const OtherUserProfile = () => {
                     {userInfo.tutorInfo?.urls.length === 0 ? (
                         <SmallInfoBox icon={<LinkIcon />} value="No links" />
                     ) : (
-                        userInfo.tutorInfo?.urls.map((url) => {
+                        userInfo.tutorInfo?.urls.map((url, i) => {
                             return (
                                 <SmallInfoBox
+                                    key={i}
                                     icon={<LinkIcon />}
                                     value={<a href={url}>{url}</a>}
                                 />
@@ -103,6 +104,7 @@ export const OtherUserProfile = () => {
                                 return (
                                     <Grid
                                         item
+                                        key={i}
                                         xs={
                                             userInfo.tutorInfo?.imgs.length > 1
                                                 ? 4
