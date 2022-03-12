@@ -30,7 +30,9 @@ export function LoginPage() {
         return acc
     }, {})
 
-    const i = (Math.random() * (9 - 0 + 1)) << 0
+    const i = () => {
+        return (Math.random() * (10 - 0 + 1)) << 0
+    }
     console.log(i)
 
     const handleSubmit = (event) => {
@@ -61,7 +63,11 @@ export function LoginPage() {
                 sm={4}
                 md={7}
                 sx={{
-                    backgroundImage: `url(${subjectsObj[i]?.img})`,
+                    backgroundImage: `url(${
+                        subjectsObj[i()]?.img
+                            ? subjectsObj[i()]?.img
+                            : subjectsObj[1]?.img
+                    })`,
                     backgroundRepeat: 'no-repeat',
                     backgroundColor: (t) =>
                         t.palette.mode === 'light'
