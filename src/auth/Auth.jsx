@@ -92,7 +92,8 @@ export const AuthController = (props) => {
             }
         }
         if (response.status === 400) {
-            setError(response.data.error)
+            setError(response.data.message)
+            console.log(response.data.message)
         }
     }
 
@@ -123,7 +124,7 @@ export const AuthController = (props) => {
             }
         }
         if (response.status === 400) {
-            setError(response.data.error)
+            setError(response.data.message)
         }
     }
 

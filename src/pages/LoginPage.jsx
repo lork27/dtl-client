@@ -16,6 +16,7 @@ import { useAuth } from '../auth/Auth'
 import { Alert } from '@mui/material'
 import { useNavigate, Link as RouterDomLink } from 'react-router-dom'
 import { useSubjects } from '../hooks/use-fetch-subjects'
+// import { CustomPassword } from '../components/PassWordField'
 
 const theme = createTheme()
 
@@ -120,6 +121,7 @@ export function LoginPage() {
                             id="password"
                             autoComplete="current-password"
                         />
+                        {/* <CustomPassword /> */}
                         {error && <Alert severity="error">{error}</Alert>}
                         <FormControlLabel
                             control={
