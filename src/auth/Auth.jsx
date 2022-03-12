@@ -130,6 +130,8 @@ export const AuthController = (props) => {
     }
 
     const logOut = ({ onSuccess }) => {
+        //TODO !!!!!IMPORTANT
+        //I need to send put method to the backend to tell it that the user is now offline
         localStorage.removeItem('user')
         removeAuthHeader()
         setUserData(null)
@@ -288,12 +290,17 @@ export const AuthController = (props) => {
         }
     }
 
-    const deletePortfolioImage = async (file) => {
-        console.log(file)
-        // const response = await api.delete('/tutors/deleImage', {url: file})
-        // if(response.status === 200) {
-
-        // }
+    const deletePortfolioImage = async (url) => {
+        console.log(url)
+        const response = await api.delete('/tutors/deleteImage', {
+            data: { url },
+        })
+        // const response = await api.delete('/tutors/deleteImage', { url })
+        if (response.status === 200) {
+            userData.tutorInfo.imgs = response.data.imgs
+            setUserData({ ...userData })
+            setLocalData(userData)
+        }
     }
     return (
         <AuthContext.Provider

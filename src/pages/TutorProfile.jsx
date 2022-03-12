@@ -559,7 +559,9 @@ export const TutorProfile = () => {
                                                     left: 0,
                                                 }}
                                                 onClick={() => {
-                                                    deletePortfolioImage(img)
+                                                    deletePortfolioImage(
+                                                        String(img)
+                                                    )
                                                 }}
                                                 className="button"
                                             >

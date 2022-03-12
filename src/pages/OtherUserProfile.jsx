@@ -107,7 +107,17 @@ export const OtherUserProfile = () => {
                                         item
                                         key={i}
                                         xs={
-                                            userInfo.tutorInfo?.imgs.length > 1
+                                            userData.tutorInfo?.imgs.length > 1
+                                                ? 12
+                                                : 12
+                                        }
+                                        md={
+                                            userData.tutorInfo?.imgs.length > 1
+                                                ? 6
+                                                : 12
+                                        }
+                                        ld={
+                                            userData.tutorInfo?.imgs.length > 1
                                                 ? 4
                                                 : 12
                                         }
