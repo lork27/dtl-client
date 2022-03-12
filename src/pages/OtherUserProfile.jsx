@@ -12,6 +12,7 @@ import { api } from '../api'
 import { useAuth } from '../auth/Auth'
 import { SmallInfoBox } from '../components/SmallInfoBox'
 import { StyledRating } from '../components/StyledRating'
+import Link from '@mui/material/Link'
 
 export const OtherUserProfile = () => {
     const { userData } = useAuth()
@@ -90,7 +91,7 @@ export const OtherUserProfile = () => {
                                 <SmallInfoBox
                                     key={i}
                                     icon={<LinkIcon />}
-                                    value={<a href={url}>{url}</a>}
+                                    value={<Link href={url}>{url}</Link>}
                                 />
                             )
                         })

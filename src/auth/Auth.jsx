@@ -34,6 +34,7 @@ const AuthContext = createContext({
     denyMatchRequest: ({ studentId }) => ({}),
     updateTutorUrls: ({ urls }) => ({}),
     uploadPortfolioImage: (image) => ({}),
+    deletePortfolioImage: (file) => ({}),
     reviewStudent: ({ studentId, review, index }) => ({}),
     reviewTutor: ({ tutorId, review, index }) => ({}),
 })
@@ -232,7 +233,7 @@ export const AuthController = (props) => {
     const uploadPortfolioImage = async (file) => {
         if (userData.tutorInfo.imgs.length > 5) {
             alert(
-                'Cannot upload more than 6 pictures, a way to remove old portfolio pictures is coming soon!'
+                'Cannot upload more than 6 pictures, please delete an old one if you want to upload more'
             )
             return
         }
@@ -286,6 +287,14 @@ export const AuthController = (props) => {
             console.log('you already reviewed this student!')
         }
     }
+
+    const deletePortfolioImage = async (file) => {
+        console.log(file)
+        // const response = await api.delete('/tutors/deleImage', {url: file})
+        // if(response.status === 200) {
+
+        // }
+    }
     return (
         <AuthContext.Provider
             value={{
@@ -304,6 +313,7 @@ export const AuthController = (props) => {
                 uploadPortfolioImage,
                 reviewStudent,
                 reviewTutor,
+                deletePortfolioImage,
             }}
         >
             {props.children}

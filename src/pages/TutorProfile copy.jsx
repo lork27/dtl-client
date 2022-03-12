@@ -19,7 +19,7 @@ import CheckIcon from '@mui/icons-material/Check'
 import DoDisturbIcon from '@mui/icons-material/DoDisturb'
 import Link from '@mui/material/Link'
 import Container from '@mui/material/Container'
-import { width } from '@mui/system'
+import { StyledRating } from '../components/StyledRating'
 
 export const TutorProfile = () => {
     const {
@@ -31,6 +31,8 @@ export const TutorProfile = () => {
         denyMatchRequest,
         updateTutorUrls,
         uploadPortfolioImage,
+        reviewStudent,
+        reviewTutor,
     } = useAuth()
     const [value, setValue] = useState('Controlled')
     const subjectsList = useSubjects()
@@ -43,6 +45,8 @@ export const TutorProfile = () => {
         setValue(event.target.value)
     }
     const [bioEdit, setBioEdit] = useState(true)
+    const [userScore, setUserScore] = useState(null)
+    // const [bioEdit, setBioEdit] = useState(true)
     const handleSubmit = (event) => {
         //TODO I need to make it so the user can actually DELETE their bio, not just update it
         //right now if the user send and empty bio the old one get written
@@ -71,248 +75,288 @@ export const TutorProfile = () => {
             setBioEdit(true)
         }
     }
+
     // console.log(bioEdit)
+    // console.log(userData.tutorInfo.accepted)
     return (
         <Grid
             container
             sx={{
                 mt: 2,
                 mx: 8,
-                // display: 'flex',
+                display: 'flex',
                 // flexDirection: 'column',
             }}
         >
             {/* this grid contains tutor card */}
-            <Grid md={3} lg={3} xl={2}>
+            <Grid
+                item
+                md={3}
+                lg={3}
+                xl={2}
+                sx={{
+                    width: '350px',
+                }}
+            >
                 <Card>
-                    <Grid>
-                        <CardContent sx={{ width: '100%' }}>
-                            <Avatar
-                                alt="dtl-user-avatar"
-                                src={userData.avatar}
-                                sx={{ width: 200, height: 200 }}
-                            />
-                            <IconButton
-                                onClick={() => {
-                                    document
-                                        .getElementById('imageInput')
-                                        .click()
-                                }}
-                                className="button"
-                            >
-                                <EditIcon color="primary" />
-                            </IconButton>
-                            <input
-                                type="file"
-                                multiple
-                                id="imageInput"
-                                accept="image/*"
-                                hidden="hidden"
-                                onChange={(e) => {
-                                    uploadImage(
-                                        e.target.files[0],
-                                        userData.token
-                                    )
-                                }}
-                            />
-                            <Typography component="div" variant="h5">
-                                Name: {userData.username}
-                            </Typography>
+                    <CardContent>
+                        <Avatar
+                            alt="dtl-user-avatar"
+                            src={userData.avatar}
+                            sx={{ width: 200, height: 200, marginLeft: 6 }}
+                        />
+                        <IconButton
+                            onClick={() => {
+                                document.getElementById('imageInput').click()
+                            }}
+                            className="button"
+                        >
+                            <EditIcon color="primary" />
+                        </IconButton>
+                        <input
+                            type="file"
+                            multiple
+                            id="imageInput"
+                            accept="image/*"
+                            hidden="hidden"
+                            onChange={(e) => {
+                                uploadImage(e.target.files[0], userData.token)
+                            }}
+                        />
+                        <Typography component="div" variant="h5">
+                            Name: {userData.username}
+                        </Typography>
 
-                            <Typography
-                                component="div"
-                                variant="subtitle1"
-                                color="text.secondary"
-                                mt={2}
-                            >
-                                Skill:{' '}
-                                {
-                                    subjectsObj[userData.tutorInfo.subjects]
-                                        ?.subjectName
-                                }
-                            </Typography>
+                        <Typography
+                            component="div"
+                            variant="subtitle1"
+                            color="text.secondary"
+                            mt={2}
+                        >
+                            Skill:{' '}
+                            {
+                                subjectsObj[userData.tutorInfo.subjects]
+                                    ?.subjectName
+                            }
+                        </Typography>
 
-                            {bioEdit ? (
-                                <>
-                                    <Typography
-                                        variant="subtitle1"
-                                        color="text.secondary"
-                                        component="div"
-                                        mt={2}
-                                    >
-                                        Email: {userData.email}
-                                    </Typography>
-                                    <Typography
-                                        variant="subtitle1"
-                                        color="text.secondary"
-                                        component="div"
-                                        mt={2}
-                                    >
-                                        Description:{' '}
-                                        {userData.bio
-                                            ? userData.bio
-                                            : `Placeholder bio, you should update it!`}
-                                    </Typography>
+                        {bioEdit ? (
+                            <>
+                                <Typography
+                                    variant="subtitle1"
+                                    color="text.secondary"
+                                    component="div"
+                                    mt={2}
+                                >
+                                    Email: {userData.email}
+                                </Typography>
+                                <Typography
+                                    variant="subtitle1"
+                                    color="text.secondary"
+                                    component="div"
+                                    mt={2}
+                                >
+                                    Description:{' '}
+                                    {userData.bio
+                                        ? userData.bio
+                                        : `Placeholder bio, you should update it!`}
+                                </Typography>
 
-                                    <Typography color="text.secondary" mt={2}>
-                                        URL:{' '}
-                                        {userData.tutorInfo.urls[0] ? (
-                                            <Link
-                                                href={
-                                                    userData.tutorInfo.urls[0]
-                                                }
-                                            >
-                                                {userData.tutorInfo.urls[0]}
-                                            </Link>
-                                        ) : (
-                                            ''
-                                        )}
-                                    </Typography>
+                                <Typography color="text.secondary" mt={2}>
+                                    URL:{' '}
+                                    {userData.tutorInfo.urls[0] ? (
+                                        <Link href={userData.tutorInfo.urls[0]}>
+                                            {userData.tutorInfo.urls[0]}
+                                        </Link>
+                                    ) : (
+                                        ''
+                                    )}
+                                </Typography>
 
-                                    <Typography color="text.secondary" mt={2}>
-                                        URL:{' '}
-                                        {userData.tutorInfo.urls[1] ? (
-                                            <Link
-                                                href={
-                                                    userData.tutorInfo.urls[1]
-                                                }
-                                            >
-                                                {userData.tutorInfo.urls[1]}
-                                            </Link>
-                                        ) : (
-                                            ''
-                                        )}
-                                    </Typography>
-                                    <Typography color="text.secondary" mt={2}>
-                                        Location: {userData.location}
-                                    </Typography>
-                                </>
-                            ) : (
-                                <>
-                                    <Box
-                                        component="form"
-                                        sx={{
-                                            '& .MuiTextField-root': {
-                                                m: 1,
-                                                width: '25ch',
-                                            },
-                                        }}
-                                        noValidate
-                                        onSubmit={handleSubmit}
-                                    >
-                                        <TextField
-                                            id="outlined-multiline-static"
-                                            label={
-                                                userData.bio
-                                                    ? userData.bio
-                                                    : 'Enter your new bio'
-                                            }
-                                            multiline
-                                            name="bio"
-                                            rows={4}
-                                        />
+                                <Typography color="text.secondary" mt={2}>
+                                    URL:{' '}
+                                    {userData.tutorInfo.urls[1] ? (
+                                        <Link href={userData.tutorInfo.urls[1]}>
+                                            {userData.tutorInfo.urls[1]}
+                                        </Link>
+                                    ) : (
+                                        ''
+                                    )}
+                                </Typography>
+                                <Typography color="text.secondary" mt={2}>
+                                    Location: {userData.location}
+                                </Typography>
+                            </>
+                        ) : (
+                            <>
+                                <Box
+                                    component="form"
+                                    sx={{
+                                        '& .MuiTextField-root': {
+                                            m: 1,
+                                            width: '25ch',
+                                        },
+                                    }}
+                                    noValidate
+                                    onSubmit={handleSubmit}
+                                >
+                                    <TextField
+                                        id="outlined-multiline-static"
+                                        label={
+                                            userData.bio
+                                                ? userData.bio
+                                                : 'Enter your new bio'
+                                        }
+                                        multiline
+                                        name="bio"
+                                        rows={4}
+                                    />
 
-                                        <TextField
-                                            id="outlined-basic"
-                                            label={
-                                                userData.tutorInfo.urls[0]
-                                                    ? userData.tutorInfo.urls[0]
-                                                    : 'Portfolio URL'
-                                            }
-                                            variant="outlined"
-                                            name="url1"
-                                        />
+                                    <TextField
+                                        id="outlined-basic"
+                                        label={
+                                            userData.tutorInfo.urls[0]
+                                                ? userData.tutorInfo.urls[0]
+                                                : 'Portfolio URL'
+                                        }
+                                        variant="outlined"
+                                        name="url1"
+                                    />
 
-                                        <TextField
-                                            id="outlined-basic"
-                                            label={
-                                                userData.tutorInfo.urls[1]
-                                                    ? userData.tutorInfo.urls[1]
-                                                    : 'Portfolio URL'
-                                            }
-                                            variant="outlined"
-                                            name="url2"
-                                        />
+                                    <TextField
+                                        id="outlined-basic"
+                                        label={
+                                            userData.tutorInfo.urls[1]
+                                                ? userData.tutorInfo.urls[1]
+                                                : 'Portfolio URL'
+                                        }
+                                        variant="outlined"
+                                        name="url2"
+                                    />
 
-                                        <TextField
-                                            id="outlined-basic"
-                                            label={
-                                                userData.location
-                                                    ? userData.location
-                                                    : 'Enter your location'
-                                            }
-                                            variant="outlined"
-                                            name="location"
-                                        />
+                                    <TextField
+                                        id="outlined-basic"
+                                        label={
+                                            userData.location
+                                                ? userData.location
+                                                : 'Enter your location'
+                                        }
+                                        variant="outlined"
+                                        name="location"
+                                    />
 
-                                        <Button variant="text" type="submit">
-                                            send
-                                        </Button>
-                                    </Box>
-                                </>
-                            )}
+                                    <Button variant="text" type="submit">
+                                        send
+                                    </Button>
+                                </Box>
+                            </>
+                        )}
 
-                            <Button
-                                variant="text"
-                                type="submit"
-                                onClick={() => {
-                                    setBioEdit(!bioEdit)
-                                }}
-                            >
-                                {bioEdit ? 'edit my info' : ''}
-                            </Button>
-                        </CardContent>
-                    </Grid>
+                        <Button
+                            variant="text"
+                            type="submit"
+                            onClick={() => {
+                                setBioEdit(!bioEdit)
+                            }}
+                        >
+                            {bioEdit ? 'edit my info' : ''}
+                        </Button>
+                    </CardContent>
                 </Card>
             </Grid>
 
             {/* this grid contains users pillars */}
             <Grid item xs={12} md={6} lg={6} xl={8} sx={{ marginLeft: 4 }}>
                 <Grid container>
+                    {/* grid with accepted students */}
                     <Grid item xs={3}>
-                        <Typography>Accepted Students</Typography>
+                        <Typography variant="h6">Accepted Students</Typography>
                         {userData.tutorInfo?.accepted.length === 0
                             ? 'You have no students'
-                            : userData.tutorInfo?.accepted.map((student) => {
-                                  return (
-                                      <Card
-                                          key={student.userId}
-                                          sx={{ display: 'flex', mb: 1 }}
-                                      >
-                                          <Avatar
-                                              src={student?.avatar}
-                                              alt="match-avatar"
-                                              variant="square"
-                                              component={RouterDomLink}
-                                              to={`/${student.userId}/profile`}
-                                              sx={{ width: 100, height: 100 }}
-                                          />
-
-                                          <Box
-                                              sx={{
-                                                  display: 'flex',
-                                                  flexDirection: 'column',
-                                              }}
+                            : userData.tutorInfo?.accepted.map(
+                                  (student, index) => {
+                                      //   console.log(index)
+                                      return (
+                                          <Card
+                                              key={index}
+                                              sx={{ display: 'flex', mb: 1 }}
                                           >
-                                              <CardContent
-                                              //   sx={{ flex: '1 0 auto' }}
+                                              <Avatar
+                                                  src={student?.avatar}
+                                                  alt="match-avatar"
+                                                  variant="square"
+                                                  component={RouterDomLink}
+                                                  to={`/${student.userId}/profile`}
+                                                  sx={{
+                                                      width: 100,
+                                                      height: 100,
+                                                  }}
+                                              />
+
+                                              <Box
+                                                  sx={{
+                                                      display: 'flex',
+                                                      flexDirection: 'column',
+                                                  }}
                                               >
-                                                  <Typography
-                                                      component="div"
-                                                      variant="h6"
-                                                      color="text.secondary"
+                                                  <CardContent
+                                                  //   sx={{ flex: '1 0 auto' }}
                                                   >
-                                                      {student.username}
-                                                  </Typography>
-                                              </CardContent>
-                                          </Box>
-                                      </Card>
-                                  )
-                              })}
+                                                      <Typography
+                                                          component="div"
+                                                          variant="h6"
+                                                          color="text.secondary"
+                                                      >
+                                                          {student.username}
+                                                      </Typography>
+                                                      {student.scoreGiven ? (
+                                                          <StyledRating
+                                                              name="studen-reviewed"
+                                                              value={
+                                                                  student.scoreGiven
+                                                              }
+                                                              disabled
+                                                          />
+                                                      ) : (
+                                                          <StyledRating
+                                                              name="rate-student"
+                                                              id="rate-student"
+                                                              value={
+                                                                  student.scoreGiven
+                                                              }
+                                                              onChange={(
+                                                                  event
+                                                              ) => {
+                                                                  //   console.log(
+                                                                  //       event.target
+                                                                  //           .value
+                                                                  //   )
+                                                                  reviewStudent(
+                                                                      {
+                                                                          studentId:
+                                                                              student.userId,
+                                                                          review: parseInt(
+                                                                              event
+                                                                                  .target
+                                                                                  .value
+                                                                          ),
+                                                                          index,
+                                                                      }
+                                                                  )
+                                                              }}
+                                                          />
+                                                      )}
+                                                  </CardContent>
+                                              </Box>
+                                          </Card>
+                                      )
+                                  }
+                              )}
                     </Grid>
 
+                    {/* grid with requests */}
                     <Grid item xs={3} ml={1}>
-                        <Typography>Requests</Typography>
+                        <Typography variant="h6">Requests</Typography>
                         {userData.tutorInfo.requests.length === 0
                             ? 'No new requests to show'
                             : userData.tutorInfo.requests.map((request) => {
@@ -369,15 +413,15 @@ export const TutorProfile = () => {
                                   )
                               })}
                     </Grid>
-
+                    {/* grid with your tutors */}
                     <Grid item xs={3} ml={1}>
-                        <Typography>Your tutors</Typography>
+                        <Typography variant="h6">Your tutors</Typography>
                         {userData.matches.length === 0
                             ? 'You have no tutors'
-                            : userData.matches.map((match) => {
+                            : userData.matches.map((match, index) => {
                                   return (
                                       <Card
-                                          key={match.userId}
+                                          key={index}
                                           sx={{ display: 'flex', mb: 1 }}
                                       >
                                           <Avatar
@@ -405,6 +449,40 @@ export const TutorProfile = () => {
                                                   >
                                                       {match.username}
                                                   </Typography>
+
+                                                  {match.scoreGiven ? (
+                                                      <StyledRating
+                                                          name="match-reviewed"
+                                                          value={
+                                                              match.scoreGiven
+                                                          }
+                                                          disabled
+                                                      />
+                                                  ) : (
+                                                      <StyledRating
+                                                          name="rate-match"
+                                                          id="rate-match"
+                                                          value={
+                                                              match.scoreGiven
+                                                          }
+                                                          onChange={(event) => {
+                                                              //   console.log(
+                                                              //       event.target
+                                                              //           .value
+                                                              //   )
+                                                              reviewTutor({
+                                                                  tutorId:
+                                                                      match.tutorId,
+                                                                  review: parseInt(
+                                                                      event
+                                                                          .target
+                                                                          .value
+                                                                  ),
+                                                                  index,
+                                                              })
+                                                          }}
+                                                      />
+                                                  )}
                                               </CardContent>
                                           </Box>
                                       </Card>
@@ -416,6 +494,7 @@ export const TutorProfile = () => {
 
             {/* this grid contains tutor images */}
             <Grid item xs={12} md={12} lg={4} mt={2}>
+                <Typography>You portfolio pictures</Typography>
                 <Grid id="gallery">
                     {userData.tutorInfo?.imgs?.length > 0 ? (
                         <Grid container>
@@ -423,6 +502,7 @@ export const TutorProfile = () => {
                                 return (
                                     <Grid
                                         item
+                                        key={i}
                                         xs={
                                             userData.tutorInfo?.imgs.length > 1
                                                 ? 4
@@ -432,14 +512,15 @@ export const TutorProfile = () => {
                                         <img
                                             key={i}
                                             src={img}
-                                            style={
-                                                userData.tutorInfo?.imgs
-                                                    .length > 1
-                                                    ? {
-                                                          height: '115px',
-                                                      }
-                                                    : { width: '100%' }
-                                            }
+                                            style={{ width: '100%' }}
+                                            // style={
+                                            //     userData.tutorInfo?.imgs
+                                            //         .length !== 1
+                                            //         ? {
+                                            //               height: '115px',
+                                            //           }
+                                            //         : { width: '100%' }
+                                            // }
                                             // style={
                                             //     userData.tutorInfo?.imgs > 1
                                             //         ? { width: '100%' }
