@@ -20,6 +20,7 @@ import DoDisturbIcon from '@mui/icons-material/DoDisturb'
 import Link from '@mui/material/Link'
 import Container from '@mui/material/Container'
 import { StyledRating } from '../components/StyledRating'
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
 
 export const TutorProfile = () => {
     const {
@@ -31,6 +32,7 @@ export const TutorProfile = () => {
         denyMatchRequest,
         updateTutorUrls,
         uploadPortfolioImage,
+        deletePortfolioImage,
         reviewStudent,
         reviewTutor,
     } = useAuth()
@@ -79,24 +81,21 @@ export const TutorProfile = () => {
     // console.log(bioEdit)
     // console.log(userData.tutorInfo.accepted)
     return (
-        <Grid
-            container
-            sx={{
-                mt: 2,
-                mx: 8,
-                display: 'flex',
-                // flexDirection: 'column',
-            }}
-        >
-            {/* this grid contains tutor card */}
-            <Grid item md={3} lg={3} xl={2}>
-                <Card>
-                    <Grid>
-                        <CardContent sx={{ width: '100%' }}>
+        <Container>
+            <Grid container width={'100%'} m={4}>
+                {/* this grid contains tutor card */}
+                <Grid
+                    item
+                    sx={{
+                        width: '350px',
+                    }}
+                >
+                    <Card>
+                        <CardContent>
                             <Avatar
                                 alt="dtl-user-avatar"
                                 src={userData.avatar}
-                                sx={{ width: 200, height: 200 }}
+                                sx={{ width: 200, height: 200, marginLeft: 6 }}
                             />
                             <IconButton
                                 onClick={() => {
@@ -268,15 +267,12 @@ export const TutorProfile = () => {
                                 {bioEdit ? 'edit my info' : ''}
                             </Button>
                         </CardContent>
-                    </Grid>
-                </Card>
-            </Grid>
-
-            {/* this grid contains users pillars */}
-            <Grid item xs={12} md={6} lg={6} xl={8} sx={{ marginLeft: 4 }}>
-                <Grid container>
+                    </Card>
+                </Grid>
+                {/* Grid with both, students and requests */}
+                <Grid item ml={5}>
                     {/* grid with accepted students */}
-                    <Grid item xs={3}>
+                    <Grid item sx={{ width: '280px' }}>
                         <Typography variant="h6">Accepted Students</Typography>
                         {userData.tutorInfo?.accepted.length === 0
                             ? 'You have no students'
@@ -362,7 +358,7 @@ export const TutorProfile = () => {
                     </Grid>
 
                     {/* grid with requests */}
-                    <Grid item xs={3} ml={1}>
+                    <Grid item sx={{ width: '280px' }}>
                         <Typography variant="h6">Requests</Typography>
                         {userData.tutorInfo.requests.length === 0
                             ? 'No new requests to show'
@@ -420,151 +416,179 @@ export const TutorProfile = () => {
                                   )
                               })}
                     </Grid>
-                    {/* grid with your tutors */}
-                    <Grid item xs={3} ml={1}>
-                        <Typography variant="h6">Your tutors</Typography>
-                        {userData.matches.length === 0
-                            ? 'You have no tutors'
-                            : userData.matches.map((match, index) => {
-                                  return (
-                                      <Card
-                                          key={index}
-                                          sx={{ display: 'flex', mb: 1 }}
+                </Grid>
+                {/* grid with your tutors */}
+                <Grid item sx={{ width: '280px', marginLeft: 4 }}>
+                    <Typography variant="h6">Your tutors</Typography>
+                    {userData.matches.length === 0
+                        ? 'You have no tutors'
+                        : userData.matches.map((match, index) => {
+                              return (
+                                  <Card
+                                      key={index}
+                                      sx={{ display: 'flex', mb: 1 }}
+                                  >
+                                      <Avatar
+                                          src={match?.avatar}
+                                          alt="match-avatar"
+                                          variant="square"
+                                          component={RouterDomLink}
+                                          to={`/${match.tutorId}/profile`}
+                                          sx={{ width: 100, height: 100 }}
+                                      />
+
+                                      <Box
+                                          sx={{
+                                              display: 'flex',
+                                              flexDirection: 'column',
+                                          }}
                                       >
-                                          <Avatar
-                                              src={match?.avatar}
-                                              alt="match-avatar"
-                                              variant="square"
-                                              component={RouterDomLink}
-                                              to={`/${match.tutorId}/profile`}
-                                              sx={{ width: 100, height: 100 }}
-                                          />
-
-                                          <Box
-                                              sx={{
-                                                  display: 'flex',
-                                                  flexDirection: 'column',
-                                              }}
+                                          <CardContent
+                                              sx={{ flex: '1 0 auto' }}
                                           >
-                                              <CardContent
-                                                  sx={{ flex: '1 0 auto' }}
+                                              <Typography
+                                                  component="div"
+                                                  variant="h6"
+                                                  color="text.secondary"
                                               >
-                                                  <Typography
-                                                      component="div"
-                                                      variant="h6"
-                                                      color="text.secondary"
-                                                  >
-                                                      {match.username}
-                                                  </Typography>
+                                                  {match.username}
+                                              </Typography>
 
-                                                  {match.scoreGiven ? (
-                                                      <StyledRating
-                                                          name="match-reviewed"
-                                                          value={
-                                                              match.scoreGiven
-                                                          }
-                                                          disabled
-                                                      />
-                                                  ) : (
-                                                      <StyledRating
-                                                          name="rate-match"
-                                                          id="rate-match"
-                                                          value={
-                                                              match.scoreGiven
-                                                          }
-                                                          onChange={(event) => {
-                                                              //   console.log(
-                                                              //       event.target
-                                                              //           .value
-                                                              //   )
-                                                              reviewTutor({
-                                                                  tutorId:
-                                                                      match.tutorId,
-                                                                  review: parseInt(
-                                                                      event
-                                                                          .target
-                                                                          .value
-                                                                  ),
-                                                                  index,
-                                                              })
-                                                          }}
-                                                      />
-                                                  )}
-                                              </CardContent>
-                                          </Box>
-                                      </Card>
-                                  )
-                              })}
-                    </Grid>
+                                              {match.scoreGiven ? (
+                                                  <StyledRating
+                                                      name="match-reviewed"
+                                                      value={match.scoreGiven}
+                                                      disabled
+                                                  />
+                                              ) : (
+                                                  <StyledRating
+                                                      name="rate-match"
+                                                      id="rate-match"
+                                                      value={match.scoreGiven}
+                                                      onChange={(event) => {
+                                                          //   console.log(
+                                                          //       event.target
+                                                          //           .value
+                                                          //   )
+                                                          reviewTutor({
+                                                              tutorId:
+                                                                  match.tutorId,
+                                                              review: parseInt(
+                                                                  event.target
+                                                                      .value
+                                                              ),
+                                                              index,
+                                                          })
+                                                      }}
+                                                  />
+                                              )}
+                                          </CardContent>
+                                      </Box>
+                                  </Card>
+                              )
+                          })}
                 </Grid>
-            </Grid>
+                {/* this grid contains tutor images */}
+                <Grid item p={5}>
+                    <Typography>
+                        You portfolio pictures - add more
+                        <IconButton
+                            onClick={() => {
+                                document
+                                    .getElementById('portfolioImage')
+                                    .click()
+                            }}
+                            className="button"
+                        >
+                            <EditIcon color="primary" />
+                        </IconButton>
+                    </Typography>
 
-            {/* this grid contains tutor images */}
-            <Grid item xs={12} md={12} lg={4} mt={2}>
-                <Typography>You portfolio pictures</Typography>
-                <Grid id="gallery">
-                    {userData.tutorInfo?.imgs?.length > 0 ? (
-                        <Grid container>
-                            {userData?.tutorInfo?.imgs.map((img, i) => {
-                                return (
-                                    <Grid
-                                        item
-                                        key={i}
-                                        xs={
-                                            userData.tutorInfo?.imgs.length > 1
-                                                ? 4
-                                                : 12
-                                        }
-                                    >
-                                        <img
+                    <Grid id="gallery">
+                        {userData.tutorInfo?.imgs?.length > 0 ? (
+                            <Grid container>
+                                {userData?.tutorInfo?.imgs.map((img, i) => {
+                                    return (
+                                        <Grid
+                                            item
                                             key={i}
-                                            src={img}
-                                            style={{ width: '100%' }}
-                                            // style={
-                                            //     userData.tutorInfo?.imgs
-                                            //         .length !== 1
-                                            //         ? {
-                                            //               height: '115px',
-                                            //           }
-                                            //         : { width: '100%' }
-                                            // }
-                                            // style={
-                                            //     userData.tutorInfo?.imgs > 1
-                                            //         ? { width: '100%' }
-                                            //         : { width: '100%' }
-                                            // }
-                                        />
-                                    </Grid>
-                                )
-                            })}
-                        </Grid>
-                    ) : (
-                        <p>This user has no portfolio images</p>
-                    )}
+                                            xs={
+                                                userData.tutorInfo?.imgs
+                                                    .length > 1
+                                                    ? 12
+                                                    : 12
+                                            }
+                                            md={
+                                                userData.tutorInfo?.imgs
+                                                    .length > 1
+                                                    ? 6
+                                                    : 12
+                                            }
+                                            ld={
+                                                userData.tutorInfo?.imgs
+                                                    .length > 1
+                                                    ? 4
+                                                    : 12
+                                            }
+                                            position="relative"
+                                        >
+                                            <img
+                                                key={i}
+                                                src={img}
+                                                style={{ width: '100%' }}
+                                                display="block"
+                                                // style={
+                                                //     userData.tutorInfo?.imgs
+                                                //         .length !== 1
+                                                //         ? {
+                                                //               height: '115px',
+                                                //           }
+                                                //         : { width: '100%' }
+                                                // }
+                                                // style={
+                                                //     userData.tutorInfo?.imgs > 1
+                                                //         ? { width: '100%' }
+                                                //         : { width: '100%' }
+                                                // }
+                                            />
+
+                                            <IconButton
+                                                sx={{
+                                                    position: 'absolute',
+                                                    bottom: 0,
+                                                    left: 0,
+                                                }}
+                                                onClick={() => {
+                                                    deletePortfolioImage(img)
+                                                }}
+                                                className="button"
+                                            >
+                                                <RemoveCircleOutlineIcon
+                                                    fontSize="large"
+                                                    color="primary"
+                                                />
+                                            </IconButton>
+                                        </Grid>
+                                    )
+                                })}
+                            </Grid>
+                        ) : (
+                            <p>This user has no portfolio images</p>
+                        )}
+                    </Grid>
+
+                    <input
+                        type="file"
+                        multiple
+                        id="portfolioImage"
+                        accept="image/*"
+                        hidden="hidden"
+                        onChange={(e) => {
+                            uploadPortfolioImage(e.target.files[0])
+                        }}
+                    />
                 </Grid>
-
-                <IconButton
-                    onClick={() => {
-                        document.getElementById('portfolioImage').click()
-                    }}
-                    className="button"
-                >
-                    <EditIcon color="primary" />
-                </IconButton>
-
-                <input
-                    type="file"
-                    multiple
-                    id="portfolioImage"
-                    accept="image/*"
-                    hidden="hidden"
-                    onChange={(e) => {
-                        uploadPortfolioImage(e.target.files[0])
-                    }}
-                />
             </Grid>
-
-            {/* {error && <Alert severity="error">{error}</Alert>} */}
-        </Grid>
+        </Container>
     )
 }
