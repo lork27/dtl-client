@@ -19,7 +19,7 @@ const tutorsInfo = [
         subjectName: 'Programming',
         subjectImage: 'https://pbs.twimg.com/media/FJEQjL-XIAIqJSd.jpg',
         location: 'Bayamon, Puerto Rico',
-        avatar: 'https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/137792353.jpg?alt=media',
+        avatar: 'https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/jurica-koletic-7YVZYZeITc8-unsplash.jpg?alt=media&token=a85cd85a-4644-4e72-bf41-383d98a069aa',
         score: 4,
     },
     {
@@ -30,7 +30,7 @@ const tutorsInfo = [
         subjectImage:
             'https://images.pexels.com/photos/1047540/pexels-photo-1047540.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
         location: 'Arecibo, Puerto Rico',
-        avatar: 'https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/78010173127.jpg?alt=media',
+        avatar: 'https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/girl2.jpg?alt=media&token=186e6000-2ffa-4f59-aefc-b366152d5707',
         score: 5,
     },
 
@@ -39,10 +39,10 @@ const tutorsInfo = [
         bio: "I'll teach you a new way of thinking, design thinking will help you develop the next billion dollar idea",
         id: 3,
         subjectName: 'Programming',
-        location: 'New York City, United States',
+        location: 'New York City, USA',
         subjectImage:
             'https://images.pexels.com/photos/3471423/pexels-photo-3471423.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-        avatar: 'https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/69993751660.jpg?alt=media',
+        avatar: 'https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/man4.jpg?alt=media&token=129f2b9b-911a-4ba5-980a-c309fa315106',
         score: 3,
     },
 ]
