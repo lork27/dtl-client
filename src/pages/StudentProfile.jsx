@@ -183,84 +183,69 @@ export const StudentProfile = () => {
                     </Grid>
                 </Card>
             </Grid>
-            <Grid item xs={12} md={8}>
-                <Grid container>
-                    <Grid item xs={3} ml={1}>
-                        <Typography variant="h6">Your tutors</Typography>
-                        {userData.matches.length === 0
-                            ? 'You have no tutors'
-                            : userData.matches.map((match, index) => {
-                                  return (
-                                      <Card
-                                          key={index}
-                                          sx={{ display: 'flex', mb: 1 }}
-                                      >
-                                          <Avatar
-                                              src={match?.avatar}
-                                              alt="match-avatar"
-                                              variant="square"
-                                              component={RouterDomLink}
-                                              to={`/${match.tutorId}/profile`}
-                                              sx={{ width: 100, height: 100 }}
-                                          />
+            <Grid item sx={{ width: '280px', marginLeft: 4 }}>
+                <Typography variant="h6">Your tutors</Typography>
+                {userData.matches.length === 0
+                    ? 'You have no tutors'
+                    : userData.matches.map((match, index) => {
+                          return (
+                              <Card key={index} sx={{ display: 'flex', mb: 1 }}>
+                                  <Avatar
+                                      src={match?.avatar}
+                                      alt="match-avatar"
+                                      variant="square"
+                                      component={RouterDomLink}
+                                      to={`/${match.tutorId}/profile`}
+                                      sx={{ width: 100, height: 100 }}
+                                  />
 
-                                          <Box
-                                              sx={{
-                                                  display: 'flex',
-                                                  flexDirection: 'column',
-                                              }}
+                                  <Box
+                                      sx={{
+                                          display: 'flex',
+                                          flexDirection: 'column',
+                                      }}
+                                  >
+                                      <CardContent sx={{ flex: '1 0 auto' }}>
+                                          <Typography
+                                              component="div"
+                                              variant="h6"
+                                              color="text.secondary"
                                           >
-                                              <CardContent
-                                                  sx={{ flex: '1 0 auto' }}
-                                              >
-                                                  <Typography
-                                                      component="div"
-                                                      variant="h6"
-                                                      color="text.secondary"
-                                                  >
-                                                      {match.username}
-                                                  </Typography>
+                                              {match.username}
+                                          </Typography>
 
-                                                  {match.scoreGiven ? (
-                                                      <StyledRating
-                                                          name="match-reviewed"
-                                                          value={
-                                                              match.scoreGiven
-                                                          }
-                                                          disabled
-                                                      />
-                                                  ) : (
-                                                      <StyledRating
-                                                          name="rate-match"
-                                                          id="rate-match"
-                                                          value={
-                                                              match.scoreGiven
-                                                          }
-                                                          onChange={(event) => {
-                                                              //   console.log(
-                                                              //       event.target
-                                                              //           .value
-                                                              //   )
-                                                              reviewTutor({
-                                                                  tutorId:
-                                                                      match.tutorId,
-                                                                  review: parseInt(
-                                                                      event
-                                                                          .target
-                                                                          .value
-                                                                  ),
-                                                                  index,
-                                                              })
-                                                          }}
-                                                      />
-                                                  )}
-                                              </CardContent>
-                                          </Box>
-                                      </Card>
-                                  )
-                              })}
-                    </Grid>
-                </Grid>
+                                          {match.scoreGiven ? (
+                                              <StyledRating
+                                                  name="match-reviewed"
+                                                  value={match.scoreGiven}
+                                                  disabled
+                                              />
+                                          ) : (
+                                              <StyledRating
+                                                  name="rate-match"
+                                                  id="rate-match"
+                                                  value={match.scoreGiven}
+                                                  onChange={(event) => {
+                                                      //   console.log(
+                                                      //       event.target
+                                                      //           .value
+                                                      //   )
+                                                      reviewTutor({
+                                                          tutorId:
+                                                              match.tutorId,
+                                                          review: parseInt(
+                                                              event.target.value
+                                                          ),
+                                                          index,
+                                                      })
+                                                  }}
+                                              />
+                                          )}
+                                      </CardContent>
+                                  </Box>
+                              </Card>
+                          )
+                      })}
             </Grid>
 
             {/* {error && <Alert severity="error">{error}</Alert>} */}

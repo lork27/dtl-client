@@ -26,7 +26,7 @@ export const ChatPage = () => {
                                       key={index}
                                       sx={{ display: 'flex', mb: 1 }}
                                   >
-                                      {false ? (
+                                      {connection?.isOnline ? (
                                           <OnlineStyledBadge
                                               overlap="circular"
                                               anchorOrigin={{
