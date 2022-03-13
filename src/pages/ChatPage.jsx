@@ -6,6 +6,7 @@ import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import CardContent from '@mui/material/CardContent'
 import Card from '@mui/material/Card'
+import { useEffect } from 'react'
 import {
     OfflineStyledBadge,
     OnlineStyledBadge,
@@ -13,7 +14,11 @@ import {
 
 export const ChatPage = () => {
     const { userData } = useAuth()
-    const connections = UseConnections()
+    let connections = UseConnections()
+    // let connections = null
+    // while (1) {
+    //     connections = UseConnections()
+    // }
     return (
         <Grid container>
             <Grid item>
@@ -110,7 +115,7 @@ export const ChatPage = () => {
                           })}
                 </Grid>
             </Grid>
-            <Grid item sx={6}>
+            <Grid item>
                 <Typography>CHAT GOES HERE</Typography>
             </Grid>
         </Grid>
