@@ -97,40 +97,59 @@ export const OtherUserProfile = () => {
                         })
                     )}
                 </Grid>
-                <Grid id="gallery" item xs={12} md={8}>
-                    <Typography>Portfolio images</Typography>
-                    {userInfo.tutorInfo?.imgs?.length > 0 ? (
-                        <Grid container>
-                            {userInfo?.tutorInfo?.imgs.map((img, i) => {
-                                return (
-                                    <Grid
-                                        item
-                                        key={i}
-                                        xs={
-                                            userInfo.tutorInfo?.imgs.length > 1
-                                                ? 4
-                                                : 12
-                                        }
-                                    >
-                                        <img
-                                            key={i}
-                                            src={img}
-                                            // style={
-                                            //     userData.tutorInfo?.imgs
-                                            //         .length > 1
-                                            //         ? { width: '100%' }
-                                            //         : { width: '50%' }
-                                            // }
-                                            style={{ width: '100%' }}
-                                        />
-                                    </Grid>
-                                )
-                            })}
-                        </Grid>
-                    ) : (
-                        <p>This user has no portfolio images</p>
-                    )}
-                </Grid>
+                {userInfo.tutorInfo ? (
+                    <Grid id="gallery" item xs={12} md={8}>
+                        {userInfo.tutorInfo?.imgs?.length > 0 ? (
+                            <>
+                                <Typography>Portfolio images</Typography>
+                                <Grid container>
+                                    {userInfo?.tutorInfo?.imgs.map((img, i) => {
+                                        return (
+                                            <Grid
+                                                item
+                                                key={i}
+                                                xs={
+                                                    userData.tutorInfo?.imgs
+                                                        .length > 1
+                                                        ? 12
+                                                        : 12
+                                                }
+                                                md={
+                                                    userData.tutorInfo?.imgs
+                                                        .length > 1
+                                                        ? 6
+                                                        : 12
+                                                }
+                                                ld={
+                                                    userData.tutorInfo?.imgs
+                                                        .length > 1
+                                                        ? 4
+                                                        : 12
+                                                }
+                                            >
+                                                <img
+                                                    key={i}
+                                                    src={img}
+                                                    // style={
+                                                    //     userData.tutorInfo?.imgs
+                                                    //         .length > 1
+                                                    //         ? { width: '100%' }
+                                                    //         : { width: '50%' }
+                                                    // }
+                                                    style={{ width: '100%' }}
+                                                />
+                                            </Grid>
+                                        )
+                                    })}
+                                </Grid>
+                            </>
+                        ) : (
+                            <p>This user has no portfolio images</p>
+                        )}
+                    </Grid>
+                ) : (
+                    ''
+                )}
             </Grid>
         </Container>
     )

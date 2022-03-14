@@ -374,7 +374,10 @@ export const TutorProfile = () => {
                                               variant="square"
                                               component={RouterDomLink}
                                               to={`/${request.userId}/profile`}
-                                              sx={{ width: 100, height: 100 }}
+                                              sx={{
+                                                  width: 100,
+                                                  height: 100,
+                                              }}
                                           />
 
                                           <Box
@@ -559,7 +562,9 @@ export const TutorProfile = () => {
                                                     left: 0,
                                                 }}
                                                 onClick={() => {
-                                                    deletePortfolioImage(img)
+                                                    deletePortfolioImage(
+                                                        String(img)
+                                                    )
                                                 }}
                                                 className="button"
                                             >

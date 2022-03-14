@@ -8,6 +8,7 @@ import { RegisterPage } from './pages/RegisterPage'
 import { RegisterTutor } from './pages/RegisterPageTutor'
 import { ProfileController } from './pages/control-pages/ProfileController'
 import { OtherUserProfile } from './pages/OtherUserProfile'
+import { ChatPage } from './pages/ChatPage'
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                 <Route path="/register-tutor" element={<RegisterTutor />} /> */}
                 <Route path="/user/profile" element={<ProfileController />} />
                 <Route path="/:id/profile" element={<OtherUserProfile />} />
+                <Route path="/connections/chat" element={<ChatPage />} />
 
                 {/* <Route path="/guest" element={<GuestPage />} /> */}
             </Routes>

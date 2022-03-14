@@ -16,6 +16,7 @@ import SvgIcon from '@mui/material/SvgIcon'
 import logo from '../assets/DTL_Logo.png'
 import Badge from '@mui/material/Badge'
 import NotificationsIcon from '@mui/icons-material/Notifications'
+import ChatIcon from '@mui/icons-material/Chat'
 
 function HomeIcon(props) {
     return (
@@ -69,8 +70,27 @@ export const Header = () => {
                             <>
                                 <IconButton
                                     size="large"
+                                    aria-label="chat link"
+                                    color="inherit"
+                                    onClick={() => {
+                                        console.log('chat icon clicked')
+                                        document
+                                            .getElementById('linkchat')
+                                            .click()
+                                    }}
+                                >
+                                    <ChatIcon color="alert"></ChatIcon>
+
+                                    <Link
+                                        to="/connections/chat"
+                                        id="linkchat"
+                                    ></Link>
+                                </IconButton>
+                                <IconButton
+                                    size="large"
                                     aria-label="show 17 new notifications"
                                     color="inherit"
+                                    sx={{ marginRight: 2 }}
                                     onClick={() => {
                                         document
                                             .getElementById('linkprofile')
