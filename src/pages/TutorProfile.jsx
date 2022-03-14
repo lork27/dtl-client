@@ -374,7 +374,10 @@ export const TutorProfile = () => {
                                               variant="square"
                                               component={RouterDomLink}
                                               to={`/${request.userId}/profile`}
-                                              sx={{ width: 100, height: 100 }}
+                                              sx={{
+                                                  width: 100,
+                                                  height: 100,
+                                              }}
                                           />
 
                                           <Box
