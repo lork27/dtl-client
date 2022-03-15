@@ -21,6 +21,9 @@ import Link from '@mui/material/Link'
 import Container from '@mui/material/Container'
 import { StyledRating } from '../components/StyledRating'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
+import Carousel from 'react-material-ui-carousel'
+import { Paper } from '@mui/material'
+import { positions } from '@mui/system'
 
 export const TutorProfile = () => {
     const {
@@ -492,7 +495,7 @@ export const TutorProfile = () => {
                           })}
                 </Grid>
                 {/* this grid contains tutor images */}
-                <Grid item p={5}>
+                <Box item p={5}>
                     <Typography>
                         You portfolio pictures - add more
                         <IconButton
@@ -506,8 +509,57 @@ export const TutorProfile = () => {
                             <EditIcon color="primary" />
                         </IconButton>
                     </Typography>
+{/* Add Courasel 
 
-                    <Grid id="gallery">
+Notes: Button to delete works but it is positioned wrong and only works as 'Button' not 'IconButton'.
+
+When a photo is deleted, sometimes courasel goes black...
+*/}
+                    {userData.tutorInfo?.imgs?.length > 0 ? (
+                        <Carousel
+                            sx={{
+                                width: 750,
+                                height: 500,
+                            }}
+                            autoPlay={false}
+                        >
+                            {userData?.tutorInfo?.imgs.map((img, i) => {
+                                return (
+                                    <Box>
+                                        <img
+                                            key={i}
+                                            src={img}
+                                            style={{ width: '100%' }}
+                                            background-size="cover"
+                                            display="flex"
+                                        />
+                                        <IconButton
+                                            sx={{
+                                                position: 'absolute',
+                                                bottom: 0,
+                                                left: 0,
+                                            }}
+                                            onClick={() => {
+                                                deletePortfolioImage(
+                                                    String(img)
+                                                )
+                                            }}
+                                            className="button"
+                                        >
+                                            <RemoveCircleOutlineIcon
+                                                fontSize="large"
+                                                color="primary"
+                                            />
+                                        </IconButton>
+                                    </Box>
+                                )
+                            })}
+                        </Carousel>
+                    ) : (
+                        <p>This user has no portfolio images</p>
+                    )}
+
+                    {/* <Grid id="gallery">
                         {userData.tutorInfo?.imgs?.length > 0 ? (
                             <Grid container>
                                 {userData?.tutorInfo?.imgs.map((img, i) => {
@@ -580,7 +632,7 @@ export const TutorProfile = () => {
                         ) : (
                             <p>This user has no portfolio images</p>
                         )}
-                    </Grid>
+                    </Grid> */}
 
                     <input
                         type="file"
@@ -592,7 +644,7 @@ export const TutorProfile = () => {
                             uploadPortfolioImage(e.target.files[0])
                         }}
                     />
-                </Grid>
+                </Box>
             </Grid>
         </Container>
     )
