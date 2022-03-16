@@ -100,7 +100,7 @@ export const OtherUserProfile = () => {
                     )}
                 </Grid>
                 {userInfo.tutorInfo ? (
-                    <>
+                    <Grid item>
                         <Typography> Portfolio Images</Typography>
                         <Carousel
                             sx={{
@@ -123,7 +123,7 @@ export const OtherUserProfile = () => {
                                 )
                             })}
                         </Carousel>
-                    </>
+                    </Grid>
                 ) : (
                     ''
                 )}
