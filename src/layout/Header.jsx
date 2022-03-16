@@ -162,12 +162,29 @@ export const Header = () => {
                                             Logout
                                         </Typography>
                                     </MenuItem>
+
+                                    <MenuItem component={Link} to="/about-us">
+                                        <Typography textAlign="center">
+                                            About Us
+                                        </Typography>
+                                    </MenuItem>
                                 </Menu>
                             </>
                         ) : (
-                            <Link to="/auth/login">
-                                <Button variant="contained">Login</Button>
-                            </Link>
+                            <>
+                                <Link to="/auth/login">
+                                    <Button variant="contained">Login</Button>
+                                </Link>
+
+                                <Link to="/about-us">
+                                    <Button
+                                        variant="outlined"
+                                        sx={{ marginLeft: '12px' }}
+                                    >
+                                        About Us
+                                    </Button>
+                                </Link>
+                            </>
                         )}
                     </Box>
                 </Toolbar>
