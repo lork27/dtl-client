@@ -13,6 +13,8 @@ import { useAuth } from '../auth/Auth'
 import { SmallInfoBox } from '../components/SmallInfoBox'
 import { StyledRating } from '../components/StyledRating'
 import Link from '@mui/material/Link'
+import Carousel from 'react-material-ui-carousel'
+import Box from '@mui/material/Box'
 
 export const OtherUserProfile = () => {
     const { userData } = useAuth()
@@ -98,55 +100,30 @@ export const OtherUserProfile = () => {
                     )}
                 </Grid>
                 {userInfo.tutorInfo ? (
-                    <Grid id="gallery" item xs={12} md={8}>
-                        {userInfo.tutorInfo?.imgs?.length > 0 ? (
-                            <>
-                                <Typography>Portfolio images</Typography>
-                                <Grid container>
-                                    {userInfo?.tutorInfo?.imgs.map((img, i) => {
-                                        return (
-                                            <Grid
-                                                item
-                                                key={i}
-                                                xs={
-                                                    userData.tutorInfo?.imgs
-                                                        .length > 1
-                                                        ? 12
-                                                        : 12
-                                                }
-                                                md={
-                                                    userData.tutorInfo?.imgs
-                                                        .length > 1
-                                                        ? 6
-                                                        : 12
-                                                }
-                                                ld={
-                                                    userData.tutorInfo?.imgs
-                                                        .length > 1
-                                                        ? 4
-                                                        : 12
-                                                }
-                                            >
-                                                <img
-                                                    key={i}
-                                                    src={img}
-                                                    // style={
-                                                    //     userData.tutorInfo?.imgs
-                                                    //         .length > 1
-                                                    //         ? { width: '100%' }
-                                                    //         : { width: '50%' }
-                                                    // }
-                                                    style={{ width: '100%' }}
-                                                />
-                                            </Grid>
-                                        )
-                                    })}
-                                </Grid>
-                            </>
-                        ) : (
-                            <p>This user has no portfolio images</p>
-                        )}
-                    </Grid>
+                    <>
+                        <Typography> Portfolio Images</Typography>
+                        <Carousel
+                            sx={{
+                                width: 750,
+                                height: 500,
+                            }}
+                            autoPlay={false}
+                        >
+                            {userInfo?.tutorInfo?.imgs.map((img, i) => {
+                                return (
+                                    <Box>
+                                        <img
+                                            key={i}
+                                            src={img}
+                                            style={{ width: '100%' }}
+                                            background-size="cover"
+                                            display="flex"
+                                        />
+                                    </Box>
+                                )
+                            })}
+                        </Carousel>
+                    </>
                 ) : (
                     ''
                 )}
