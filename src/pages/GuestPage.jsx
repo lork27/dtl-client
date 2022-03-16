@@ -10,8 +10,10 @@ import { grid } from '@mui/system'
 import * as React from 'react'
 import { Link as RouterDomLink } from 'react-router-dom'
 import logo from '../assets/DTL_Logo.png'
+import wordcloud from '../assets/wordcloud.png'
 import { useAuth } from '../auth/Auth'
 import { TutorCard } from '../components/TutorCard'
+import { CustomPaperCard } from '../components/CustomPaperCard'
 
 const tutorsInfo = [
     {
@@ -113,78 +115,42 @@ export const GuestPage = () => {
                 </Container>
             </Box>
             {/* middle container that explains the app in three steps */}
+            <Typography
+                variant="h4"
+                style={{ textAlign: 'center' }}
+                color="text.secondary"
+            >
+                How it works?
+            </Typography>
             <Grid container justifyContent={'center'}>
-                <Paper
-                    sx={{
-                        height: 140,
-                        width: 300,
-                        // backgroundColor: (theme) =>
-                        //     theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-                        padding: '20px',
-                        textAlign: 'center',
-                        backgroundImage:
-                            'url(https://pbs.twimg.com/media/FJEQjL-XIAIqJSd.jpg)',
-                        backgroundSize: 'cover',
-                        boxShadow: 'inset 0 0 0 1000px rgba(0,55,0,.6)',
-                        marginRight: '10px',
-                        marginTop: '25px',
-                    }}
-                >
-                    <Typography variant="h6">Header text!!!</Typography>
-                    <Typography variant="button">
-                        Description of the card! :O AMAZING FEATURE MY MAN
-                    </Typography>
-                </Paper>
-                <Paper
-                    sx={{
-                        height: 140,
-                        width: 300,
-                        // backgroundColor: (theme) =>
-                        //     theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-                        padding: '20px',
-                        textAlign: 'center',
-                        backgroundImage:
-                            'url(https://pbs.twimg.com/media/FJEQjL-XIAIqJSd.jpg)',
-                        backgroundSize: 'cover',
-                        boxShadow: 'inset 0 0 0 1000px rgba(0,0,55,.6)',
-                        marginRight: '10px',
-                        marginTop: '25px',
-                    }}
-                >
-                    <Typography variant="h6">Header text!!!</Typography>
-                    <Typography variant="button">
-                        Description of the card! :O AMAZING FEATURE MY MAN
-                    </Typography>
-                </Paper>
-                <Paper
-                    sx={{
-                        height: 140,
-                        width: 300,
-                        // backgroundColor: (theme) =>
-                        //     theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-                        padding: '20px',
-                        textAlign: 'center',
-                        backgroundImage:
-                            'url(https://pbs.twimg.com/media/FJEQjL-XIAIqJSd.jpg)',
-                        backgroundSize: 'cover',
-                        boxShadow: 'inset 0 0 0 1000px rgba(55,0,0,.6)',
-                        marginRight: '10px',
-                        marginTop: '25px',
-                    }}
-                >
-                    <Typography variant="h6">Header text!!!</Typography>
-                    <Typography variant="button">
-                        Description of the card! :O AMAZING FEATURE MY MAN
-                    </Typography>
-                </Paper>
+                <CustomPaperCard
+                    customColor="741a31"
+                    headText="Connect"
+                    bodyText="Find someone with a shared interest!"
+                />
+
+                <CustomPaperCard
+                    customColor="1f1f1f"
+                    headText="Teach"
+                    bodyText="Become someone's Tutor and teach your interest"
+                />
+                <CustomPaperCard
+                    customColor="102841"
+                    headText="Learn"
+                    bodyText="Or be someone's Student and learn a new interest!"
+                />
             </Grid>
 
             {/* container with example tutors */}
             <Container sx={{ py: 8 }}>
-                <Typography>
-                    Some of the tutors you'll be able to meet at DTL
+                <Typography
+                    variant="h6"
+                    style={{ textAlign: 'center' }}
+                    color="text.secondary"
+                >
+                    Some of the cool tutors you'll be able to meet at DTL
                 </Typography>
-                <Grid container spacing={3} alignItems="stretch">
+                <Grid container spacing={3} alignItems="stretch" mt={1}>
                     {tutorsInfo.map((tutor) => {
                         return (
                             <Grid
@@ -211,6 +177,30 @@ export const GuestPage = () => {
                     })}
                 </Grid>
             </Container>
+            <Grid container justifyContent={'center'}>
+                <Grid item padding={4} width="100%">
+                    <Typography
+                        variant="h5"
+                        color="text.secondary"
+                        textAlign={'center'}
+                    >
+                        The subjects we have right now @DTL
+                    </Typography>
+                </Grid>
+                <Grid item>
+                    <img src={wordcloud} style={{ height: '400px' }} />
+                </Grid>
+
+                <Grid item padding={4} width="100%">
+                    <Typography
+                        variant="h6"
+                        color="text.secondary"
+                        textAlign={'center'}
+                    >
+                        More are coming soon based on user feedback!
+                    </Typography>
+                </Grid>
+            </Grid>
         </main>
     )
 }
