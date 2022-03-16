@@ -1,3 +1,4 @@
+import { Paper } from '@mui/material'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
@@ -5,6 +6,7 @@ import Grid from '@mui/material/Grid'
 import Link from '@mui/material/Link'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import { grid } from '@mui/system'
 import * as React from 'react'
 import { Link as RouterDomLink } from 'react-router-dom'
 import logo from '../assets/DTL_Logo.png'
@@ -110,7 +112,78 @@ export const GuestPage = () => {
                     </Stack>
                 </Container>
             </Box>
+            {/* middle container that explains the app in three steps */}
+            <Grid container justifyContent={'center'}>
+                <Paper
+                    sx={{
+                        height: 140,
+                        width: 300,
+                        // backgroundColor: (theme) =>
+                        //     theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+                        padding: '20px',
+                        textAlign: 'center',
+                        backgroundImage:
+                            'url(https://pbs.twimg.com/media/FJEQjL-XIAIqJSd.jpg)',
+                        backgroundSize: 'cover',
+                        boxShadow: 'inset 0 0 0 1000px rgba(0,55,0,.6)',
+                        marginRight: '10px',
+                        marginTop: '25px',
+                    }}
+                >
+                    <Typography variant="h6">Header text!!!</Typography>
+                    <Typography variant="button">
+                        Description of the card! :O AMAZING FEATURE MY MAN
+                    </Typography>
+                </Paper>
+                <Paper
+                    sx={{
+                        height: 140,
+                        width: 300,
+                        // backgroundColor: (theme) =>
+                        //     theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+                        padding: '20px',
+                        textAlign: 'center',
+                        backgroundImage:
+                            'url(https://pbs.twimg.com/media/FJEQjL-XIAIqJSd.jpg)',
+                        backgroundSize: 'cover',
+                        boxShadow: 'inset 0 0 0 1000px rgba(0,0,55,.6)',
+                        marginRight: '10px',
+                        marginTop: '25px',
+                    }}
+                >
+                    <Typography variant="h6">Header text!!!</Typography>
+                    <Typography variant="button">
+                        Description of the card! :O AMAZING FEATURE MY MAN
+                    </Typography>
+                </Paper>
+                <Paper
+                    sx={{
+                        height: 140,
+                        width: 300,
+                        // backgroundColor: (theme) =>
+                        //     theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+                        padding: '20px',
+                        textAlign: 'center',
+                        backgroundImage:
+                            'url(https://pbs.twimg.com/media/FJEQjL-XIAIqJSd.jpg)',
+                        backgroundSize: 'cover',
+                        boxShadow: 'inset 0 0 0 1000px rgba(55,0,0,.6)',
+                        marginRight: '10px',
+                        marginTop: '25px',
+                    }}
+                >
+                    <Typography variant="h6">Header text!!!</Typography>
+                    <Typography variant="button">
+                        Description of the card! :O AMAZING FEATURE MY MAN
+                    </Typography>
+                </Paper>
+            </Grid>
+
+            {/* container with example tutors */}
             <Container sx={{ py: 8 }}>
+                <Typography>
+                    Some of the tutors you'll be able to meet at DTL
+                </Typography>
                 <Grid container spacing={3} alignItems="stretch">
                     {tutorsInfo.map((tutor) => {
                         return (

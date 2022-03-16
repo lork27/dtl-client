@@ -15,6 +15,9 @@ export const Footer = () => {
                 and{' '}
                 <Link href="https://github.com/lork27" color="inherit">
                     Guillermo Lorca
+                </Link>{' '}
+                <Link component={RouterDomLink} to="/about-us" color="inherit">
+                    About Us
                 </Link>
             </Typography>
             <Typography variant="body2" color="text.secondary" align="center">
