@@ -271,25 +271,148 @@ export const TutorProfile = () => {
                 </Grid>
                 {/* Grid with both, students and requests */}
                 <Grid item ml={5}>
-                    {/* grid with accepted students */}
-                    <Grid item sx={{ width: '280px' }}>
-                        <Typography variant="h6">Accepted Students</Typography>
-                        {userData.tutorInfo?.accepted.length === 0
-                            ? 'You have no students'
-                            : userData.tutorInfo?.accepted.map(
-                                  (student, index) => {
-                                      //   console.log(index)
+                    <Typography variant="h6" style={{ textAlign: 'center' }}>
+                        Accepted Students
+                    </Typography>
+
+                    <Box
+                        display="flex"
+                        flexDirection="column"
+                        style={
+                            userData.tutorInfo?.accepted?.length > 3
+                                ? {
+                                      border: '1px solid black',
+                                      overflow: 'hidden',
+                                      overflowY: 'scroll',
+                                      height: '300px', // fixed the height,
+                                      width: '105%',
+                                  }
+                                : null
+                        }
+                    >
+                        {/* grid with accepted students */}
+                        <Grid item sx={{ width: '280px' }}>
+                            {userData.tutorInfo?.accepted.length === 0
+                                ? 'You have no students'
+                                : userData.tutorInfo?.accepted.map(
+                                      (student, index) => {
+                                          //   console.log(index)
+                                          return (
+                                              <Card
+                                                  key={index}
+                                                  sx={{
+                                                      display: 'flex',
+                                                      mb: 1,
+                                                  }}
+                                              >
+                                                  <Avatar
+                                                      src={student?.avatar}
+                                                      alt="match-avatar"
+                                                      variant="square"
+                                                      component={RouterDomLink}
+                                                      to={`/${student.userId}/profile`}
+                                                      sx={{
+                                                          width: 100,
+                                                          height: 100,
+                                                      }}
+                                                  />
+
+                                                  <Box
+                                                      sx={{
+                                                          display: 'flex',
+                                                          flexDirection:
+                                                              'column',
+                                                      }}
+                                                  >
+                                                      <CardContent
+                                                      //   sx={{ flex: '1 0 auto' }}
+                                                      >
+                                                          <Typography
+                                                              component="div"
+                                                              variant="h6"
+                                                              color="text.secondary"
+                                                          >
+                                                              {student.username}
+                                                          </Typography>
+                                                          {student.scoreGiven ? (
+                                                              <StyledRating
+                                                                  name="studen-reviewed"
+                                                                  value={
+                                                                      student.scoreGiven
+                                                                  }
+                                                                  disabled
+                                                              />
+                                                          ) : (
+                                                              <StyledRating
+                                                                  name="rate-student"
+                                                                  id="rate-student"
+                                                                  value={
+                                                                      student.scoreGiven
+                                                                  }
+                                                                  onChange={(
+                                                                      event
+                                                                  ) => {
+                                                                      //   console.log(
+                                                                      //       event.target
+                                                                      //           .value
+                                                                      //   )
+                                                                      reviewStudent(
+                                                                          {
+                                                                              studentId:
+                                                                                  student.userId,
+                                                                              review: parseInt(
+                                                                                  event
+                                                                                      .target
+                                                                                      .value
+                                                                              ),
+                                                                              index,
+                                                                          }
+                                                                      )
+                                                                  }}
+                                                              />
+                                                          )}
+                                                      </CardContent>
+                                                  </Box>
+                                              </Card>
+                                          )
+                                      }
+                                  )}
+                        </Grid>
+                    </Box>
+                    <Typography variant="h6" style={{ textAlign: 'center' }}>
+                        Requests
+                    </Typography>
+                    <Box
+                        display="flex"
+                        flexDirection="column"
+                        style={
+                            userData.tutorInfo?.request?.length > 3
+                                ? {
+                                      border: '1px solid black',
+                                      overflow: 'hidden',
+                                      overflowY: 'scroll',
+                                      height: '300px', // fixed the height,
+                                      width: '105%',
+                                  }
+                                : null
+                        }
+                    >
+                        {/* grid with requests */}
+                        <Grid item sx={{ width: '280px' }}>
+                            {userData.tutorInfo.requests.length === 0
+                                ? 'No new requests to show'
+                                : userData.tutorInfo.requests.map((request) => {
                                       return (
                                           <Card
-                                              key={index}
+                                              key={request.userId}
                                               sx={{ display: 'flex', mb: 1 }}
                                           >
                                               <Avatar
-                                                  src={student?.avatar}
+                                                  src={request?.avatar}
                                                   alt="match-avatar"
                                                   variant="square"
                                                   component={RouterDomLink}
-                                                  to={`/${student.userId}/profile`}
+                                                  to={`/${request.userId}/profile`}
                                                   sx={{
                                                       width: 100,
                                                       height: 100,
@@ -303,29 +426,112 @@ export const TutorProfile = () => {
                                                   }}
                                               >
                                                   <CardContent
-                                                  //   sx={{ flex: '1 0 auto' }}
+                                                      sx={{ flex: '1 0 auto' }}
                                                   >
                                                       <Typography
                                                           component="div"
                                                           variant="h6"
                                                           color="text.secondary"
                                                       >
-                                                          {student.username}
+                                                          {request.username}
                                                       </Typography>
-                                                      {student.scoreGiven ? (
+                                                      <CheckIcon
+                                                          onClick={() => {
+                                                              acceptMatchRequest(
+                                                                  {
+                                                                      studentId:
+                                                                          request.userId,
+                                                                  }
+                                                              )
+                                                          }}
+                                                      ></CheckIcon>
+
+                                                      <DoDisturbIcon
+                                                          onClick={() => {
+                                                              denyMatchRequest({
+                                                                  studentId:
+                                                                      request.userId,
+                                                              })
+                                                          }}
+                                                      ></DoDisturbIcon>
+                                                  </CardContent>
+                                              </Box>
+                                          </Card>
+                                      )
+                                  })}
+                        </Grid>
+                    </Box>
+                </Grid>
+                <Grid item textAlign="center">
+                    <Typography variant="h6">Your tutors</Typography>
+                    <Box
+                        display="flex"
+                        flexDirection="column"
+                        style={
+                            userData.tutorInfo?.request?.length > 3
+                                ? {
+                                      border: '1px solid black',
+                                      overflow: 'hidden',
+                                      overflowY: 'scroll',
+                                      height: '300px', // fixed the height,
+                                      width: '105%',
+                                  }
+                                : null
+                        }
+                    >
+                        {/* grid with your tutors */}
+                        <Grid item sx={{ width: '280px', marginLeft: 4 }}>
+                            {userData.matches.length === 0
+                                ? 'You have no tutors'
+                                : userData.matches.map((match, index) => {
+                                      return (
+                                          <Card
+                                              key={index}
+                                              sx={{ display: 'flex', mb: 1 }}
+                                          >
+                                              <Avatar
+                                                  src={match?.avatar}
+                                                  alt="match-avatar"
+                                                  variant="square"
+                                                  component={RouterDomLink}
+                                                  to={`/${match.tutorId}/profile`}
+                                                  sx={{
+                                                      width: 100,
+                                                      height: 100,
+                                                  }}
+                                              />
+
+                                              <Box
+                                                  sx={{
+                                                      display: 'flex',
+                                                      flexDirection: 'column',
+                                                  }}
+                                              >
+                                                  <CardContent
+                                                      sx={{ flex: '1 0 auto' }}
+                                                  >
+                                                      <Typography
+                                                          component="div"
+                                                          variant="h6"
+                                                          color="text.secondary"
+                                                      >
+                                                          {match.username}
+                                                      </Typography>
+
+                                                      {match.scoreGiven ? (
                                                           <StyledRating
-                                                              name="studen-reviewed"
+                                                              name="match-reviewed"
                                                               value={
-                                                                  student.scoreGiven
+                                                                  match.scoreGiven
                                                               }
                                                               disabled
                                                           />
                                                       ) : (
                                                           <StyledRating
-                                                              name="rate-student"
-                                                              id="rate-student"
+                                                              name="rate-match"
+                                                              id="rate-match"
                                                               value={
-                                                                  student.scoreGiven
+                                                                  match.scoreGiven
                                                               }
                                                               onChange={(
                                                                   event
@@ -334,18 +540,16 @@ export const TutorProfile = () => {
                                                                   //       event.target
                                                                   //           .value
                                                                   //   )
-                                                                  reviewStudent(
-                                                                      {
-                                                                          studentId:
-                                                                              student.userId,
-                                                                          review: parseInt(
-                                                                              event
-                                                                                  .target
-                                                                                  .value
-                                                                          ),
-                                                                          index,
-                                                                      }
-                                                                  )
+                                                                  reviewTutor({
+                                                                      tutorId:
+                                                                          match.tutorId,
+                                                                      review: parseInt(
+                                                                          event
+                                                                              .target
+                                                                              .value
+                                                                      ),
+                                                                      index,
+                                                                  })
                                                               }}
                                                           />
                                                       )}
@@ -353,144 +557,11 @@ export const TutorProfile = () => {
                                               </Box>
                                           </Card>
                                       )
-                                  }
-                              )}
-                    </Grid>
-
-                    {/* grid with requests */}
-                    <Grid item sx={{ width: '280px' }}>
-                        <Typography variant="h6">Requests</Typography>
-                        {userData.tutorInfo.requests.length === 0
-                            ? 'No new requests to show'
-                            : userData.tutorInfo.requests.map((request) => {
-                                  return (
-                                      <Card
-                                          key={request.userId}
-                                          sx={{ display: 'flex', mb: 1 }}
-                                      >
-                                          <Avatar
-                                              src={request?.avatar}
-                                              alt="match-avatar"
-                                              variant="square"
-                                              component={RouterDomLink}
-                                              to={`/${request.userId}/profile`}
-                                              sx={{
-                                                  width: 100,
-                                                  height: 100,
-                                              }}
-                                          />
-
-                                          <Box
-                                              sx={{
-                                                  display: 'flex',
-                                                  flexDirection: 'column',
-                                              }}
-                                          >
-                                              <CardContent
-                                                  sx={{ flex: '1 0 auto' }}
-                                              >
-                                                  <Typography
-                                                      component="div"
-                                                      variant="h6"
-                                                      color="text.secondary"
-                                                  >
-                                                      {request.username}
-                                                  </Typography>
-                                                  <CheckIcon
-                                                      onClick={() => {
-                                                          acceptMatchRequest({
-                                                              studentId:
-                                                                  request.userId,
-                                                          })
-                                                      }}
-                                                  ></CheckIcon>
-
-                                                  <DoDisturbIcon
-                                                      onClick={() => {
-                                                          denyMatchRequest({
-                                                              studentId:
-                                                                  request.userId,
-                                                          })
-                                                      }}
-                                                  ></DoDisturbIcon>
-                                              </CardContent>
-                                          </Box>
-                                      </Card>
-                                  )
-                              })}
-                    </Grid>
+                                  })}
+                        </Grid>
+                    </Box>
                 </Grid>
-                {/* grid with your tutors */}
-                <Grid item sx={{ width: '280px', marginLeft: 4 }}>
-                    <Typography variant="h6">Your tutors</Typography>
-                    {userData.matches.length === 0
-                        ? 'You have no tutors'
-                        : userData.matches.map((match, index) => {
-                              return (
-                                  <Card
-                                      key={index}
-                                      sx={{ display: 'flex', mb: 1 }}
-                                  >
-                                      <Avatar
-                                          src={match?.avatar}
-                                          alt="match-avatar"
-                                          variant="square"
-                                          component={RouterDomLink}
-                                          to={`/${match.tutorId}/profile`}
-                                          sx={{ width: 100, height: 100 }}
-                                      />
 
-                                      <Box
-                                          sx={{
-                                              display: 'flex',
-                                              flexDirection: 'column',
-                                          }}
-                                      >
-                                          <CardContent
-                                              sx={{ flex: '1 0 auto' }}
-                                          >
-                                              <Typography
-                                                  component="div"
-                                                  variant="h6"
-                                                  color="text.secondary"
-                                              >
-                                                  {match.username}
-                                              </Typography>
-
-                                              {match.scoreGiven ? (
-                                                  <StyledRating
-                                                      name="match-reviewed"
-                                                      value={match.scoreGiven}
-                                                      disabled
-                                                  />
-                                              ) : (
-                                                  <StyledRating
-                                                      name="rate-match"
-                                                      id="rate-match"
-                                                      value={match.scoreGiven}
-                                                      onChange={(event) => {
-                                                          //   console.log(
-                                                          //       event.target
-                                                          //           .value
-                                                          //   )
-                                                          reviewTutor({
-                                                              tutorId:
-                                                                  match.tutorId,
-                                                              review: parseInt(
-                                                                  event.target
-                                                                      .value
-                                                              ),
-                                                              index,
-                                                          })
-                                                      }}
-                                                  />
-                                              )}
-                                          </CardContent>
-                                      </Box>
-                                  </Card>
-                              )
-                          })}
-                </Grid>
                 {/* this grid contains tutor images */}
                 <Grid item p={5}>
                     <Typography>
