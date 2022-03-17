@@ -57,7 +57,7 @@ export const AboutUs = () => {
                                 programming, Algorithms, Higher-level
                                 programming, System engineering and DevOps. I
                                 currently work as a Student Tutor at Holberton
-                                School
+                                School.
                             </Typography>
 
                             <IconButton href="https://www.linkedin.com/in/luis-o-45951b126/">
@@ -107,7 +107,7 @@ export const AboutUs = () => {
                             >
                                 Right now I'm looking for employement
                                 opportunities that allows me to keep learning
-                                and growing as a software developer
+                                and growing as a software developer.
                             </Typography>
 
                             <IconButton href="https://www.linkedin.com/in/guillermo-lorca-lamadrid-a875abab/">
