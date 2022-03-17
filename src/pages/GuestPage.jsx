@@ -126,7 +126,7 @@ export const GuestPage = () => {
                 <CustomPaperCard
                     customColor="741a31"
                     headText="Connect"
-                    bodyText="Find someone with a shared interest!"
+                    bodyText="Find someone with a shared interest"
                 />
 
                 <CustomPaperCard
