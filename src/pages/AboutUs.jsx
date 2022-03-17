@@ -33,7 +33,7 @@ export const AboutUs = () => {
                         <CardMedia
                             component="img"
                             maxWidth="50%"
-                            image={luisImg}
+                            image="https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/Luis.jpeg?alt=media&token=1d1f9fa7-2bf0-4c9b-a08b-eae789cc29b1"
                         />
                         <CardHeader title="Luis Obregon" />
                         <CardContent sx={{ minHeight: 300, maxWidth: 400 }}>
@@ -76,7 +76,7 @@ export const AboutUs = () => {
                         <CardMedia
                             component="img"
                             width="50%"
-                            image={guillermoImg}
+                            image="https://firebasestorage.googleapis.com/v0/b/dtl-mvp.appspot.com/o/yo.jpeg?alt=media&token=b2960c08-1116-4439-be75-a4e872560dbf"
                         />
                         <CardHeader title="Guillermo Lorca" />
                         <CardContent sx={{ minHeight: 300, maxWidth: 400 }}>
